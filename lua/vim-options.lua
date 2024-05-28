@@ -19,7 +19,6 @@ vim.api.nvim_set_keymap('n', 'S', '<Nop>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<PageUp>', '<C-u>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<PageDown>', '<C-d>', { noremap = true, silent = true })
 
-
 -- yank highlighting
 vim.cmd[[
 augroup highlight_yank

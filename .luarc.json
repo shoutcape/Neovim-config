@@ -1,6 +1,8 @@
 {
     "diagnostics.globals": [
         "vim",
-        "options"
+        "options",
+        "neoscroll",
+        "opts"
     ]
 }
