@@ -7,10 +7,18 @@ return {
     },
     {
         "williamboman/mason-lspconfig.nvim",
-        lazy = false,
+        lazy = true,
         opts = {
             auto_installer = true,
         },
+    },
+    {
+        "williamboman/mason-lspconfig.nvim",
+        config = function()
+            require("mason-lspconfig").setup({
+                ensure_installed = { "lua_ls", "tsserver" },
+            })
+        end,
     },
     {
         "neovim/nvim-lspconfig",
@@ -30,13 +38,4 @@ return {
             vim.keymap.set({ "n" }, "<leader>ca", vim.lsp.buf.code_action, {})
         end,
     },
-    {
-        "williamboman/mason-lspconfig.nvim",
-        config = function()
-            require("mason-lspconfig").setup({
-                ensure_installed = { "lua_ls", "tsserver" },
-            })
-        end,
-    },
 }
-

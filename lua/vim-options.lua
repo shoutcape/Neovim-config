@@ -10,22 +10,36 @@ vim.opt.scrolloff = 9
 -- leader key
 vim.g.mapleader = " "
 
+--general sturcture for mapping keys in lua nvim
+--vim.api.nvim_set_keymap('mode', 'keysToMap', 'actionOfKeys', {options})
+
+local map = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
+
+-- delete unwanted keymaps
+map('n', '<C-L>', '<Nop>', opts)
+map('n', 'L', '<Nop>', opts)
+map('n', '<C-,>', '<Nop>', opts)
+map('n', 'S', '<Nop>', opts)
+
 -- keymaps to move between buffers 
-vim.api.nvim_set_keymap('n', '<C-h>', ':bprevious<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<C-l>', ':bnext<CR>', { noremap = true, silent = true })
+map('n', 'Ö', ':bprevious<CR>', opts)
+map('n', 'Ä', ':bnext<CR>', opts)
 
 --keymap to select whole page in select mode
-vim.keymap.set('v', '<leader>e', 'ggVG', {})
-vim.api.nvim_set_keymap('n', 'S', '<Nop>', { noremap = true, silent = true })
+map('n', '<leader>e', 'ggVG', opts)
+
+--keymap to delete to void register on paste
+map('x', '<leader>p', '\"_dP', opts)
 
 -- keymaps to move around selected lines
-vim.api.nvim_set_keymap('v', 'J', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', 'K', ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
+map('v', 'J', ":m '>+1<CR>gv=gv", opts)
+map('v', 'K', ":m '<-2<CR>gv=gv", opts)
 
 
 -- keymaps for scrolling
-vim.api.nvim_set_keymap('n', '<PageUp>', '<C-u>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<PageDown>', '<C-d>', { noremap = true, silent = true })
+map('n', '<PageUp>', '<C-u>', opts)
+map('n', '<PageDown>', '<C-d>', opts)
 
 -- yank highlighting
 vim.cmd[[

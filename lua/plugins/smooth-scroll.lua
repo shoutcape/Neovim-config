@@ -4,10 +4,10 @@ return {
 		neoscroll = require("neoscroll")
 		local keymap = {
 			["<PageUp>"] = function()
-				neoscroll.ctrl_u({ duration = 150 })
+				neoscroll.ctrl_u({ duration = 25 })
 			end,
 			["<PageDown>"] = function()
-				neoscroll.ctrl_d({ duration = 150 })
+				neoscroll.ctrl_d({ duration = 25 })
 			end,
 		}
 		local modes = { "n", "v", "x" }
