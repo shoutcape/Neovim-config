@@ -25,6 +25,7 @@ map('n', 'S', '<Nop>', opts)
 -- keymaps to move between buffers 
 map('n', 'Ö', ':bprevious<CR>', opts)
 map('n', 'Ä', ':bnext<CR>', opts)
+map('n', '<C-F4>', ':bdelete!<CR>', opts)
 
 --keymap to select whole page in select mode
 map('n', '<leader>e', 'ggVG', opts)
@@ -40,6 +41,12 @@ map('v', 'K', ":m '<-2<CR>gv=gv", opts)
 -- keymaps for scrolling
 map('n', '<PageUp>', '<C-u>', opts)
 map('n', '<PageDown>', '<C-d>', opts)
+
+--keymap to exit terminal with esc
+map('t', '<Esc>','<C-\\><C-n>', opts)
+
+--keymap to show error message in full length
+map('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 
 -- yank highlighting
 vim.cmd[[
