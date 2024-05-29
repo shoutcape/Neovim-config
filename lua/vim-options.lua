@@ -48,6 +48,12 @@ map('t', '<Esc>','<C-\\><C-n>', opts)
 --keymap to show error message in full length
 map('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 
+--keymaps for terminal toggle
+
+map("n", "<leader>ö", ":1ToggleTerm<CR>", opts)
+map("n", "<leader>ä", ":2ToggleTerm<CR>", opts)
+-- map("n", "<leader>3", ":3ToggleTerm<CR>", opts)
+
 -- yank highlighting
 vim.cmd[[
 augroup highlight_yank

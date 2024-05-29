@@ -9,7 +9,9 @@ return {
             sources = {
                 require("none-ls.diagnostics.eslint_d"),
                 null_ls.builtins.formatting.stylua,
-                null_ls.builtins.formatting.prettier,
+                null_ls.builtins.formatting.prettier.with({
+                    extra_args = {"--single-quote", "--jsx-single-quote", "--tab-width", "2", "--no-semi"}
+                }),
             },
         })
         vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
