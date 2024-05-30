@@ -95,6 +95,7 @@ Here are the plugins included in this configuration:
 
 Here are some screenshots of the setup in action:
 
-![Screenshot 1](screenshots/screenshot1.png)
-![Screenshot 2](screenshots/screenshot2.png)
+![Näyttökuva 2024-05-30 002117](https://github.com/shoutcape/nvim-config/assets/74509593/1e653bbd-5fe5-470f-b056-50194f523923)
+![Näyttökuva 2024-05-30 002011](https://github.com/shoutcape/nvim-config/assets/74509593/c5739752-c17f-455b-acf2-72ebe39e3028)
+
 
