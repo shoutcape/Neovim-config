@@ -3,6 +3,8 @@
         "vim",
         "options",
         "neoscroll",
-        "opts"
+        "opts",
+        "filtered_items",
+        "find_files"
     ]
 }
