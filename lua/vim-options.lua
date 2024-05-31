@@ -16,6 +16,7 @@ vim.g.mapleader = " "
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
+
 -- delete unwanted keymaps
 map('n', '<C-L>', '<Nop>', opts)
 map('n', '<C-.>', '<Nop>', opts)
@@ -42,6 +43,12 @@ map('v', 'K', ":m '<-2<CR>gv=gv", opts)
 -- keymaps for scrolling
 map('n', '<PageUp>', '<C-u>', opts)
 map('n', '<PageDown>', '<C-d>', opts)
+
+--keymap to reset last search on new search
+map('n', '/', ':noh<CR>/', opts)
+
+--keymap to create newline at next whitespace
+map('n', '<leader><leader>s','Ea<CR><BS><Esc>', opts)
 
 --keymap to exit terminal with esc
 map('t', '<Esc>','<C-\\><C-n>', opts)

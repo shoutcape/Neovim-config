@@ -10,7 +10,7 @@ return {
                 require("none-ls.diagnostics.eslint_d"),
                 null_ls.builtins.formatting.stylua,
                 null_ls.builtins.formatting.prettier.with({
-                    extra_args = {"--single-quote", "--jsx-single-quote", "--tab-width", "2", "--no-semi"}
+                    extra_args = {"--single-quote", "--jsx-single-quote", "--tab-width", "2", "--no-semi", "--printWidth", "60"}
                 }),
             },
         })
