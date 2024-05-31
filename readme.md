@@ -8,7 +8,6 @@ Welcome to my first Neovim configuration repository!
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Plugins](#plugins)
-- [Keybindings](#keybindings)
 - [Screenshots](#screenshots)
 
 ## Features
@@ -39,6 +38,10 @@ Welcome to my first Neovim configuration repository!
 
         git clone https://github.com/shoutcape/nvim-config $env:LOCALAPPDATA\nvim
 
+3. **Start Neovim**:
+
+           nvim
+
 ## Configuration
 
 ### Basic Settings
@@ -51,10 +54,10 @@ Plugins are managed using [Lazy.vim](https://www.lazyvim.org/). Configurations f
 
 ## Plugins
 
-Here are the plugins included in this configuration:
+Here are most of the plugins included in this configuration:
 
 - [alpha-nvim](https://github.com/goolord/alpha-nvim): Provides a customizable startup screen for Neovim.
-- [catppuccino](https://github.com/Pocco81/Catppuccino.nvim): A color scheme for Neovim.
+- [catppuccin](https://github.com/Pocco81/Catppuccino.nvim): A color scheme for Neovim.
 - [cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp): A completion plugin for Neovim's built-in LSP.
 - [cmp_luasnip](https://github.com/saadparwaiz1/cmp_luasnip): Integration between cmp-nvim and LuaSnip for snippet completion.
 - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim): Git signs in the sign column.
