@@ -4,7 +4,7 @@ vim.cmd("set shiftwidth=2")
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.incsearch = true
-vim.opt.scrolloff = 9
+vim.opt.scrolloff = 20
 
 
 -- leader key
@@ -23,6 +23,8 @@ map('n', '<C-.>', '<Nop>', opts)
 map('n', 'L', '<Nop>', opts)
 map('n', '<C-,>', '<Nop>', opts)
 map('n', 'S', '<Nop>', opts)
+map("n", "<C-v>", '<Nop>', opts)
+map("n", "<C-ö>", '<Nop>', opts)
 
 -- keymaps to move between buffers 
 map('n', 'Ö', ':bprevious<CR>', opts)
@@ -60,6 +62,11 @@ map('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 map("n", "<leader>ö", ":1ToggleTerm<CR>", opts)
 map("n", "<leader>ä", ":2ToggleTerm<CR>", opts)
 -- map("n", "<leader>3", ":3ToggleTerm<CR>", opts)
+
+--keymaps to copypaste to system buffer
+map("v", "<C-c>", "\"*y", opts)
+map("n", "<C-v>", "\"*p", opts)
+map("v", "<C-v>", "\"*p", opts)
 
 -- yank highlighting
 vim.cmd[[

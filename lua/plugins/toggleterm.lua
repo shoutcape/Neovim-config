@@ -1,15 +1,15 @@
 return {
 	"akinsho/toggleterm.nvim",
 	config = function()
-        require("toggleterm").setup{
-            open_mapping = [[<C-ö>]],
+        require("toggleterm").setup({
+            open_mapping = [[ä]],
             size = 20, -- Terminaalin koko
             hide_numbers = true, -- Piilottaa rivinumerot terminaalibufferissa
             shade_filetypes = {},
             shade_terminals = true, -- Tummentaa terminaalin taustan
             shading_factor = "2", -- Tummentamisen voimakkuus
             start_in_insert = true, -- Aloittaa insert-tilassa
-            insert_mappings = true, -- Mahdollistaa insert-tilassa näppäinkomennot
+            insert_mappings = false, -- Mahdollistaa insert-tilassa näppäinkomennot
             terminal_mappings = true, -- Mahdollistaa terminal-tilassa näppäinkomennot
             persist_size = true, -- Säilyttää terminaalin koon
             direction = "horizontal", -- Avaa terminaalin vaakasuunnassa, vaihtoehdot: 'vertical' | 'horizontal' | 'tab' | 'float'
@@ -23,6 +23,6 @@ return {
                     background = "Normal",
                 },
             },
-        }
+        })
 	end,
 }

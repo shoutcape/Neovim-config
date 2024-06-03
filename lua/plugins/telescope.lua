@@ -7,7 +7,14 @@ return {
       local builtin = require("telescope.builtin")
       local telescope = require("telescope")
 
+      local githubPath = "~\\Documents\\Github"
+      local nvimPath = "~\\AppData\\Local\\nvim"
+
       vim.keymap.set("n", "<Leader>ff", builtin.find_files, {})
+      vim.keymap.set("n", "<Leader>fp", function() builtin.find_files({ cwd = githubPath}) end,
+      { desc = "find files in Github folder"})
+      vim.keymap.set("n", "<Leader>fv", function() builtin.find_files({ cwd = nvimPath}) end,
+      { desc = "find files in Github folder"})
       vim.keymap.set("n", "<leader>å", builtin.git_files, {})
       vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
       vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
@@ -22,7 +29,6 @@ return {
             find_command = { "rg", "--files", "--hidden", "--glob", "!**\\.git\\*" },
             --remove most unneeded files from search
             file_ignore_patterns = {
-              "AppData\\",
               "\\node_modules\\",
               "\\dist\\",
               "dist\\",
@@ -32,7 +38,6 @@ return {
               "\\Temp\\", "\\temp\\",
               "\\.git\\",
               ".git\\",
-              "Downloads\\",
               "npm%-cache\\",
               "Microsoft\\",
               "Pictures\\",

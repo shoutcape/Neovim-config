@@ -34,7 +34,7 @@ return {
         sections = {
           lualine_a = { "mode" },
           lualine_b = { "branch", "diff", "diagnostics" },
-          lualine_c = { "filename" },
+          lualine_c = { {"filename", path=3} },
           lualine_x = {
               {
                 "harpoon2",
@@ -45,7 +45,7 @@ return {
               },
             },
           lualine_y = { "progress" },
-          lualine_z = { "encoding", "fileformat", "filetype" },
+          lualine_z = { "filetype" },
         },
         inactive_sections = {
           lualine_a = {},

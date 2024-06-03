@@ -5,6 +5,7 @@
         "neoscroll",
         "opts",
         "filtered_items",
-        "find_files"
+        "find_files",
+        "local"
     ]
 }
