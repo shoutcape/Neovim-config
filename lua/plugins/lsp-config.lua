@@ -71,20 +71,11 @@ return {
 			})
 
       --eslint
-			lspconfig.eslint.setup({
-
-        --automatic linting for each buffer reload ( ͡° ͜ʖ ͡)
-				-- on_attach = function(client, bufnr)
-				-- 	vim.api.nvim_create_autocmd("BufWritePre", {
-				-- 		buffer = bufnr,
-				-- 		command = "EslintFixAll",
-				-- 	})
-				-- end,
-
-        experimental = {
-          useFlatConfig = false
-        },
-			})
+			-- lspconfig.eslint.setup({
+			--      experimental = {
+			--        useFlatConfig = true
+        -- },
+			-- })
 		end,
 	},
 }
