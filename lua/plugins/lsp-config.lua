@@ -46,20 +46,44 @@ return {
 				vim.keymap.set({ "n" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr })
 			end
 
-      lspconfig.cssls.setup({
-        capabilities = capabilities
-      })
+
+      --css styling
+			lspconfig.cssls.setup({
+				capabilities = capabilities,
+			})
+
+      --typescript/javascript
 			lspconfig.tsserver.setup({
 				capabilities = capabilities,
 				on_attach = on_attach,
 			})
+
+      --html
 			lspconfig.html.setup({
 				capabilities = capabilities,
 				on_attach = on_attach,
 			})
+
+      --lua
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
 				on_attach = on_attach,
+			})
+
+      --eslint
+			lspconfig.eslint.setup({
+
+        --automatic linting for each buffer reload ( ͡° ͜ʖ ͡)
+				-- on_attach = function(client, bufnr)
+				-- 	vim.api.nvim_create_autocmd("BufWritePre", {
+				-- 		buffer = bufnr,
+				-- 		command = "EslintFixAll",
+				-- 	})
+				-- end,
+
+        experimental = {
+          useFlatConfig = false
+        },
 			})
 		end,
 	},

@@ -5,9 +5,6 @@ return {
             open_mapping = [[ä]],
             size = 20, -- Terminaalin koko
             hide_numbers = true, -- Piilottaa rivinumerot terminaalibufferissa
-            shade_filetypes = {},
-            shade_terminals = true, -- Tummentaa terminaalin taustan
-            shading_factor = "2", -- Tummentamisen voimakkuus
             start_in_insert = true, -- Aloittaa insert-tilassa
             insert_mappings = false, -- Mahdollistaa insert-tilassa näppäinkomennot
             terminal_mappings = true, -- Mahdollistaa terminal-tilassa näppäinkomennot
