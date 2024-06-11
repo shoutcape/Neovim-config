@@ -9,7 +9,7 @@ vim.opt.scrolloff = 20
 
 --automatically reload on file changes for example on git pulls
 vim.opt.autoread = true
-vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
+vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "InsertEnter" ,"FocusGained" }, {
   command = "if mode() != 'c' | checktime | endif",
   pattern = { "*" },
 })

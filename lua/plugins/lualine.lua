@@ -1,15 +1,18 @@
 return {
   {
     "letieu/harpoon-lualine",
+    event = "VeryLazy",
     dependencies = {
       {
         "ThePrimeagen/harpoon",
+        event = "VeryLazy",
         branch = "harpoon2",
       },
     },
   },
   {
     "nvim-lualine/lualine.nvim",
+    event = "VeryLazy",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("lualine").setup({

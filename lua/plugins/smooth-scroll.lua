@@ -1,5 +1,7 @@
 return {
 	"karb94/neoscroll.nvim",
+	event = "VeryLazy",
+
 	config = function()
 		neoscroll = require("neoscroll")
 		local keymap = {
