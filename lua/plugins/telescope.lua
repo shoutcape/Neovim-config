@@ -21,6 +21,8 @@ return {
       vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
       vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
       vim.keymap.set("n", "<leader>sm", ":Telescope harpoon marks<CR>", { desc = " Harpoon [M]arks" })
+      vim.keymap.set("n", "<leader>r", builtin.grep_string, {})
+      vim.keymap.set("n", "<leader>lr", builtin.lsp_references, {})
 
       telescope.setup({
         pickers = {

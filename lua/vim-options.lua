@@ -6,6 +6,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.incsearch = true
 vim.opt.scrolloff = 20
+vim.opt.termguicolors = true
 
 --automatically reload on file changes for example on git pulls
 vim.opt.autoread = true
@@ -17,7 +18,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "InsertEnter" ,"FocusGa
 -- leader key
 vim.g.mapleader = " "
 
---general sturcture for mapping keys in lua nvim
+--general stucture for mapping keys in lua nvim
 --vim.api.nvim_set_keymap('mode', 'keysToMap', 'actionOfKeys', {options})
 
 local map = vim.api.nvim_set_keymap
@@ -84,7 +85,12 @@ map("v", "<C-v>", '"*p', opts)
 --keymap for control backspace
 map("i", "<C-BS>", "<C-W>", opts)
 
+
+--keymap for possible pwsh scripts
 map("n", "<leader>sh", ":!powershell C:\\Users\\kauti\\autodevenv.ps1<CR>", opts)
+
+--keymap to search references of current word within working directory
+-- map("n", '<leader>r', [[<Cmd>execute('vimgrep /' .. expand('<cword>') .. '/j **/*')<CR>:copen<CR>]], opts)
 
 -- yank highlighting
 vim.cmd([[

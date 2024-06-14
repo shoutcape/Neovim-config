@@ -37,16 +37,16 @@ return {
         sections = {
           lualine_a = { "mode" },
           lualine_b = { "branch", "diff", "diagnostics" },
-          lualine_c = { {"filename", path=3} },
+          lualine_c = { { "filename", path = 3 } },
           lualine_x = {
-              {
-                "harpoon2",
-                indicators = { "j", "k", "l", "ö" },
-                active_indicators = { "[J]", "[K]", "[L]", "[Ö]" },
-                _separator = " ",
-                no_harpoon = "Harpoon not loaded",
-              },
+            {
+              "harpoon2",
+              indicators = { "j", "k", "l", "ö" },
+              active_indicators = { "[J]", "[K]", "[L]", "[Ö]" },
+              _separator = " ",
+              no_harpoon = "Harpoon not loaded",
             },
+          },
           lualine_y = { "progress" },
           lualine_z = { "filetype" },
         },
@@ -65,8 +65,18 @@ return {
               "buffers",
               show_filename_only = true,
               max_length = vim.o.columns,
+              symbols = {
+                modified = " ", -- Text to show when the buffer is modified
+                alternate_file = "󰮲 ", -- Text to show to identify the alternate file
+                directory = "", -- Text to show when the buffer is a directory
+              },
             },
           },
+          lualine_b = {},
+          lualine_c = {},
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {},
         },
 
         winbar = {},

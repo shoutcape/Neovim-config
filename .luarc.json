@@ -6,6 +6,12 @@
         "opts",
         "filtered_items",
         "find_files",
-        "local"
+        "local",
+        "require",
+        "string",
+        "ipairs",
+        "table",
+        "bufferline",
+        "pairs"
     ]
 }
