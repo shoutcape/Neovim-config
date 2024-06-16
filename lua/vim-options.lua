@@ -42,6 +42,9 @@ map("n", "ö", "<C-v>", opts)
 map("n", "Ö", ":bprevious<CR>", opts)
 map("n", "Ä", ":bnext<CR>", opts)
 
+-- keymaps to move between buffers
+map("n", "Å", ":b#<CR>", opts)
+
 --close delete buffers, close other open splits to avoid messing up splits
 map("n", "<C-F4>", "<C-w>o:bdelete!<CR>", opts)
 
