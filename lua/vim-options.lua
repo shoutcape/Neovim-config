@@ -85,6 +85,8 @@ map("v", "<C-v>", '"*p', opts)
 --keymap for control backspace
 map("i", "<C-BS>", "<C-W>", opts)
 
+--keymap to empty notify 
+
 
 --keymap for possible pwsh scripts
 map("n", "<leader>sh", ":!powershell C:\\Users\\kauti\\autodevenv.ps1<CR>", opts)

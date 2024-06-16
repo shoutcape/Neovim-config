@@ -56,11 +56,6 @@ return {
 				{ "▏", "FloatBorder" },
 			}
 
-			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-				border = border,
-				max_height = 20,
-				padding = { 0, 0, 0, 0 },
-			})
 			vim.diagnostic.config({
 				float = {
 					border = diagnosticBorder,
