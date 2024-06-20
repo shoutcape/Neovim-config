@@ -105,7 +105,10 @@ au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Visual", timeout=2
 augroup END
 ]])
 
-map("n", "<F18>", ":cd %:h<CR><cmd>echo getcwd() <CR>", { noremap = true, silent = false })
+--keymap to cd into current buffer path
+map("n", "<F18>", ":cd %:h<CR><cmd>echo getcwd() <CR>", { noremap = true, silent = true })
+
+--keymap to copy current directory path to clipboard
 map("n", "<leader>cc", ":let @+ = expand('%:h')<CR>", { noremap = true, silent = false })
 
 
