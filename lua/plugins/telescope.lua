@@ -12,10 +12,12 @@ return {
       local nvimPath = "~\\AppData\\Local\\nvim"
 
       vim.keymap.set("n", "<Leader>ff", builtin.find_files, {})
-      vim.keymap.set("n", "<Leader>fp", function() builtin.find_files({ cwd = githubPath}) end,
-      { desc = "find files in Github folder"})
-      vim.keymap.set("n", "<Leader>fv", function() builtin.find_files({ cwd = nvimPath}) end,
-      { desc = "find files in Github folder"})
+      vim.keymap.set("n", "<Leader>fp", function()
+        builtin.find_files({ cwd = githubPath })
+      end, { desc = "find files in Github folder" })
+      vim.keymap.set("n", "<Leader>fv", function()
+        builtin.find_files({ cwd = nvimPath })
+      end, { desc = "find files in Github folder" })
       vim.keymap.set("n", "<leader>å", builtin.git_files, {})
       vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
       vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
@@ -25,6 +27,10 @@ return {
       vim.keymap.set("n", "<leader>lr", builtin.lsp_references, {})
 
       telescope.setup({
+        defaults = {
+          layout_strategy = "vertical",
+          layout_config = { height = 0.95, width = 0.95 },
+        },
         pickers = {
           find_files = {
             hidden = true,
@@ -38,7 +44,8 @@ return {
               "\\android\\",
               "\\My Games\\",
               "\\Programs\\",
-              "\\Temp\\", "\\temp\\",
+              "\\Temp\\",
+              "\\temp\\",
               "\\.git\\",
               ".git\\",
               "npm%-cache\\",
