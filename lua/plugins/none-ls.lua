@@ -1,4 +1,4 @@
-return{
+return {
   "nvimtools/none-ls.nvim",
   config = function()
     local null_ls = require("null-ls")
@@ -10,10 +10,13 @@ return{
           extra_args = {
             "--single-quote",
             "--jsx-single-quote",
-            "--tab-width", "2",
-            "--no-semi",
-            "--printWidth", "60",
-            "--end-of-line", "lf",
+            "--tab-width",
+            "2",
+            -- "--no-semi",
+            "--printWidth",
+            "60",
+            "--end-of-line",
+            "lf",
           },
         }),
       },

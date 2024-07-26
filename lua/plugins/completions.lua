@@ -89,7 +89,7 @@ return {
 			--here you can create your own snippets, see shorthands above.
 
 			--different react language snippets
-			local react = { "javascriptreact", "javascript", "typescriptreact" }
+			local react = {"typescript", "javascriptreact", "javascript", "typescriptreact" }
 
 			for _, language in ipairs(react) do
 				luasnip.add_snippets(language, {
