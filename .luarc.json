@@ -12,6 +12,7 @@
         "ipairs",
         "table",
         "bufferline",
-        "pairs"
+        "pairs",
+        "pcall"
     ]
 }

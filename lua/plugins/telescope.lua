@@ -61,6 +61,8 @@ return {
               ".chocolatey\\",
               "\\.git\\",
               "node_modules\\",
+              "node_modules",
+              "package-lock",
               "Zomboid\\",
               "\\Zomboid\\",
               "\\Roaming\\",
