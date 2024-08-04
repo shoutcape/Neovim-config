@@ -88,15 +88,6 @@ map("v", "<C-v>", '"*p', opts)
 --keymap for control backspace
 map("i", "<C-BS>", "<C-W>", opts)
 
---keymap to empty notify 
-
-
---keymap for possible pwsh scripts
-map("n", "<leader>sh", ":!powershell C:\\Users\\kauti\\autodevenv.ps1<CR>", opts)
-
---keymap to search references of current word within working directory
--- map("n", '<leader>r', [[<Cmd>execute('vimgrep /' .. expand('<cword>') .. '/j **/*')<CR>:copen<CR>]], opts)
-
 -- yank highlighting
 vim.cmd([[
 augroup highlight_yank

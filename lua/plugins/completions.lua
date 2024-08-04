@@ -74,17 +74,12 @@ return {
 			local luasnip = require("luasnip")
 			-- some shorthands...
 			local snip = luasnip.snippet
-			local node = luasnip.snippet_node
 
 			--for text placement
 			local text = luasnip.text_node
 
 			--for text insertion,
 			local i = luasnip.insert_node
-
-			local func = luasnip.function_node
-			local choice = luasnip.choice_node
-			local dynamicn = luasnip.dynamic_node
 
 			--here you can create your own snippets, see shorthands above.
 
@@ -100,40 +95,6 @@ return {
 					}),
 				})
 			end
-
-			--for some reason luasnip does not allow for linechanges inside text()
-			-- thats why theres dots on the end to allow for readable formatting
-
-			luasnip.add_snippets("json", {
-				snip("lintConfig", {
-					text(
-						"{"
-							.. '"env": {'
-							.. '"browser": true,'
-							.. '"node": true,'
-							.. '"es2021": true'
-							.. "},"
-							.. '"plugins": ['
-							.. '"react"'
-							.. "],"
-							.. '"extends": ['
-							.. '"eslint:recommended",'
-							.. '"plugin:react/recommended"'
-							.. "],"
-							.. '"parserOptions": {'
-							.. '"ecmaVersion": 12,'
-							.. '"sourceType": "module"'
-							.. "},"
-							.. '"rules": {'
-							.. '"semi": ["error", "never"],'
-							.. '"quotes": ["error", "single"],'
-							.. '"react/react-in-jsx-scope": "off",'
-							.. '"react/prop-types": "off"'
-							.. "}"
-							.. "}"
-					),
-				}),
-			})
 
 			-- Inside a snippet, use backspace to remove the placeholder.
 			vim.keymap.set("s", "<BS>", "<C-O>s", { silent = true })

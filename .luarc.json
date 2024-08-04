@@ -13,6 +13,7 @@
         "table",
         "bufferline",
         "pairs",
-        "pcall"
+        "pcall",
+        "os"
     ]
 }

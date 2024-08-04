@@ -2,12 +2,10 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     event = "VeryLazy",
-    tag = "0.1.6",
+    tag = "0.1.8",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       local builtin = require("telescope.builtin")
-      local telescope = require("telescope")
-
       local githubPath = "~\\Documents\\Github"
       local nvimPath = "~\\AppData\\Local\\nvim"
 
@@ -23,10 +21,10 @@ return {
       vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
       vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
       vim.keymap.set("n", "<leader>sm", ":Telescope harpoon marks<CR>", { desc = " Harpoon [M]arks" })
-      vim.keymap.set("n", "<leader>r", builtin.grep_string, {})
+      vim.keymap.set("n", "<leader>rs", builtin.grep_string, {})
       vim.keymap.set("n", "<leader>lr", builtin.lsp_references, {})
 
-      telescope.setup({
+      require('telescope').setup({
         defaults = {
           layout_strategy = "vertical",
           layout_config = { height = 0.95, width = 0.95 },
@@ -38,36 +36,6 @@ return {
             find_command = { "rg", "--files", "--hidden", "--glob", "!**\\.git\\*" },
             --remove most unneeded files from search
             file_ignore_patterns = {
-              "\\node_modules\\",
-              "\\dist\\",
-              "dist\\",
-              "\\android\\",
-              "\\My Games\\",
-              "\\Programs\\",
-              "\\Temp\\",
-              "\\temp\\",
-              "\\.git\\",
-              ".git\\",
-              "npm%-cache\\",
-              "Microsoft\\",
-              "Pictures\\",
-              "Saved Games\\",
-              ".android\\",
-              ".gradle\\",
-              ".ionic\\",
-              ".vscode\\",
-              ".wakatime\\",
-              ".rest%-client\\",
-              ".chocolatey\\",
-              "\\.git\\",
-              "node_modules\\",
-              "node_modules",
-              "package-lock",
-              "Zomboid\\",
-              "\\Zomboid\\",
-              "\\Roaming\\",
-              "\\LocalLow\\",
-              "\\Packages\\",
             },
           },
         },

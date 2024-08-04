@@ -16,6 +16,10 @@ return {
         },
       },
       window = {
+        mapping_options = {
+          noremap = true,
+          nowait = true,
+        },
         mappings = {
           --dismiss notification in neotree
           ["<esc>"] = { require("notify").dismiss() },
