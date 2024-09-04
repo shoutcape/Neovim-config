@@ -9,12 +9,12 @@ return {
       local githubPath = vim.fn.expand("~/Documents/Github")
       local nvimPath = vim.fn.expand("~/.config/nvim")
 
-      vim.keymap.set("n", "<Leader>ff", builtin.find_files, {})
+      vim.keymap.set("n", "<Leader>ff", builtin.fd, {})
       vim.keymap.set("n", "<Leader>fp", function()
-        builtin.find_files({ cwd = githubPath })
+        builtin.fd({ cwd = githubPath })
       end, { desc = "find files in Github folder" })
       vim.keymap.set("n", "<Leader>fv", function()
-        builtin.find_files({ cwd = nvimPath })
+        builtin.fd({ cwd = nvimPath })
       end, { desc = "find files in Github folder" })
       vim.keymap.set("n", "<leader>å", builtin.git_files, {})
       vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
@@ -24,6 +24,10 @@ return {
       vim.keymap.set("n", "<leader>rs", builtin.grep_string, {})
       vim.keymap.set("n", "<leader>lr", builtin.lsp_references, {})
 
+      local ignore_filetypes_list = {
+        "venv", "__pycache__", "%.xlsx", "%.jpg", "%.png", "%.webp",
+        "%.pdf", "%.odt", "%.ico",
+      }
       require('telescope').setup({
         defaults = {
           layout_strategy = "vertical",
@@ -33,7 +37,8 @@ return {
           find_files = {
             hidden = true,
             no_ignore = true,
-            find_command = { "rg", "--files", "--hidden", "--glob", "!**//.git//*" },
+            find_command = { "fd", "--files", "--hidden", "--glob", "!**//.git//*" },
+            file_ignore_patterns = ignore_filetypes_list,
           },
         },
       })
