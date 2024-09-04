@@ -1,0 +1,19 @@
+{
+    "diagnostics.globals": [
+        "vim",
+        "options",
+        "neoscroll",
+        "opts",
+        "filtered_items",
+        "find_files",
+        "local",
+        "require",
+        "string",
+        "ipairs",
+        "table",
+        "bufferline",
+        "pairs",
+        "pcall",
+        "os"
+    ]
+}
