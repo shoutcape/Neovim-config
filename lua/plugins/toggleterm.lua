@@ -12,7 +12,7 @@ return {
             persist_size = true, -- Säilyttää terminaalin koon
             direction = "horizontal", -- Avaa terminaalin vaakasuunnassa, vaihtoehdot: 'vertical' | 'horizontal' | 'tab' | 'float'
             close_on_exit = true, -- Sulkee terminaalin kun prosessi päättyy
-            shell = vim.o.shell, -- Määrittää käytettävän shellin
+            shell = "pwsh.exe --noLogo", -- Määrittää käytettävän shellin
             float_opts = {
                 border = "curved", -- Määrittää kelluvan terminaalin reunustyylin, vaihtoehdot: 'single' | 'double' | 'shadow' | 'curved'
                 winblend = 3,
