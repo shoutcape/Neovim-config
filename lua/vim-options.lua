@@ -31,9 +31,13 @@ map("n", "L", "<Nop>", opts)
 map("n", "<C-,>", "<Nop>", opts)
 map("n", "S", "<Nop>", opts)
 map("n", "<C-v>", "<Nop>", opts)
+map("n", "<C-G>", "<Nop>", opts)
 
 --keymap for * not changing selection
 map('n', '*', '*N', opts)
+
+--keymap for jumping to the current tag
+map("n", "<C-G>", "<C-]>", opts)
 
 -- keymmap for visual-block mode
 map("n", "ö", "<C-v>", opts)
@@ -87,6 +91,15 @@ map("v", "<C-v>", '"*p', opts)
 
 --keymap for control backspace
 map("i", "<C-BS>", "<C-W>", opts)
+
+--keymap to empty notify 
+
+
+--keymap for possible pwsh scripts
+map("n", "<leader>sh", ":!powershell C:\\Users\\kauti\\autodevenv.ps1<CR>", opts)
+
+--keymap to search references of current word within working directory
+-- map("n", '<leader>r', [[<Cmd>execute('vimgrep /' .. expand('<cword>') .. '/j **/*')<CR>:copen<CR>]], opts)
 
 -- yank highlighting
 vim.cmd([[

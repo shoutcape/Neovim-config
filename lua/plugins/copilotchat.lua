@@ -7,7 +7,7 @@ return {
     { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
   },
   opts = {
-    -- debug = true,
+    model = 'gpt-4o',
     mappings = {
       close = {
         normal = "q",
@@ -24,6 +24,7 @@ return {
       width = 0.5,      -- fractional width of parent, or absolute width in columns when > 1
       height = 0.5,     -- fractional height of parent, or absolute height in rows when > 1
     },
+    auto_follow_cursor = false,
   },
   vim.api.nvim_set_keymap(
     "n",
