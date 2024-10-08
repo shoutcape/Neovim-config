@@ -34,16 +34,6 @@ return {
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require("lspconfig")
-      local border = {
-        { "", "FloatBorder" },
-        { "▔", "FloatBorder" },
-        { "", "FloatBorder" },
-        { "▕", "FloatBorder" },
-        { "", "FloatBorder" },
-        { "▁", "FloatBorder" },
-        { "", "FloatBorder" },
-        { "▏", "FloatBorder" },
-      }
 
       local diagnosticBorder = {
         { "󰀦", "FloatBorder" },
