@@ -24,7 +24,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "html", "tsserver", "cssls" },
+        ensure_installed = {"pyright", "tailwindcss", "lua_ls", "html", "ts_ls", "cssls" },
       })
     end,
   },
@@ -34,16 +34,6 @@ return {
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require("lspconfig")
-      local border = {
-        { "", "FloatBorder" },
-        { "▔", "FloatBorder" },
-        { "", "FloatBorder" },
-        { "▕", "FloatBorder" },
-        { "", "FloatBorder" },
-        { "▁", "FloatBorder" },
-        { "", "FloatBorder" },
-        { "▏", "FloatBorder" },
-      }
 
       local diagnosticBorder = {
         { "󰀦", "FloatBorder" },
@@ -60,7 +50,7 @@ return {
         float = {
           border = diagnosticBorder,
           source = "always",
-          prefix = function(diagnostic, i, total)
+          prefix = function(_diagnostic, i, total)
             local icon = "" -- You can customize the icon based on severity
             return string.format("%s [%d/%d]", icon, i, total)
           end,
@@ -81,10 +71,17 @@ return {
       --css styling
       lspconfig.cssls.setup({
         capabilities = capabilities,
+        settings = {
+          css = {
+            lint = {
+              unknownAtRules = 'ignore'
+            }
+          }
+        }
       })
 
       --typescript/javascript
-      lspconfig.tsserver.setup({
+      lspconfig.ts_ls.setup({
         capabilities = capabilities,
         on_attach = on_attach,
       })
@@ -95,12 +92,32 @@ return {
         on_attach = on_attach,
       })
 
+      --python
+      lspconfig.pyright.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+
+      --tailwindcss
+      lspconfig.tailwindcss.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+          tailwindCSS = {
+            lint = {
+              unknownAtRules = 'ignore'
+            }
+          }
+        }
+      })
+
       --lua
       lspconfig.lua_ls.setup({
         capabilities = capabilities,
         on_attach = on_attach,
       })
 
+      --eslint
       lspconfig.eslint.setup({
         workingDirectory = { mode = "auto" },
       })

@@ -18,7 +18,7 @@ return {
         insert = "<C-l>",
       },
     },
-    show_help = true,
+    show_help = false,
     window = {
       layout = "vertical", --- 'vertical', 'horizontal', 'float', 'replace'
       width = 0.5,      -- fractional width of parent, or absolute width in columns when > 1
@@ -29,7 +29,13 @@ return {
   vim.api.nvim_set_keymap(
     "n",
     "<leader>cp",
-    ":lua require('CopilotChat').ask(vim.fn.input('Quick Chat: '), { selection = require('CopilotChat.select').buffer })<CR>",
+    ":lua require('CopilotChat').ask(vim.fn.input('Quick Chat: '), { selection = require('CopilotChat.select').line })<CR>",
+    { noremap = true, silent = true }
+  ),
+  vim.api.nvim_set_keymap(
+    "v",
+    "<leader>cp",
+    ":lua require('CopilotChat').ask(vim.fn.input('Quick Chat: '), { selection = require('CopilotChat.select').visual })<CR>",
     { noremap = true, silent = true }
   ),
 }

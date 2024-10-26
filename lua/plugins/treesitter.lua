@@ -17,6 +17,7 @@ return {
         "html",
         "json",
         "typescript",
+        "yaml"
       },
       autoinstall = true,
       indent = {
