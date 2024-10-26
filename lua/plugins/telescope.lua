@@ -24,20 +24,6 @@ return {
 			vim.keymap.set("n", "<leader>rs", builtin.grep_string, {})
 			vim.keymap.set("n", "<leader>lr", builtin.lsp_references, {})
 
-			local ignore_filetypes_list = {
-				"venv",
-				"__pycache__",
-				"%.xlsx",
-				"%.jpg",
-				"%.png",
-				"%.webp",
-				"%.pdf",
-				"%.odt",
-				"%.ico",
-				"node_modules/*",
-				"package%-lock%.json",
-			}
-
 			require("telescope").setup({
 				defaults = {
 					layout_strategy = "vertical",
@@ -46,6 +32,7 @@ return {
 						"__pycache__",
 						"%.xlsx",
 						"%.jpg",
+						"%.svg",
 						"%.png",
 						"%.webp",
 						"%.pdf",
