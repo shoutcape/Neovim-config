@@ -24,7 +24,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "html", "ts_ls", "cssls" },
+        ensure_installed = {"pyright", "tailwindcss", "lua_ls", "html", "ts_ls", "cssls" },
       })
     end,
   },
@@ -71,6 +71,13 @@ return {
       --css styling
       lspconfig.cssls.setup({
         capabilities = capabilities,
+        settings = {
+          css = {
+            lint = {
+              unknownAtRules = 'ignore'
+            }
+          }
+        }
       })
 
       --typescript/javascript
@@ -85,12 +92,32 @@ return {
         on_attach = on_attach,
       })
 
+      --python
+      lspconfig.pyright.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+
+      --tailwindcss
+      lspconfig.tailwindcss.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+          tailwindCSS = {
+            lint = {
+              unknownAtRules = 'ignore'
+            }
+          }
+        }
+      })
+
       --lua
       lspconfig.lua_ls.setup({
         capabilities = capabilities,
         on_attach = on_attach,
       })
 
+      --eslint
       lspconfig.eslint.setup({
         workingDirectory = { mode = "auto" },
       })
