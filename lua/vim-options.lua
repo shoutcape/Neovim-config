@@ -10,7 +10,7 @@ vim.opt.termguicolors = true
 
 --automatically reload on file changes for example on git pulls
 vim.opt.autoread = true
-vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "InsertEnter" ,"FocusGained" }, {
+vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "InsertEnter", "FocusGained" }, {
   command = "if mode() != 'c' | checktime | endif",
   pattern = { "*" },
 })
@@ -34,7 +34,7 @@ map("n", "<C-v>", "<Nop>", opts)
 map("n", "<C-G>", "<Nop>", opts)
 
 --keymap for * not changing selection
-map('n', '*', '*N', opts)
+map("n", "*", "*N", opts)
 
 --keymap for jumping to the current tag
 map("n", "<C-G>", "<C-]>", opts)
@@ -46,7 +46,7 @@ map("n", "ö", "<C-v>", opts)
 map("n", "Ö", ":bprevious<CR>", opts)
 map("n", "Ä", ":bnext<CR>", opts)
 
--- keymaps to move between buffers
+-- keymap to move between last and current buffer
 map("n", "Å", ":b#<CR>", opts)
 
 --close delete buffers, close other open splits to avoid messing up splits
@@ -92,8 +92,7 @@ map("v", "<C-v>", '"*p', opts)
 --keymap for control backspace
 map("i", "<C-BS>", "<C-W>", opts)
 
---keymap to empty notify 
-
+--keymap to empty notify
 
 --keymap for possible pwsh scripts
 map("n", "<leader>sh", ":!powershell C:\\Users\\kauti\\autodevenv.ps1<CR>", opts)
@@ -115,4 +114,6 @@ map("n", "<F18>", ":cd %:h<CR><cmd>echo getcwd() <CR>", { noremap = true, silent
 --keymap to copy current directory path to clipboard
 map("n", "<leader>cc", ":let @+ = expand('%:h')<CR>", { noremap = true, silent = false })
 
+--keymap to run current file in python
+map("n", "<A-a>", ':TermExec cmd="python %:p" dir=%:h size=10 direction=horizontal <CR>', { noremap = true, silent = true })
 

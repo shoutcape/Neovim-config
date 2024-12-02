@@ -14,6 +14,8 @@
         "bufferline",
         "pairs",
         "pcall",
-        "os"
+        "os",
+        "run_python_file_in_toggleterm",
+        "_run_python_file_in_toggleterm"
     ]
 }
