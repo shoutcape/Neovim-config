@@ -1,7 +1,6 @@
 return {
   {
     "letieu/harpoon-lualine",
-    event = "VeryLazy",
     dependencies = {
       {
         "ThePrimeagen/harpoon",
@@ -29,9 +28,9 @@ return {
           always_divide_middle = true,
           globalstatus = true,
           refresh = {
-            statusline = 1000,
-            tabline = 1000,
-            winbar = 1000,
+            statusline = 100,
+            tabline = 100,
+            winbar = 100,
           },
         },
         sections = {

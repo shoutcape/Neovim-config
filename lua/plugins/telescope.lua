@@ -6,7 +6,7 @@ return {
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			local builtin = require("telescope.builtin")
-			local githubPath = vim.fn.expand("~/Documents/Github")
+			local githubPath = vim.fn.expand("~/Documents/Linux Github")
 			local nvimPath = vim.fn.expand("~/.config/nvim")
 
 			vim.keymap.set("n", "<Leader>ff", builtin.fd, {})

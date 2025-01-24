@@ -8,6 +8,7 @@ return {
   },
   opts = {
     model = 'gpt-4o',
+    debug = false,
     mappings = {
       close = {
         normal = "q",
