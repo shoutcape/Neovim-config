@@ -118,9 +118,9 @@ return {
       })
 
       --eslint
-      lspconfig.eslint.setup({
-        workingDirectory = { mode = "auto" },
-      })
+      -- lspconfig.eslint.setup({
+      --   workingDirectory = { mode = "auto" },
+      -- })
     end,
   },
 }

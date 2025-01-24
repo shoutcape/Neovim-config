@@ -1,10 +1,9 @@
 return {
   "CopilotC-Nvim/CopilotChat.nvim",
   event = "VeryLazy",
-  branch = "canary",
   dependencies = {
     { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
-    { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+    { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log wrapper
   },
   opts = {
     model = 'gpt-4o',
