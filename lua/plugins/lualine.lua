@@ -64,7 +64,7 @@ return {
             {
               "buffers",
               show_filename_only = true,
-              max_length = vim.o.columns,
+              max_length = 150,
               symbols = {
                 modified = " ", -- Text to show when the buffer is modified
                 alternate_file = "󰮲 ", -- Text to show to identify the alternate file
