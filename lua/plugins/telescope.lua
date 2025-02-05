@@ -8,6 +8,7 @@ return {
 			local builtin = require("telescope.builtin")
 			local githubPath = vim.fn.expand("~/Documents/Linux Github")
 			local nvimPath = vim.fn.expand("~/.config/nvim")
+			local obsidianPath = vim.fn.expand("/mnt/c/Users/kauti/Documents/Obsidian Vault")
 
 			vim.keymap.set("n", "<Leader>ff", builtin.fd, {})
 			vim.keymap.set("n", "<Leader>fp", function()
@@ -16,6 +17,9 @@ return {
 			vim.keymap.set("n", "<Leader>fv", function()
 				builtin.fd({ cwd = nvimPath })
 			end, { desc = "find files in Github folder" })
+      vim.keymap.set("n", "<Leader>fn", function()
+        builtin.find_files({ cwd = obsidianPath })
+      end, { desc = "find files in Obsidian folder" })
 			vim.keymap.set("n", "<leader>å", builtin.git_files, {})
 			vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
 			vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
@@ -40,6 +44,7 @@ return {
 						"%.ico",
 						"node_modules/*",
 						"package%-lock%.json",
+            "%.obsidian"
 					},
 					layout_config = { height = 0.95, width = 0.95 },
 				},

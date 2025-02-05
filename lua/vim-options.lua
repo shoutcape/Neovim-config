@@ -7,6 +7,7 @@ vim.opt.relativenumber = true
 vim.opt.incsearch = true
 vim.opt.scrolloff = 20
 vim.opt.termguicolors = true
+vim.opt.conceallevel = 1
 
 --automatically reload on file changes for example on git pulls
 vim.opt.autoread = true
@@ -92,8 +93,8 @@ map("v", "<C-v>", '"*p', opts)
 --keymap for control backspace
 map("i", "<C-BS>", "<C-W>", opts)
 
---keymap to empty notify 
-
+--keymap for creating a new Obsidian note
+map("n", "<leader>cn", ":ObsidianNew<CR>", opts)
 
 
 --keymap to search references of current word within working directory
