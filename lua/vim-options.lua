@@ -101,6 +101,9 @@ map("n", "<leader>sh", ":!powershell C:\\Users\\kauti\\autodevenv.ps1<CR>", opts
 --keymap to search references of current word within working directory
 -- map("n", '<leader>r', [[<Cmd>execute('vimgrep /' .. expand('<cword>') .. '/j **/*')<CR>:copen<CR>]], opts)
 
+--keymap for creating a new Obsidian note
+map("n", "<leader>cn", ":ObsidianNew<CR>", opts)
+
 -- yank highlighting
 vim.cmd([[
 augroup highlight_yank
@@ -117,4 +120,18 @@ map("n", "<leader>cc", ":let @+ = expand('%:h')<CR>", { noremap = true, silent =
 
 --keymap to run current file in python
 map("n", "<A-a>", ':TermExec cmd="python %:p" dir=%:h size=10 direction=horizontal <CR>', { noremap = true, silent = true })
+
+
+map(
+  "n",
+  "<leader>cp",
+  ":<C-u>lua require('CopilotChat').toggle({selection = require('CopilotChat.select').visual })<CR>",
+  { noremap = true, silent = true }
+)
+map(
+  "v",
+  "<leader>cp",
+  ":<C-u>lua require('CopilotChat').toggle({ selection = require('CopilotChat.select').visual })<CR>",
+  { noremap = true, silent = true }
+)
 

@@ -28,6 +28,10 @@ return {
       },
     },
 
-    -- see below for full list of options 👇
+    -- credit: https://www.reddit.com/r/nvim/comments/1d15gqj/obsidiannvim_default_file_name/
+    -- return note title as filename
+    note_id_func = function(title)
+      return title
+    end
   },
 }
