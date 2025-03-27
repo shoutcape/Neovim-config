@@ -11,9 +11,9 @@ vim.opt.conceallevel = 1
 
 --automatically reload on file changes for example on git pulls
 vim.opt.autoread = true
-vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "InsertEnter" ,"FocusGained" }, {
-  command = "if mode() != 'c' | checktime | endif",
-  pattern = { "*" },
+vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "InsertEnter", "FocusGained" }, {
+	command = "if mode() != 'c' | checktime | endif",
+	pattern = { "*" },
 })
 
 -- leader key
@@ -35,7 +35,7 @@ map("n", "<C-v>", "<Nop>", opts)
 map("n", "<C-G>", "<Nop>", opts)
 
 --keymap for * not changing selection
-map('n', '*', '*N', opts)
+map("n", "*", "*N", opts)
 
 --keymap for jumping to the current tag
 map("n", "<C-G>", "<C-]>", opts)
@@ -96,7 +96,6 @@ map("i", "<C-BS>", "<C-W>", opts)
 --keymap for creating a new Obsidian note
 map("n", "<leader>cn", ":ObsidianNew<CR>", opts)
 
-
 --keymap to search references of current word within working directory
 -- map("n", '<leader>r', [[<Cmd>execute('vimgrep /' .. expand('<cword>') .. '/j **/*')<CR>:copen<CR>]], opts)
 
@@ -114,4 +113,15 @@ map("n", "<F18>", ":cd %:h<CR><cmd>echo getcwd() <CR>", { noremap = true, silent
 --keymap to copy current directory path to clipboard
 map("n", "<leader>cc", ":let @+ = expand('%:h')<CR>", { noremap = true, silent = false })
 
-
+map(
+  "n",
+  "<leader>cp",
+  ":<C-u>lua require('CopilotChat').toggle({selection = require('CopilotChat.select').visual })<CR>",
+  { noremap = true, silent = true }
+)
+map(
+  "v",
+  "<leader>cp",
+  ":<C-u>lua require('CopilotChat').toggle({ selection = require('CopilotChat.select').visual })<CR>",
+  { noremap = true, silent = true }
+)

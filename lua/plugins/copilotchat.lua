@@ -8,6 +8,8 @@ return {
 	opts = {
 		model = "claude-3.7-sonnet-thought",
 		debug = false,
+    context = nil, -- Default context or array of contexts to use (can be specified manually in prompt via #).
+    sticky = nil, -- Default sticky prompt or array of sticky prompts to use at start of every new chat.
 		mappings = {
 			close = {
 				normal = "q",
@@ -29,16 +31,4 @@ return {
 		auto_format = true,
 		temperature = 0.7,
 	},
-	vim.api.nvim_set_keymap(
-		"n",
-		"<leader>cp",
-    ":<C-u>lua require('CopilotChat').toggle()<CR>",
-		{ noremap = true, silent = true }
-	),
-	vim.api.nvim_set_keymap(
-		"v",
-		"<leader>cp",
-		":<C-u>lua require('CopilotChat').toggle({ selection = require('CopilotChat.select').visual })<CR>",
-		{ noremap = true, silent = true }
-	),
 }
