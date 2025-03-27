@@ -7,33 +7,34 @@ return {
 		local harpoon = require("harpoon")
 		require("harpoon").setup({
       global_settings = {
-        tabline = true
+        tabline = true,
+        -- Enable saving marks when exiting neovim
+        save_on_toggle = true,
+        -- Enable saving marks on any change
+        save_on_change = true,
+        -- Set the mark file path
+        mark_file = vim.fn.expand("~/.cache/nvim/harpoon.json"),
+        -- Enter the filetypes that should not be marked
+        excluded_filetypes = { "harpoon", "TelescopePrompt", "alpha" },
       }
     })
 
-		-- local conf = require("telescope.config").values
+    vim.keymap.set("n", "<leader>h", function()
+      local conf = require("telescope.config").values
+      local files = {}
+      for _, item in ipairs(harpoon:list().items) do
+        table.insert(files, item.value)
+      end
 
-		-- local function toggle_telescope(harpoon_files)
-		--     local file_paths = {}
-		--     for _, item in ipairs(harpoon_files.items) do
-		--         table.insert(file_paths, item.value)
-		--     end
-		--
-		--     require("telescope.pickers")
-		--         .new({}, {
-		--             prompt_title = "Harpoon",
-		--             finder = require("telescope.finders").new_table({
-		--                 results = file_paths,
-		--             }),
-		--             previewer = conf.file_previewer({}),
-		--             sorter = conf.generic_sorter({}),
-		--         })
-		--         :find()
-		-- end
-
-		-- vim.keymap.set("n", "<C-e>", function()
-		--     toggle_telescope(harpoon:list())
-		-- end, { desc = "Open harpoon window" })
+      require("telescope.pickers").new({}, {
+        prompt_title = "Harpoon",
+        finder = require("telescope.finders").new_table({
+          results = files,
+        }),
+        previewer = conf.file_previewer({}),
+        sorter = conf.generic_sorter({}),
+      }):find()
+    end, { desc = "Open harpoon in Telescope" })
 
 		vim.keymap.set("n", "<leader>a", function()
 			harpoon:list():add()
