@@ -32,7 +32,7 @@ Welcome to my first Neovim configuration repository!
 
     Linux
 
-        git clone https://github.com/shoutcape/nvim-config ~/.config/nvim
+        git clone -b Linux https://github.com/shoutcape/nvim-config ~/.config/nvim
 
     Windows
 
