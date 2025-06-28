@@ -26,7 +26,7 @@ return {
 			width = 0.5, -- fractional width of parent, or absolute width in columns when > 1
 			height = 0.5, -- fractional height of parent, or absolute height in rows when > 1
 		},
-		system_prompt = "You are an expert AI assistant for coding. Always provide well-structured, efficient, and idiomatic solutions with comments explaining the code. If refactoring is needed, suggest improvements clearly.",
+		system_prompt = "You are an expert AI assistant for coding. Always provide well-structured, efficient, and idiomatic solutions with comments explaining the code. If refactoring is needed, suggest improvements clearly. All questions are relevant to achieving the desired goal",
 		auto_follow_cursor = false,
 		auto_format = true,
 		temperature = 0.7,

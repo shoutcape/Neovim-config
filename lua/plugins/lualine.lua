@@ -1,15 +1,5 @@
 return {
   {
-    "letieu/harpoon-lualine",
-    dependencies = {
-      {
-        "ThePrimeagen/harpoon",
-        event = "VeryLazy",
-        branch = "harpoon2",
-      },
-    },
-  },
-  {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
     dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -38,13 +28,6 @@ return {
           lualine_b = { "branch", "diff", "diagnostics" },
           lualine_c = { { "filename", path = 3 } },
           lualine_x = {
-            {
-              "harpoon2",
-              indicators = { "j", "k", "l", "ö" },
-              active_indicators = { "[J]", "[K]", "[L]", "[Ö]" },
-              _separator = " ",
-              no_harpoon = "Harpoon not loaded",
-            },
           },
           lualine_y = { "progress" },
           lualine_z = { "filetype" },

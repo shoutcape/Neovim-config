@@ -12,11 +12,11 @@ vim.opt.conceallevel = 1
 --automatically reload on file changes for example on git pulls
 vim.opt.autoread = true
 vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "InsertEnter", "FocusGained" }, {
-	command = "if mode() != 'c' | checktime | endif",
-	pattern = { "*" },
+  command = "if mode() != 'c' | checktime | endif",
+  pattern = { "*" },
 })
 
--- leader key
+-- leader key <leader>
 vim.g.mapleader = " "
 
 --general stucture for mapping keys in lua nvim
@@ -51,7 +51,7 @@ map("n", "Ä", ":bnext<CR>", opts)
 map("n", "Å", ":b#<CR>", opts)
 
 --close delete buffers, close other open splits to avoid messing up splits
-map("n", "<F28>", "<C-w>o:bdelete!<CR>", opts)
+map("n", "<F6>", "<C-w>o:bdelete!<CR>", opts)
 
 --keymap to select whole page in select mode or copy whole page
 map("n", "vie", "maggVG", opts)
@@ -74,15 +74,15 @@ map("n", "/", ":noh<CR>/", opts)
 --keymap to create newline at next whitespace
 map("n", "<leader><leader>s", "Ea<CR><BS><Esc>", opts)
 
---keymap to exit terminal with esc
+--keymap to enter normal mode in terminal with esc
 map("t", "<Esc>", "<C-\\><C-n>", opts)
 
 --keymap to show error message in full length
 map("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 
 --keymaps for terminal toggle
-map("n", "<leader>ö", ":1ToggleTerm<CR>", opts)
-map("n", "<leader>ä", ":2ToggleTerm<CR>", opts)
+-- map("n", "<leader>ö", ":1ToggleTerm<CR>", opts)
+-- map("n", "<leader>ä", ":2ToggleTerm<CR>", opts)
 -- map("n", "<leader>3", ":3ToggleTerm<CR>", opts)
 
 --keymaps to copypaste to system buffer
@@ -92,9 +92,6 @@ map("v", "<C-v>", '"*p', opts)
 
 --keymap for control backspace
 map("i", "<C-BS>", "<C-W>", opts)
-
---keymap for creating a new Obsidian note
-map("n", "<leader>cn", ":ObsidianNew<CR>", opts)
 
 --keymap to search references of current word within working directory
 -- map("n", '<leader>r', [[<Cmd>execute('vimgrep /' .. expand('<cword>') .. '/j **/*')<CR>:copen<CR>]], opts)
@@ -113,6 +110,48 @@ map("n", "<F18>", ":cd %:h<CR><cmd>echo getcwd() <CR>", { noremap = true, silent
 --keymap to copy current directory path to clipboard
 map("n", "<leader>cc", ":let @+ = expand('%:h')<CR>", { noremap = true, silent = false })
 
+--Keymap to move inside quickfixlist
+map("n", "<A-Down>", ":cnext<CR>", { noremap = true, silent = true })
+map("n", "<A-Up>", ":cprev<CR>", { noremap = true, silent = true })
+
+-- Vertical resizing (height)
+map("n", "<C-Down>", ":resize +6<CR>", opts) -- Increase window height
+map("n", "<C-Up>", ":resize -6<CR>", opts)   -- Decrease window height
+
+-- Horizontal resizing (width)
+map("n", "<C-Left>", ":vertical resize +6<CR>", opts)  -- Increase window width
+map("n", "<C-Right>", ":vertical resize -6<CR>", opts) -- Decrease window width
+
+map("n", "<C-h>", "<C-w>h", opts) -- Move focus to the left windowMore actions
+map("n", "<C-j>", "<C-w>j", opts) -- Move focus to the window below
+map("n", "<C-k>", "<C-w>k", opts) -- Move focus to the window above
+map("n", "<C-l>", "<C-w>l", opts) -- Move focus to the right window
+
+map("v", "<C-h>", "<C-w>h", opts) -- Move focus to the left windowMore actions
+map("v", "<C-j>", "<C-w>j", opts) -- Move focus to the window below
+map("v", "<C-k>", "<C-w>k", opts) -- Move focus to the window above
+map("v", "<C-l>", "<C-w>l", opts) -- Move focus to the right window
+
+
+local function toggle_quickfix()
+  local qf_exists = false
+  for _, win in pairs(vim.fn.getwininfo()) do
+    if win.quickfix == 1 then
+      qf_exists = true
+      break
+    end
+  end
+
+  if qf_exists then
+    vim.cmd("cclose")
+  else
+    vim.cmd("copen")
+  end
+end
+
+--keymap to toggle quickfixlist
+vim.keymap.set("n", "<leader>q", toggle_quickfix, { noremap = true, silent = true })
+
 map(
   "n",
   "<leader>cp",
@@ -125,3 +164,15 @@ map(
   ":<C-u>lua require('CopilotChat').toggle({ selection = require('CopilotChat.select').visual })<CR>",
   { noremap = true, silent = true }
 )
+
+--keymap for find and replace
+map("n", "<leader>rn", ":%s/<c-r><c-w>/<c-r><c-w>/g<Left><Left>", { noremap = true, silent = false })
+map("v", "<leader>rn", "\"zy:%s/<C-r>z/<C-r>z/g<Left><Left>", { noremap = true, silent = false })
+
+
+--keymap to undo and redo with cursor in place
+map("n", "<leader>u", "mzu'z", { noremap = true, silent = true })
+map("n", "<leader>U", "mz<C-r>'z", { noremap = true, silent = true })
+
+
+map('c', '<C-BS>', '<C-W>', { noremap = true, silent=false })

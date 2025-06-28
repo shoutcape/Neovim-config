@@ -1,12 +1,15 @@
 return {
   "folke/noice.nvim",
-  event = "VeryLazy",
+  lazy = false,
   dependencies = {
     "MunifTanjim/nui.nvim",
     "rcarriga/nvim-notify",
   },
   config = function()
-    require("noice").setup({
+    local noice = require("noice")
+    local notify = require("notify")
+
+    noice.setup({
       lsp = {
         override = {
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
@@ -57,10 +60,11 @@ return {
         },
       },
     })
-    require("notify").setup({
+
+    notify.setup({
       background_colour = "#000000",
       render = "minimal",
-      minimum_width = 10
+      minimum_width = 10,
     })
     vim.api.nvim_set_keymap(
       "n",
