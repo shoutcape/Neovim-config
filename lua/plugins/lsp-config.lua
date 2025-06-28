@@ -1,18 +1,10 @@
 return {
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     config = function()
       require("mason").setup({
         ui = { border = "rounded" },
       })
-    end,
-  },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    config = function()
-      opts = {
-        auto_installer = true,
-      }
     end,
   },
 
@@ -21,12 +13,12 @@ return {
   },
 
   {
-    "williamboman/mason-lspconfig.nvim",
-    config = function()
-      require("mason-lspconfig").setup({
-        ensure_installed = {"pyright", "tailwindcss", "lua_ls", "html", "ts_ls", "cssls" },
-      })
-    end,
+    "mason-org/mason-lspconfig.nvim",
+    opts = {},
+    dependencies = {
+      { "mason-org/mason.nvim", opts = {} },
+      "neovim/nvim-lspconfig",
+    },
   },
 
   {
@@ -74,10 +66,10 @@ return {
         settings = {
           css = {
             lint = {
-              unknownAtRules = 'ignore'
-            }
-          }
-        }
+              unknownAtRules = "ignore",
+            },
+          },
+        },
       })
 
       --typescript/javascript
@@ -105,10 +97,10 @@ return {
         settings = {
           tailwindCSS = {
             lint = {
-              unknownAtRules = 'ignore'
-            }
-          }
-        }
+              unknownAtRules = "ignore",
+            },
+          },
+        },
       })
 
       --lua
@@ -117,10 +109,10 @@ return {
         on_attach = on_attach,
       })
 
-      --eslint
-      -- lspconfig.eslint.setup({
-      --   workingDirectory = { mode = "auto" },
-      -- })
+      -- eslint
+      lspconfig.eslint.setup({
+        workingDirectory = { mode = "auto" },
+      })
     end,
   },
 }

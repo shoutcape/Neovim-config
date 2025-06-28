@@ -34,6 +34,12 @@ map("n", "S", "<Nop>", opts)
 map("n", "<C-v>", "<Nop>", opts)
 map("n", "<C-G>", "<Nop>", opts)
 
+-- Window navigation with ALT+HJKL
+map("n", "<A-h>", "<C-w>h", opts) -- Move focus to the left window
+map("n", "<A-j>", "<C-w>j", opts) -- Move focus to the window below
+map("n", "<A-k>", "<C-w>k", opts) -- Move focus to the window above
+map("n", "<A-l>", "<C-w>l", opts) -- Move focus to the right window
+
 --keymap for * not changing selection
 map("n", "*", "*N", opts)
 
@@ -89,6 +95,9 @@ map("n", "<leader>ä", ":2ToggleTerm<CR>", opts)
 map("v", "<C-c>", '"*y', opts)
 map("n", "<C-v>", '"*p', opts)
 map("v", "<C-v>", '"*p', opts)
+
+
+
 
 --keymap for control backspace
 map("i", "<C-BS>", "<C-W>", opts)
