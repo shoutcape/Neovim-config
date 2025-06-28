@@ -40,6 +40,11 @@ map("n", "<A-j>", "<C-w>j", opts) -- Move focus to the window below
 map("n", "<A-k>", "<C-w>k", opts) -- Move focus to the window above
 map("n", "<A-l>", "<C-w>l", opts) -- Move focus to the right window
 
+map("v", "<A-h>", "<C-w>h", opts)
+map("v", "<A-j>", "<C-w>j", opts)
+map("v", "<A-k>", "<C-w>k", opts)
+map("v", "<A-l>", "<C-w>l", opts)
+
 --keymap for * not changing selection
 map("n", "*", "*N", opts)
 
