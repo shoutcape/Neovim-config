@@ -20,7 +20,7 @@ return {
       },
       autoinstall = true,
       indent = {
-        enable = true
+        enable = true,
       },
       sync_install = false,
       highlight = {
@@ -38,6 +38,16 @@ return {
             return true
           end
         end,
+      },
+
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = "<CR>", -- set to `false` to disable one of the mappings
+          node_incremental = "<CR>",
+          scope_incremental = false,
+          node_decremental = "<BS>",
+        },
       },
     })
   end,

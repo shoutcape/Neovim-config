@@ -1,6 +1,10 @@
-vim.cmd("set expandtab")
-vim.cmd("set tabstop=2")
-vim.cmd("set shiftwidth=2")
+-- Set leader early to avoid remap issues
+vim.g.mapleader = " "
+
+-- Editor options
+vim.opt.expandtab = true
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
 
 vim.opt.conceallevel = 1
 vim.opt.number = true
@@ -8,144 +12,110 @@ vim.opt.relativenumber = true
 vim.opt.incsearch = true
 vim.opt.scrolloff = 20
 vim.opt.termguicolors = true
-
---automatically reload on file changes for example on git pulls
 vim.opt.autoread = true
+
+-- Auto reload on file changes
+local autoread_group = vim.api.nvim_create_augroup("AutoReadCheck", { clear = true })
 vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "InsertEnter", "FocusGained" }, {
+  group = autoread_group,
+  pattern = "*",
   command = "if mode() != 'c' | checktime | endif",
-  pattern = { "*" },
 })
 
--- leader key
-vim.g.mapleader = " "
+-- Highlight yanked text
+local highlight_group = vim.api.nvim_create_augroup("HighlightYank", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = highlight_group,
+  callback = function()
+    vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
+  end,
+})
 
---general stucture for mapping keys in lua nvim
---vim.api.nvim_set_keymap('mode', 'keysToMap', 'actionOfKeys', {options})
+-- Shorthand
+local map = function(mode, lhs, rhs, opts)
+  vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", { noremap = true, silent = true }, opts or {}))
+end
 
-local map = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
+-- Clear unwanted keymaps
+local nops = { "<C-L>", "<C-.>", "L", "<C-,>", "S", "<C-v>" }
+for _, lhs in ipairs(nops) do
+  map("n", lhs, "<Nop>")
+end
 
--- delete unwanted keymaps
-map("n", "<C-L>", "<Nop>", opts)
-map("n", "<C-.>", "<Nop>", opts)
-map("n", "L", "<Nop>", opts)
-map("n", "<C-,>", "<Nop>", opts)
-map("n", "S", "<Nop>", opts)
-map("n", "<C-v>", "<Nop>", opts)
-map("n", "<C-G>", "<Nop>", opts)
+-- Navigation between windows
+for _, mode in ipairs({ "n", "v" }) do
+  map(mode, "<A-h>", "<C-w>h")
+  map(mode, "<A-j>", "<C-w>j")
+  map(mode, "<A-k>", "<C-w>k")
+  map(mode, "<A-l>", "<C-w>l")
+end
 
--- Window navigation with ALT+HJKL
-map("n", "<A-h>", "<C-w>h", opts) -- Move focus to the left window
-map("n", "<A-j>", "<C-w>j", opts) -- Move focus to the window below
-map("n", "<A-k>", "<C-w>k", opts) -- Move focus to the window above
-map("n", "<A-l>", "<C-w>l", opts) -- Move focus to the right window
+-- Better search behavior
+map("n", "*", "*N")
+map("n", "/", ":noh<CR>/")
 
-map("v", "<A-h>", "<C-w>h", opts)
-map("v", "<A-j>", "<C-w>j", opts)
-map("v", "<A-k>", "<C-w>k", opts)
-map("v", "<A-l>", "<C-w>l", opts)
+-- Buffers and tags
+map("n", "Ö", ":bprevious<CR>")
+map("n", "Ä", ":bnext<CR>")
+map("n", "Å", ":b#<CR>")
+map("n", "<C-G>", "<C-]>")
+map("n", "<C-F4>", "<C-w>o:bdelete!<CR>")
 
---keymap for * not changing selection
-map("n", "*", "*N", opts)
+-- Visual selection tweaks
+map("n", "vie", "maggVG")
+map("n", "yie", "maggVGy`a")
+map("x", "<leader>p", '"_dP')
+map("v", "J", ":m '>+1<CR>gv=gv")
+map("v", "K", ":m '<-2<CR>gv=gv")
 
---keymap for jumping to the current tag
-map("n", "<C-G>", "<C-]>", opts)
+-- Misc movement
+map("n", "<PageUp>", "<C-u>")
+map("n", "<PageDown>", "<C-d>")
+map("n", "<leader><leader>s", "Ea<CR><BS><Esc>")
+map("n", "ö", "<C-v>")
 
--- keymmap for visual-block mode
-map("n", "ö", "<C-v>", opts)
+-- Terminal and diagnostics
+map("t", "<Esc>", "<C-\\><C-n>")
+map("n", "<space>e", vim.diagnostic.open_float)
 
--- keymaps to move between buffers
-map("n", "Ö", ":bprevious<CR>", opts)
-map("n", "Ä", ":bnext<CR>", opts)
+-- ToggleTerm bindings
+map("n", "<leader>ö", ":1ToggleTerm<CR>")
+map("n", "<leader>ä", ":2ToggleTerm<CR>")
 
--- keymap to move between last and current buffer
-map("n", "Å", ":b#<CR>", opts)
+-- Clipboard mappings
+map("v", "<C-c>", '"*y')
+map("n", "<C-v>", '"*p')
+map("v", "<C-v>", '"*p')
 
---close delete buffers, close other open splits to avoid messing up splits
-map("n", "<C-F4>", "<C-w>o:bdelete!<CR>", opts)
+-- Insert mode enhancements
+map("i", "<C-BS>", "<C-W>")
 
---keymap to select whole page in select mode or copy whole page
-map("n", "vie", "maggVG", opts)
-map("n", "yie", "maggVGy`a", opts)
+-- Current file/path utils
+map("n", "<F18>", ":cd %:h<CR><cmd>echo getcwd()<CR>")
+map("n", "<leader>cc", ":let @+ = expand('%:h')<CR>")
 
---keymap to delete to void register on paste
-map("x", "<leader>p", '"_dP', opts)
+-- Run Python in terminal
+map("n", "<A-a>", ':TermExec cmd="python %:p" dir=%:h size=10 direction=horizontal<CR>')
 
--- keymaps to move around selected lines
-map("v", "J", ":m '>+1<CR>gv=gv", opts)
-map("v", "K", ":m '<-2<CR>gv=gv", opts)
-
--- keymaps for scrolling
-map("n", "<PageUp>", "<C-u>", opts)
-map("n", "<PageDown>", "<C-d>", opts)
-
---keymap to reset last search on new search
-map("n", "/", ":noh<CR>/", opts)
-
---keymap to create newline at next whitespace
-map("n", "<leader><leader>s", "Ea<CR><BS><Esc>", opts)
-
---keymap to exit terminal with esc
-map("t", "<Esc>", "<C-\\><C-n>", opts)
-
---keymap to show error message in full length
-map("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-
---keymaps for terminal toggle
-map("n", "<leader>ö", ":1ToggleTerm<CR>", opts)
-map("n", "<leader>ä", ":2ToggleTerm<CR>", opts)
--- map("n", "<leader>3", ":3ToggleTerm<CR>", opts)
-
---keymaps to copypaste to system buffer
-map("v", "<C-c>", '"*y', opts)
-map("n", "<C-v>", '"*p', opts)
-map("v", "<C-v>", '"*p', opts)
-
-
-
-
---keymap for control backspace
-map("i", "<C-BS>", "<C-W>", opts)
-
---keymap to empty notify
-
---keymap for possible pwsh scripts
-map("n", "<leader>sh", ":!powershell C:\\Users\\kauti\\autodevenv.ps1<CR>", opts)
-
---keymap to search references of current word within working directory
--- map("n", '<leader>r', [[<Cmd>execute('vimgrep /' .. expand('<cword>') .. '/j **/*')<CR>:copen<CR>]], opts)
-
---keymap for creating a new Obsidian note
-map("n", "<leader>cn", ":ObsidianNew<CR>", opts)
-
--- yank highlighting
-vim.cmd([[
-augroup highlight_yank
-autocmd!
-au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Visual", timeout=200})
-augroup END
-]])
-
---keymap to cd into current buffer path
-map("n", "<F18>", ":cd %:h<CR><cmd>echo getcwd() <CR>", { noremap = true, silent = true })
-
---keymap to copy current directory path to clipboard
-map("n", "<leader>cc", ":let @+ = expand('%:h')<CR>", { noremap = true, silent = false })
-
---keymap to run current file in python
-map("n", "<A-a>", ':TermExec cmd="python %:p" dir=%:h size=10 direction=horizontal <CR>', { noremap = true, silent = true })
-
+-- Obsidian and CopilotChat
+map("n", "<leader>cn", ":ObsidianNew<CR>")
+map({ "n", "v" }, "<leader>cp", function()
+  require("CopilotChat").toggle({ selection = require("CopilotChat.select").visual })
+end)
+-- Custom PowerShell script launcher (Windows)
+map("n", "<leader>sh", ":!powershell C:\\Users\\kauti\\autodevenv.ps1<CR>")
 
 map(
   "n",
-  "<leader>cp",
-  ":<C-u>lua require('CopilotChat').toggle({selection = require('CopilotChat.select').visual })<CR>",
-  { noremap = true, silent = true }
-)
-map(
-  "v",
-  "<leader>cp",
-  ":<C-u>lua require('CopilotChat').toggle({ selection = require('CopilotChat.select').visual })<CR>",
-  { noremap = true, silent = true }
+  "<leader>n",
+  ":Neotree toggle filesystem reveal right<CR>",
+  { noremap = true, silent = true, desc = "Toggle NeoTree" }
 )
 
+map("n", "<leader>gf", vim.lsp.buf.format, {})
+
+map("n", "<leader>rn", function()
+  return ":IncRename " .. vim.fn.expand("<cword>")
+end, { expr = true })
+
+map("n", "<Esc>", "<cmd>noh<CR><cmd>lua require('notify').dismiss()<CR>", { noremap = true, silent = true })

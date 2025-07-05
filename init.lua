@@ -21,7 +21,6 @@ require("lazy").setup({
 		{ import = "plugins" },
 	},
 	change_detection = {
-    --remove notification for each change made to the config files, very annoying by default
 		notify = false,
 	},
 
