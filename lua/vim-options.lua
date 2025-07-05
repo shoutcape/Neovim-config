@@ -1,138 +1,54 @@
-vim.cmd("set expandtab")
-vim.cmd("set tabstop=2")
-vim.cmd("set shiftwidth=2")
-
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.incsearch = true
-vim.opt.scrolloff = 20
-vim.opt.termguicolors = true
-vim.opt.conceallevel = 1
-
---automatically reload on file changes for example on git pulls
-vim.opt.autoread = true
-vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "InsertEnter", "FocusGained" }, {
-  command = "if mode() != 'c' | checktime | endif",
-  pattern = { "*" },
-})
-
--- leader key <leader>
+-- Set leader early to avoid remap issues
 vim.g.mapleader = " "
 
---general stucture for mapping keys in lua nvim
---vim.api.nvim_set_keymap('mode', 'keysToMap', 'actionOfKeys', {options})
+------------------------------------------------------------------------------
+-- EDITOR OPTIONS
+------------------------------------------------------------------------------
+-- Indentation
+vim.opt.expandtab = true
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
 
-local map = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
+-- Display
+vim.opt.conceallevel = 1
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.termguicolors = true
 
--- delete unwanted keymaps
-map("n", "<C-L>", "<Nop>", opts)
-map("n", "<C-.>", "<Nop>", opts)
-map("n", "L", "<Nop>", opts)
-map("n", "<C-,>", "<Nop>", opts)
-map("n", "S", "<Nop>", opts)
-map("n", "<C-v>", "<Nop>", opts)
-map("n", "<C-G>", "<Nop>", opts)
+-- Behavior
+vim.opt.incsearch = true
+vim.opt.scrolloff = 20
+vim.opt.autoread = true
 
---keymap for * not changing selection
-map("n", "*", "*N", opts)
+------------------------------------------------------------------------------
+-- AUTOCOMMANDS
+------------------------------------------------------------------------------
+-- Auto reload on file changes
+local autoread_group = vim.api.nvim_create_augroup("AutoReadCheck", { clear = true })
+vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "InsertEnter", "FocusGained" }, {
+  group = autoread_group,
+  pattern = "*",
+  command = "if mode() != 'c' | checktime | endif",
+})
 
---keymap for jumping to the current tag
-map("n", "<C-G>", "<C-]>", opts)
+-- Highlight yanked text
+local highlight_group = vim.api.nvim_create_augroup("HighlightYank", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = highlight_group,
+  callback = function()
+    vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
+  end,
+})
 
--- keymmap for visual-block mode
-map("n", "ö", "<C-v>", opts)
+------------------------------------------------------------------------------
+-- HELPER FUNCTIONS
+------------------------------------------------------------------------------
+-- Shorthand for setting keymaps
+local map = function(mode, lhs, rhs, opts)
+  vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", { noremap = true, silent = true }, opts or {}))
+end
 
--- keymaps to move between buffers
-map("n", "Ö", ":bprevious<CR>", opts)
-map("n", "Ä", ":bnext<CR>", opts)
-
--- keymaps to move between buffers
-map("n", "Å", ":b#<CR>", opts)
-
---close delete buffers, close other open splits to avoid messing up splits
-map("n", "<F6>", "<C-w>o:bdelete!<CR>", opts)
-
---keymap to select whole page in select mode or copy whole page
-map("n", "vie", "maggVG", opts)
-map("n", "yie", "maggVGy`a", opts)
-
---keymap to delete to void register on paste
-map("x", "<leader>p", '"_dP', opts)
-
--- keymaps to move around selected lines
-map("v", "J", ":m '>+1<CR>gv=gv", opts)
-map("v", "K", ":m '<-2<CR>gv=gv", opts)
-
--- keymaps for scrolling
-map("n", "<PageUp>", "<C-u>", opts)
-map("n", "<PageDown>", "<C-d>", opts)
-
---keymap to reset last search on new search
-map("n", "/", ":noh<CR>/", opts)
-
---keymap to create newline at next whitespace
-map("n", "<leader><leader>s", "Ea<CR><BS><Esc>", opts)
-
---keymap to enter normal mode in terminal with esc
-map("t", "<Esc>", "<C-\\><C-n>", opts)
-
---keymap to show error message in full length
-map("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-
---keymaps for terminal toggle
--- map("n", "<leader>ö", ":1ToggleTerm<CR>", opts)
--- map("n", "<leader>ä", ":2ToggleTerm<CR>", opts)
--- map("n", "<leader>3", ":3ToggleTerm<CR>", opts)
-
---keymaps to copypaste to system buffer
-map("v", "<C-c>", '"*y', opts)
-map("n", "<C-v>", '"*p', opts)
-map("v", "<C-v>", '"*p', opts)
-
---keymap for control backspace
-map("i", "<C-BS>", "<C-W>", opts)
-
---keymap to search references of current word within working directory
--- map("n", '<leader>r', [[<Cmd>execute('vimgrep /' .. expand('<cword>') .. '/j **/*')<CR>:copen<CR>]], opts)
-
--- yank highlighting
-vim.cmd([[
-augroup highlight_yank
-autocmd!
-au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Visual", timeout=200})
-augroup END
-]])
-
---keymap to cd into current buffer path
-map("n", "<F18>", ":cd %:h<CR><cmd>echo getcwd() <CR>", { noremap = true, silent = true })
-
---keymap to copy current directory path to clipboard
-map("n", "<leader>cc", ":let @+ = expand('%:h')<CR>", { noremap = true, silent = false })
-
---Keymap to move inside quickfixlist
-map("n", "<A-Down>", ":cnext<CR>", { noremap = true, silent = true })
-map("n", "<A-Up>", ":cprev<CR>", { noremap = true, silent = true })
-
--- Vertical resizing (height)
-map("n", "<C-Down>", ":resize +6<CR>", opts) -- Increase window height
-map("n", "<C-Up>", ":resize -6<CR>", opts)   -- Decrease window height
-
--- Horizontal resizing (width)
-map("n", "<C-Left>", ":vertical resize +6<CR>", opts)  -- Increase window width
-map("n", "<C-Right>", ":vertical resize -6<CR>", opts) -- Decrease window width
-
-map("n", "<C-h>", "<C-w>h", opts) -- Move focus to the left windowMore actions
-map("n", "<C-j>", "<C-w>j", opts) -- Move focus to the window below
-map("n", "<C-k>", "<C-w>k", opts) -- Move focus to the window above
-map("n", "<C-l>", "<C-w>l", opts) -- Move focus to the right window
-
-map("v", "<C-h>", "<C-w>h", opts) -- Move focus to the left windowMore actions
-map("v", "<C-j>", "<C-w>j", opts) -- Move focus to the window below
-map("v", "<C-k>", "<C-w>k", opts) -- Move focus to the window above
-map("v", "<C-l>", "<C-w>l", opts) -- Move focus to the right window
-
-
+-- Toggle quickfix window
 local function toggle_quickfix()
   local qf_exists = false
   for _, win in pairs(vim.fn.getwininfo()) do
@@ -149,30 +65,102 @@ local function toggle_quickfix()
   end
 end
 
---keymap to toggle quickfixlist
-vim.keymap.set("n", "<leader>q", toggle_quickfix, { noremap = true, silent = true })
+------------------------------------------------------------------------------
+-- KEYMAPS
+------------------------------------------------------------------------------
 
+-- Disabled default keymaps
+map("n", "<C-L>", "<Nop>")
+map("n", "<C-.>", "<Nop>")
+map("n", "L", "<Nop>")
+map("n", "<C-,>", "<Nop>")
+map("n", "S", "<Nop>")
+map("n", "<C-v>", "<Nop>")
+map("n", "<C-G>", "<Nop>")
+
+-- Window Navigation
+map("n", "<C-h>", "<C-w>h") -- Move focus to the left window
+map("n", "<C-j>", "<C-w>j") -- Move focus to the window below
+map("n", "<C-k>", "<C-w>k") -- Move focus to the window above
+map("n", "<C-l>", "<C-w>l") -- Move focus to the right window
+map("v", "<C-h>", "<C-w>h") -- Same for visual mode
+map("v", "<C-j>", "<C-w>j")
+map("v", "<C-k>", "<C-w>k")
+map("v", "<C-l>", "<C-w>l")
+
+-- Window Resizing
+map("n", "<C-Down>", ":resize +6<CR>")           -- Increase window height
+map("n", "<C-Up>", ":resize -6<CR>")             -- Decrease window height
+map("n", "<C-Left>", ":vertical resize +6<CR>")  -- Increase window width
+map("n", "<C-Right>", ":vertical resize -6<CR>") -- Decrease window width
+
+-- Buffer Navigation
+map("n", "Ö", ":bprevious<CR>")         -- Previous buffer
+map("n", "Ä", ":bnext<CR>")             -- Next buffer
+map("n", "Å", ":b#<CR>")                -- Last used buffer
+map("n", "<F6>", "<C-w>o:bdelete!<CR>") -- Close buffer and other splits
+
+-- Search
+map("n", "*", "*N")                                               -- Search word without moving cursor
+map("n", "/", ":noh<CR>/")                                        -- Reset highlight on new search
+map("n", "<leader>rn", ":%s/<c-r><c-w>/<c-r><c-w>/g<Left><Left>") -- Find and replace word under cursor
+map("v", "<leader>rn", '"zy:%s/<C-r>z/<C-r>z/g<Left><Left>')      -- Find and replace visual selection
+
+-- Scroll and Navigation
+map("n", "<PageUp>", "<C-u>")
+map("n", "<PageDown>", "<C-d>")
+map("n", "<C-G>", "<C-]>") -- Jump to tag
+
+-- Selection
+map("n", "vie", "maggVG")    -- Select entire file
+map("n", "yie", "maggVGy`a") -- Yank entire file
+map("n", "ö", "<C-v>")       -- Visual block mode
+
+-- Editing
+map("v", "J", ":m '>+1<CR>gv=gv")                -- Move selected lines down
+map("v", "K", ":m '<-2<CR>gv=gv")                -- Move selected lines up
+map("n", "<leader><leader>s", "Ea<CR><BS><Esc>") -- New line at next whitespace
+map("n", "<leader>u", "mzu'z")                   -- Undo keeping cursor position
+map("n", "<leader>U", "mz<C-r>'z")               -- Redo keeping cursor position
+map("x", "<leader>p", '"_dP')                    -- Paste without yanking
+
+-- Clipboard Integration
+map("v", "<C-c>", '"*y') -- Copy to system clipboard
+map("n", "<C-v>", '"*p') -- Paste from system clipboard
+map("v", "<C-v>", '"*p') -- Paste from system clipboard in visual mode
+
+-- Backspace Behavior
+map("i", "<C-BS>", "<C-W>")                     -- Control-Backspace in insert mode
+map("c", "<C-BS>", "<C-W>", { silent = false }) -- Control-Backspace in command mode
+
+-- Diagnostics
+map("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>") -- Show error in float
+
+-- Terminal
+map("t", "<Esc>", "<C-\\><C-n>") -- Exit terminal mode
+
+-- Quickfix List Navigation
+map("n", "<A-Down>", ":cnext<CR>")
+map("n", "<A-Up>", ":cprev<CR>")
+map("n", "<leader>q", toggle_quickfix) -- Toggle quickfix window
+
+-- Directory Operations
+map("n", "<F18>", ":cd %:h<CR><cmd>echo getcwd()<CR>")                    -- CD to current file dir
+map("n", "<leader>cc", ":let @+ = expand('%:h')<CR>", { silent = false }) -- Copy current dir path
+
+-- Copilot Chat
 map(
   "n",
   "<leader>cp",
-  ":<C-u>lua require('CopilotChat').toggle({selection = require('CopilotChat.select').visual })<CR>",
-  { noremap = true, silent = true }
+  ":<C-u>lua require('CopilotChat').toggle({selection = require('CopilotChat.select').visual })<CR>"
 )
 map(
   "v",
   "<leader>cp",
-  ":<C-u>lua require('CopilotChat').toggle({ selection = require('CopilotChat.select').visual })<CR>",
-  { noremap = true, silent = true }
+  ":<C-u>lua require('CopilotChat').toggle({ selection = require('CopilotChat.select').visual })<CR>"
 )
 
---keymap for find and replace
-map("n", "<leader>rn", ":%s/<c-r><c-w>/<c-r><c-w>/g<Left><Left>", { noremap = true, silent = false })
-map("v", "<leader>rn", "\"zy:%s/<C-r>z/<C-r>z/g<Left><Left>", { noremap = true, silent = false })
+--keymap for neotree toggle
+map("n", "<leader>n", ":Neotree toggle filesystem reveal right<CR>")
 
-
---keymap to undo and redo with cursor in place
-map("n", "<leader>u", "mzu'z", { noremap = true, silent = true })
-map("n", "<leader>U", "mz<C-r>'z", { noremap = true, silent = true })
-
-
-map('c', '<C-BS>', '<C-W>', { noremap = true, silent=false })
+map("n", "<leader>gf", vim.lsp.buf.format, {})

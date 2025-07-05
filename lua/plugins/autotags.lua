@@ -1,16 +1,14 @@
 return {
   "windwp/nvim-ts-autotag",
-  config = function ()
-    require('nvim-ts-autotag').setup({
+  event = "InsertEnter",
+  config = function()
+    require("nvim-ts-autotag").setup({
       opts = {
-        -- Defaults
-        enable_close = true, -- Auto close tags
-        enable_rename = true, -- Auto rename pairs of tags
-        enable_close_on_slash = false -- Auto close on trailing </
+        enable_close = true,       -- Auto close tags
+        enable_rename = true,      -- Auto rename matching tags
+        enable_close_on_slash = false, -- Disable <slash /> auto close
+        -- filetypes = { "html", "javascriptreact", "typescriptreact", "vue", "svelte" } -- Optional
       },
-      -- Also override individual filetype configs, these take priority.
-      -- Empty by default, useful if one of the "opts" global settings
-      -- doesn't work well in a specific filetype
     })
-  end
+  end,
 }
