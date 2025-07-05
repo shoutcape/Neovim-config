@@ -5,7 +5,6 @@ return {
     event = "VeryLazy",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope-fzf-native.nvim",
       "nvim-telescope/telescope-ui-select.nvim",
     },
     config = function()
@@ -20,11 +19,19 @@ return {
       -- Keymaps
       vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find files" })
       vim.keymap.set("n", "<leader>fp", function()
-        builtin.find_files({ cwd = paths.github })
+        local ok = pcall(builtin.git_files, { cwd = paths.github })
+        if not ok then
+          builtin.find_files({ cwd = paths.github })
+        end
       end, { desc = "Find in ~/work" })
+
       vim.keymap.set("n", "<leader>fv", function()
-        builtin.find_files({ cwd = paths.nvim })
+        local ok = pcall(builtin.git_files, { cwd = paths.nvim })
+        if not ok then
+          builtin.find_files({ cwd = paths.nvim })
+        end
       end, { desc = "Find in config" })
+
       vim.keymap.set("n", "<leader>å", builtin.git_files, { desc = "Git files" })
       vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Live grep" })
       vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Buffers" })
@@ -61,12 +68,21 @@ return {
         pickers = {
           find_files = {
             hidden = true,
-            no_ignore = true,
-            find_command = { "fd", "--type", "f", "--hidden", "--exclude", ".git" },
+            no_ignore = false,
+            find_command = {
+              "rg",
+              "--files",
+              "--hidden",
+              "--glob",
+              "!**/.git/*",
+              "--glob",
+              "!node_modules/*",
+            },
           },
           live_grep = {
-            hidden = true,
-            no_ignore = true,
+            additional_args = function()
+              return { "--hidden", "--glob", "!**/.git/*", "--glob", "!node_modules/*" }
+            end,
           },
         },
         extensions = {
@@ -88,6 +104,5 @@ return {
   {
     "nvim-telescope/telescope-fzf-native.nvim",
     build = "make",
-    lazy = true,
   },
 }
