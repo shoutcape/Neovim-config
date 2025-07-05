@@ -164,3 +164,25 @@ map(
 map("n", "<leader>n", ":Neotree toggle filesystem reveal right<CR>")
 
 map("n", "<leader>gf", vim.lsp.buf.format, {})
+
+vim.api.nvim_create_user_command("Format", function()
+  vim.lsp.buf.format()
+end, { desc = "Format current buffer" })
+
+map("n", "<Esc>", "<cmd>noh<CR><cmd>lua require('notify').dismiss()<CR>", { noremap = true, silent = true })
+
+-- Define user command and keymap to auto-import
+local function add_missing_imports()
+  vim.lsp.buf.code_action({
+    apply = true,
+    filter = function(action)
+      return action.title:match("Add all missing imports")
+    end,
+  })
+end
+
+-- Create command :AddImports
+vim.api.nvim_create_user_command("AddImports", add_missing_imports, {})
+
+-- Keymap: <leader>i triggers missing imports
+map("n", "<leader>i", add_missing_imports, { desc = "Add missing imports" })
