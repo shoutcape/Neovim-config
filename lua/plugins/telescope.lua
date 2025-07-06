@@ -26,7 +26,31 @@ return {
       vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
       vim.keymap.set("n", "<leader>sm", ":Telescope harpoon marks<CR>", { desc = " Harpoon [M]arks" })
       vim.keymap.set("n", "<leader>rs", builtin.grep_string, {})
-      vim.keymap.set("n", "<leader>lr", builtin.lsp_references, {})
+      vim.keymap.set("n", "<leader>lr", function()
+        builtin.lsp_references({
+          fname_width = 70,
+          trim_text = true, -- Shows relative paths
+        })
+      end, { desc = "LSP references" })
+      vim.keymap.set("v", "<leader>rs", function()
+        local saved_reg = vim.fn.getreg('"')
+        local saved_regtype = vim.fn.getregtype('"')
+
+        -- Yank the selected text into the unnamed register
+        vim.cmd("normal! y")
+
+        -- Get the selected text
+        local selected_text = vim.fn.getreg('"')
+        -- Restore the register
+        vim.fn.setreg('"', saved_reg, saved_regtype)
+
+        require("telescope.builtin").grep_string({
+          search = selected_text,
+          word_match = "-w",
+          only_sort_text = true,
+          use_regex = false, -- Treat the search string literally, not as regex
+        })
+      end, { desc = "Grep string from visual selection" })
 
       require("telescope").setup({
         defaults = {
@@ -67,7 +91,7 @@ return {
             "LocalLow/*",
             "Packages/*",
             "CrossDevice/*",
-            "%.obsidian"
+            "%.obsidian",
           },
         },
         pickers = {

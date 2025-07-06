@@ -90,7 +90,7 @@ return {
       })
 
       -- General `on_attach` function
-      local on_attach = function(_client, bufnr)
+      local on_attach = function(client, bufnr)
         vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr })
         vim.keymap.set({ "n" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr })
       end

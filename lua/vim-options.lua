@@ -119,3 +119,31 @@ map("n", "<leader>rn", function()
 end, { expr = true })
 
 map("n", "<Esc>", "<cmd>noh<CR><cmd>lua require('notify').dismiss()<CR>", { noremap = true, silent = true })
+
+-- Define user command and keymap to auto-import
+local function add_missing_imports()
+  vim.lsp.buf.code_action({
+    apply = true,
+    filter = function(action)
+      -- Check for various possible title formats
+      return action.title:lower():match("missing imports") or
+             action.title:lower():match("import") or
+             action.title:lower():match("add imports")
+    end,
+    callback = function(_, _, result)
+      if not result or #result == 0 then
+        vim.notify("No import actions found", vim.log.levels.WARN)
+      else
+        vim.notify("Imports added successfully", vim.log.levels.INFO)
+      end
+    end
+  })
+end
+
+-- Create command :AddImports
+vim.api.nvim_create_user_command("AddImports", add_missing_imports, {})
+
+-- Optional: Add a convenient keymap
+vim.keymap.set('n', '<Leader>ai', add_missing_imports, { desc = 'Add missing imports' })
+
+
