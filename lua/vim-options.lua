@@ -139,6 +139,20 @@ map("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>") -- Show error i
 -- Terminal
 map("t", "<Esc>", "<C-\\><C-n>") -- Exit terminal mode
 
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "*",
+  callback = function(args)
+    local buf = args.buf
+    local name = vim.api.nvim_buf_get_name(buf)
+
+    -- If it's LazyGit (or any command with 'lazygit' in the path)
+    if name:lower():match("lazygit") then
+      -- Let <Esc> behave normally in lazygit terminal
+      vim.keymap.set("t", "<Esc>", "<Esc>", { buffer = buf })
+    end
+  end,
+})
+
 -- Quickfix List Navigation
 map("n", "<A-Down>", ":cnext<CR>")
 map("n", "<A-Up>", ":cprev<CR>")
