@@ -137,28 +137,45 @@ map("n", "<Esc>", "<cmd>noh<CR><cmd>lua require('notify').dismiss()<CR>", { nore
 
 -- Define user command and keymap to auto-import
 local function add_missing_imports()
-  vim.lsp.buf.code_action({
-    apply = true,
-    filter = function(action)
-      -- Check for various possible title formats
-      return action.title:lower():match("missing imports") or
-             action.title:lower():match("import") or
-             action.title:lower():match("add imports")
-    end,
-    callback = function(_, _, result)
-      if not result or #result == 0 then
-        vim.notify("No import actions found", vim.log.levels.WARN)
-      else
-        vim.notify("Imports added successfully", vim.log.levels.INFO)
+  vim.wait(250, function()
+    return #vim.diagnostic.get(0) > 0
+  end, 10, false)
+  local params = vim.lsp.util.make_range_params()
+  params.context = { diagnostics = vim.diagnostic.get(0) }
+
+  local results = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
+  if not results or vim.tbl_isempty(results) then
+    vim.notify("No LSP response", vim.log.levels.WARN)
+    return
+  end
+
+  for client_id, result in pairs(results) do
+    for _, action in ipairs(result.result or {}) do
+      local title = action.title:lower()
+      if title:find("missing imports") or title:find("add imports") or title:find("import") then
+        local client = vim.lsp.get_client_by_id(client_id)
+
+        if action.edit or type(action.command) == "table" then
+          -- If it's a codeAction with edits
+          vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
+        end
+
+        if action.command then
+          vim.lsp.buf.execute_command(action.command)
+        end
+
+        vim.notify("✅ Imports added: " .. action.title, vim.log.levels.INFO)
+        return
       end
     end
-  })
+  end
+
+  vim.notify("⚠️ No import actions found", vim.log.levels.WARN)
 end
+
 
 -- Create command :AddImports
 vim.api.nvim_create_user_command("AddImports", add_missing_imports, {})
 
 -- Optional: Add a convenient keymap
 vim.keymap.set('n', '<Leader>ai', add_missing_imports, { desc = 'Add missing imports' })
-
-
