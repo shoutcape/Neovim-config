@@ -78,6 +78,20 @@ map("n", "ö", "<C-v>")
 map("t", "<Esc>", "<C-\\><C-n>")
 map("n", "<space>e", vim.diagnostic.open_float)
 
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "*",
+  callback = function(args)
+    local buf = args.buf
+    local name = vim.api.nvim_buf_get_name(buf)
+
+    -- If it's LazyGit (or any command with 'lazygit' in the path)
+    if name:lower():match("lazygit") then
+      -- Let <Esc> behave normally in lazygit terminal
+      vim.keymap.set("t", "<Esc>", "<Esc>", { buffer = buf })
+    end
+  end,
+})
+
 -- ToggleTerm bindings
 map("n", "<leader>ö", ":1ToggleTerm<CR>")
 map("n", "<leader>ä", ":2ToggleTerm<CR>")
@@ -96,6 +110,7 @@ map("n", "<leader>cc", ":let @+ = expand('%:h')<CR>")
 
 -- Run Python in terminal
 map("n", "<A-a>", ':TermExec cmd="python %:p" dir=%:h size=10 direction=horizontal<CR>')
+
 
 -- Obsidian and CopilotChat
 map("n", "<leader>cn", ":ObsidianNew<CR>")
