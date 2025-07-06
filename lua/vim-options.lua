@@ -101,10 +101,10 @@ map("n", "Å", ":b#<CR>")                -- Last used buffer
 map("n", "<F6>", "<C-w>o:bdelete!<CR>") -- Close buffer and other splits
 
 -- Search
-map("n", "*", "*N")                                               -- Search word without moving cursor
-map("n", "/", ":noh<CR>/")                                        -- Reset highlight on new search
-map("n", "<leader>rn", ":%s/<c-r><c-w>/<c-r><c-w>/g<Left><Left>") -- Find and replace word under cursor
-map("v", "<leader>rn", '"zy:%s/<C-r>z/<C-r>z/g<Left><Left>')      -- Find and replace visual selection
+map("n", "*", "*N")                                                                   -- Search word without moving cursor
+map("n", "/", ":noh<CR>/")                                                            -- Reset highlight on new search
+map("n", "<leader>rn", ":%s/<c-r><c-w>/<c-r><c-w>/g<Left><Left>", { silent = false }) -- Find and replace word under cursor
+map("v", "<leader>rn", '"zy:%s/<C-r>z/<C-r>z/g<Left><Left>', { silent = false })      -- Find and replace visual selection
 
 -- Scroll and Navigation
 map("n", "<PageUp>", "<C-u>")
