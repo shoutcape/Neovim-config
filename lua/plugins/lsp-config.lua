@@ -1,8 +1,6 @@
 return {
-  -- Mason: LSP server installer UI
   {
-    "mason-org/mason.nvim",
-    cmd = "Mason",
+    "williamboman/mason.nvim",
     opts = {
       ui = {
         border = "rounded",
@@ -10,77 +8,61 @@ return {
     },
   },
 
-  -- Bridge mason <-> lspconfig
   {
-    "mason-org/mason-lspconfig.nvim",
-    dependencies = {
-      "mason-org/mason.nvim",
-      "neovim/nvim-lspconfig",
+    "williamboman/mason-lspconfig.nvim",
+    opts = {
+      ensure_installed = {
+        "lua_ls",
+        "cssls",
+        "html",
+        "jsonls",
+        "pyright",
+        "tailwindcss",
+        "eslint",
+      },
     },
-    opts = {},
   },
 
-  -- TypeScript Tools for faster performance in large projects
   {
     "pmizio/typescript-tools.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
     ft = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
-    config = function()
-      -- Set up typescript-tools.nvim
-      require("typescript-tools").setup({
-        server = {
-          on_attach = function(client, bufnr)
-            if client.name == "ts_ls" then
-              client.server_capabilities.documentFormattingProvider = false
-            end
-            vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "LSP Hover" })
-            vim.keymap.set(
-              "n",
-              "<leader>ca",
-              vim.lsp.buf.code_action,
-              { buffer = bufnr, desc = "LSP Code Action" }
-            )
-          end,
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {
+      settings = {
+        tsserver_plugins = {
+          "@styled/typescript-styled-plugin",
         },
-        settings = {
-          tsserver_plugins = {
-            "@styled/typescript-styled-plugin", -- Optional: for styled-components support
-          },
-          tsserver_max_memory = "auto",   -- Auto-adjust memory for tsserver
-          tsserver_format_options = {
-            allowIncompleteCompletions = false,
-            allowRenameOfImportPath = false,
-          },
-          tsserver_file_preferences = {
-            includeInlayParameterNameHints = "all",
-            includeCompletionsForModuleExports = true,
-            quotePreference = "auto", -- Choose between single/double quotes
-          },
+        tsserver_max_memory = "auto",
+        tsserver_format_options = {
+          allowIncompleteCompletions = false,
+          allowRenameOfImportPath = false,
         },
-      })
-    end,
+        tsserver_file_preferences = {
+          includeInlayParameterNameHints = "all",
+          includeCompletionsForModuleExports = true,
+          quotePreference = "auto",
+        },
+      },
+    },
   },
 
-  -- Core LSP config for other servers (non-TS servers)
   {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile" },
     config = function()
       local lspconfig = require("lspconfig")
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      -- Diagnostic settings (same as before)
+      -- 🌟 Set custom floating window borders globally
       vim.diagnostic.config({
         float = {
           border = {
-            { "󰀦", "FloatBorder" },
-            { "▔", "FloatBorder" },
-            { "󰀦", "FloatBorder" },
-            { "▕", "FloatBorder" },
-            { "󰀦", "FloatBorder" },
-            { "▁", "FloatBorder" },
-            { "󰀦", "FloatBorder" },
-            { "▏", "FloatBorder" },
+            { "╭", "FloatBorder" },
+            { "─", "FloatBorder" },
+            { "╮", "FloatBorder" },
+            { "│", "FloatBorder" },
+            { "╯", "FloatBorder" },
+            { "─", "FloatBorder" },
+            { "╰", "FloatBorder" },
+            { "│", "FloatBorder" },
           },
           source = "always",
           prefix = function(_, i, total)
@@ -89,45 +71,43 @@ return {
         },
       })
 
-      -- General `on_attach` function
-      local on_attach = function(_client, bufnr)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr })
-        vim.keymap.set({ "n" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr })
-      end
+      -- Set up LSP servers manually
+      lspconfig.lua_ls.setup({
+        settings = {
+          Lua = {
+            diagnostics = { globals = { "vim" } },
+            workspace = { checkThirdParty = false },
+            telemetry = { enable = false },
+          },
+        },
+      })
 
-      -- Server setup for other languages (CSS, HTML, Python, etc.)
-      local servers = {
-        cssls = {
-          settings = {
-            css = {
-              lint = { unknownAtRules = "ignore" },
-            },
+      lspconfig.cssls.setup({
+        settings = {
+          css = {
+            lint = { unknownAtRules = "ignore" },
           },
         },
-        html = {},
-        pyright = {},
-        tailwindcss = {
-          settings = {
-            tailwindCSS = {
-              lint = { unknownAtRules = "ignore" },
-            },
-          },
-        },
-        lua_ls = {},
-        eslint = {
-          settings = {
-            workingDirectory = { mode = "auto" },
-          },
-        },
-      }
+      })
 
-      -- Loop over servers and apply configurations
-      for server, config in pairs(servers) do
-        lspconfig[server].setup(vim.tbl_deep_extend("force", {
-          capabilities = capabilities,
-          on_attach = on_attach,
-        }, config))
-      end
+      -- lspconfig.ts_ls.setup({})
+      lspconfig.html.setup({})
+      lspconfig.jsonls.setup({})
+      lspconfig.pyright.setup({})
+
+      lspconfig.tailwindcss.setup({
+        settings = {
+          tailwindCSS = {
+            lint = { unknownAtRules = "ignore" },
+          },
+        },
+      })
+
+      lspconfig.eslint.setup({
+        settings = {
+          workingDirectory = { mode = "auto" },
+        },
+      })
     end,
   },
 }

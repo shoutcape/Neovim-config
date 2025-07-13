@@ -26,7 +26,7 @@ return {
       end, { desc = "Find in ~/work" })
 
       vim.keymap.set("n", "<leader>fv", function()
-        local ok = pcall(builtin.git_files, { cwd = paths.nvim })
+        local ok = pcall(builtin.find_files, { cwd = paths.nvim })
         if not ok then
           builtin.find_files({ cwd = paths.nvim })
         end
