@@ -1,65 +1,120 @@
 return {
-	{
-		"nvim-lualine/lualine.nvim",
-		event = "VeryLazy",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		config = function()
-			require("lualine").setup({
-				options = {
-					icons_enabled = true,
-					theme = "dracula",
-					component_separators = { left = "", right = "" },
-					section_separators = { left = "", right = "" },
-					globalstatus = true,
-					disabled_filetypes = {
-						statusline = {},
-						winbar = {},
-					},
-					refresh = {
-						statusline = 100,
-						tabline = 100,
-						winbar = 100,
-					},
-				},
+  {
+    "letieu/harpoon-lualine",
+    event = "VeryLazy",
+    dependencies = {
+      {
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        event = "VeryLazy",
+      },
+    },
+  },
 
-				sections = {
-					lualine_a = { "mode" },
-					lualine_b = { "branch", "diff", "diagnostics" },
-					lualine_c = { { "filename", path = 3 } },
-					lualine_x = {},
-					lualine_y = { "progress" },
-					lualine_z = { "filetype" },
-				},
+  {
+    "nvim-lualine/lualine.nvim",
+    event = "VeryLazy",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      local lualine = require("lualine")
 
-				inactive_sections = {
-					lualine_a = {},
-					lualine_b = {},
-					lualine_c = { { "filename", path = 1 } },
-					lualine_x = { "location" },
-					lualine_y = {},
-					lualine_z = {},
-				},
+      local mode = {
+        'mode',
+        fmt = function(str)
+          -- Replace the returnable value with' ' or use a custom unicode
+          -- displays only the first character of the mode
+          return '\u{49000}' .. str
+        end,
+      }
 
-				tabline = {
-					lualine_a = {
-						{
-							"buffers",
-							show_filename_only = true,
-							max_length = 150,
-							symbols = {
-								modified = " ",
-								alternate_file = "󰮲 ",
-								directory = "",
-							},
-						},
-					},
-				},
+      local colors = {
+        color0 = "#00aa46",
+        color1 = "#ffffff",
+        color2 = "#c3ccdc",
+        color3 = "#1c1e26",
+        color6 = "#a1aab8",
+        color7 = "#828697",
+        color8 = "#ae81ff",
+      }
+      local my_lualine_theme = {
+        replace = {
+          a = { fg = colors.color0, bg = colors.color1, gui = "bold" },
+          b = { fg = colors.color2, bg = colors.color3 },
+        },
+        inactive = {
+          a = { fg = colors.color6, bg = colors.color3, gui = "bold" },
+          b = { fg = colors.color6, bg = colors.color3 },
+          c = { fg = colors.color6, bg = colors.color3 },
+        },
+        normal = {
+          a = { fg = colors.color0, bg = colors.color1, gui = "bold" },
+          b = { fg = colors.color2, bg = colors.color3 },
+          c = { fg = colors.color2, bg = colors.color3 },
+        },
+        visual = {
+          a = { fg = colors.color0, bg = colors.color1, gui = "bold" },
+          b = { fg = colors.color2, bg = colors.color3 },
+        },
+        insert = {
+          a = { fg = colors.color0, bg = colors.color1, gui = "bold" },
+          b = { fg = colors.color2, bg = colors.color3 },
+        },
+      }
 
-				winbar = {},
-				inactive_winbar = {},
+      lualine.setup({
+        options = {
+          icons_enabled = true,
+          theme = my_lualine_theme,
+          component_separators = { left = "", right = "" },
+          section_separators = { left = "", right = "" },
+          globalstatus = true,
+          disabled_filetypes = {
+            statusline = {},
+            winbar = {},
+          },
+          refresh = {
+            statusline = 100,
+            tabline = 100,
+            winbar = 100,
+          },
+        },
 
-				extensions = { "lazy", "mason", "neo-tree", "fugitive", "nvim-dap-ui" },
-			})
-		end,
-	},
+        sections = {
+          lualine_a = { mode },
+          lualine_c = { "filename" },
+          lualine_x = {
+            {
+              "harpoon2",
+              indicators = { "h", "j", "k", "l" },
+              active_indicators = { "[H]", "[J]", "[K]", "[L]" },
+              no_harpoon = "Harpoon not loaded",
+              -- optional highlight if using `LualineHarpoonActive`
+              -- color = "LualineHarpoonActive",
+            },
+          },
+          lualine_y = { "progress" },
+          lualine_z = { "filetype" },
+        },
+
+
+        tabline = {
+          lualine_a = {
+            {
+              "buffers",
+              show_filename_only = true,
+              max_length = 150,
+              symbols = {
+                modified = " ",
+                alternate_file = "󰮲 ",
+                directory = "",
+              },
+            },
+          },
+        },
+
+        winbar = {},
+        inactive_winbar = {},
+      })
+    end,
+  },
 }
