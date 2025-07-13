@@ -1,17 +1,26 @@
 return {
-  "windwp/nvim-autopairs",
-  event = "InsertEnter",
-  opts = {
-    disable_filetype = { "TelescopePrompt", "spectre_panel" },
-  },
-  config = function(_, opts)
-    require("nvim-autopairs").setup(opts)
+    "windwp/nvim-autopairs",
+    event = { "InsertEnter" },
+    dependencies = {
+        "hrsh7th/nvim-cmp",
+    },
+    config = function()
+        local autopairs = require("nvim-autopairs") -- import nvim-autopairs
 
-    -- cmp integration
-    local cmp_status, cmp = pcall(require, "cmp")
-    if cmp_status then
-      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-    end
-  end,
+        -- setup autopairs
+        autopairs.setup({
+            check_ts = true, -- treesitter enabled
+            ts_config = {
+                lua = { "string" }, -- dont add pairs in lua string treesitter nodes
+                javascript = { "template_string" }, -- dont add pairs in javscript template_string treesitter nodes
+                java = false, -- dont check treesitter on java
+            },
+        })
+        -- import nvim-autopairs completion functionality
+        local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+        -- import nvim-cmp plugin (completions plugin)
+        local cmp = require("cmp")
+        -- make autopairs and completion work together
+        cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+    end,
 }
