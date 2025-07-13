@@ -48,22 +48,5 @@ return {
       render = "minimal",
       minimum_width = 10,
     })
-
-    -- Integrate Noice status into lualine's tabline
-    local has_noice, noice_api = pcall(require, "noice.api.statusline.mode")
-    if has_noice and require("lualine") then
-      local lualine = require("lualine")
-      lualine.setup({
-        tabline = {
-          lualine_x = {
-            {
-              noice_api.get,
-              cond = noice_api.has,
-              color = { fg = "#ff9e64" },
-            },
-          },
-        },
-      })
-    end
   end,
 }
