@@ -16,10 +16,55 @@ return {
     event = "VeryLazy",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-      require("lualine").setup({
+      local lualine = require("lualine")
+
+      local mode = {
+        'mode',
+        fmt = function(str)
+          -- Replace the returnable value with' ' or use a custom unicode
+          -- displays only the first character of the mode
+          return '\u{49000}' .. str
+        end,
+      }
+
+      local colors = {
+        color0 = "#00aa46",
+        color1 = "#ffffff",
+        color2 = "#c3ccdc",
+        color3 = "#1c1e26",
+        color6 = "#a1aab8",
+        color7 = "#828697",
+        color8 = "#ae81ff",
+      }
+      local my_lualine_theme = {
+        replace = {
+          a = { fg = colors.color0, bg = colors.color1, gui = "bold" },
+          b = { fg = colors.color2, bg = colors.color3 },
+        },
+        inactive = {
+          a = { fg = colors.color6, bg = colors.color3, gui = "bold" },
+          b = { fg = colors.color6, bg = colors.color3 },
+          c = { fg = colors.color6, bg = colors.color3 },
+        },
+        normal = {
+          a = { fg = colors.color0, bg = colors.color1, gui = "bold" },
+          b = { fg = colors.color2, bg = colors.color3 },
+          c = { fg = colors.color2, bg = colors.color3 },
+        },
+        visual = {
+          a = { fg = colors.color0, bg = colors.color1, gui = "bold" },
+          b = { fg = colors.color2, bg = colors.color3 },
+        },
+        insert = {
+          a = { fg = colors.color0, bg = colors.color1, gui = "bold" },
+          b = { fg = colors.color2, bg = colors.color3 },
+        },
+      }
+
+      lualine.setup({
         options = {
           icons_enabled = true,
-          theme = "dracula",
+          theme = my_lualine_theme,
           component_separators = { left = "", right = "" },
           section_separators = { left = "", right = "" },
           globalstatus = true,
@@ -35,14 +80,13 @@ return {
         },
 
         sections = {
-          lualine_a = { "mode" },
-          lualine_b = { "branch", "diff", "diagnostics" },
-          lualine_c = { { "filename", path = 3 } },
+          lualine_a = { mode },
+          lualine_c = { "filename" },
           lualine_x = {
             {
               "harpoon2",
-              indicators = { "j", "k", "l", "ö" },
-              active_indicators = { "[J]", "[K]", "[L]", "[Ö]" },
+              indicators = { "h", "j", "k", "l" },
+              active_indicators = { "[H]", "[J]", "[K]", "[L]" },
               no_harpoon = "Harpoon not loaded",
               -- optional highlight if using `LualineHarpoonActive`
               -- color = "LualineHarpoonActive",
@@ -52,14 +96,6 @@ return {
           lualine_z = { "filetype" },
         },
 
-        inactive_sections = {
-          lualine_a = {},
-          lualine_b = {},
-          lualine_c = { { "filename", path = 1 } },
-          lualine_x = { "location" },
-          lualine_y = {},
-          lualine_z = {},
-        },
 
         tabline = {
           lualine_a = {
@@ -78,8 +114,6 @@ return {
 
         winbar = {},
         inactive_winbar = {},
-
-        extensions = { "lazy", "mason", "neo-tree", "fugitive", "nvim-dap-ui" },
       })
     end,
   },
