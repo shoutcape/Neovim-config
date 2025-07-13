@@ -38,7 +38,7 @@ return {
       }
       local my_lualine_theme = {
         replace = {
-          a = { fg = colors.color0, bg = colors.color1, gui = "bold" },
+          a = { fg = colors.color0, bg = colors.color1 },
           b = { fg = colors.color2, bg = colors.color3 },
         },
         inactive = {

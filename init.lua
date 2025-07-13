@@ -17,6 +17,7 @@ end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
 require("vim-options")
+require("neovide")
 require("lazy").setup({
 	spec = {
 		{ import = "plugins" },
@@ -29,3 +30,7 @@ require("lazy").setup({
 		border = "rounded",
 	},
 })
+
+
+
+
