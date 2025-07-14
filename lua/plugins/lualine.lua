@@ -57,6 +57,22 @@ return {
         path = 1,
       }
 
+      local harpoon = {
+        "harpoon2",
+        indicators = { "h", "j", "k", "l" },
+        active_indicators = { "[H]", "[J]", "[K]", "[L]" },
+        no_harpoon = "Harpoon not loaded",
+        -- optional highlight if using `LualineHarpoonActive`
+        -- color = "LualineHarpoonActive",
+      }
+
+      local datetime = {
+        "datetime",
+        -- You can customize the datetime format here if needed
+        -- fmt = function(str) return "🕒 " .. str end,
+        separator = { left = "", right = "\u{49000}" }, -- Custom separator just for this component
+      }
+
       vim.api.nvim_set_hl(0, "LualineBuffersActive", { fg = "#ffffff", bg = "#185339", bold = true })
       vim.api.nvim_set_hl(0, "LualineBuffersInactive", { fg = "#004628", bg = "#eafaf3" })
 
@@ -66,35 +82,40 @@ return {
         normal = {
           a = { fg = colors.vibrant_green, bg = colors.pure_white },
           b = { fg = colors.pure_white, bg = colors.darkest_green, gui = "bold" },
-          c = { fg = colors.text_green, bg = colors.pale_green },
+          c = { fg = colors.pure_white, bg = colors.light_green },
+          x = { fg = colors.text_green, bg = colors.pale_green },
           y = { fg = colors.pure_white, bg = colors.light_green },
           z = { fg = colors.pure_white, bg = colors.darkest_green }
         },
         insert = {
           a = { fg = colors.pure_white, bg = colors.soft_green },
           b = { fg = colors.pure_white, bg = colors.darkest_green, gui = "bold" },
-          c = { fg = colors.text_green, bg = colors.pale_green },
+          c = { fg = colors.pure_white, bg = colors.light_green },
+          x = { fg = colors.text_green, bg = colors.pale_green },
           y = { fg = colors.pure_white, bg = colors.light_green },
           z = { fg = colors.pure_white, bg = colors.darkest_green }
         },
         visual = {
           a = { fg = colors.pure_white, bg = colors.medium_green },
           b = { fg = colors.pure_white, bg = colors.darkest_green, gui = "bold" },
-          c = { fg = colors.text_green, bg = colors.pale_green },
+          c = { fg = colors.pure_white, bg = colors.light_green },
+          x = { fg = colors.text_green, bg = colors.pale_green },
           y = { fg = colors.pure_white, bg = colors.light_green },
           z = { fg = colors.pure_white, bg = colors.darkest_green }
         },
         replace = {
           a = { fg = colors.pure_white, bg = colors.accent_red },
           b = { fg = colors.pure_white, bg = colors.darkest_green, gui = "bold" },
-          c = { fg = colors.text_green, bg = colors.pale_green },
+          c = { fg = colors.pure_white, bg = colors.light_green },
+          x = { fg = colors.text_green, bg = colors.pale_green },
           y = { fg = colors.pure_white, bg = colors.light_green },
           z = { fg = colors.pure_white, bg = colors.darkest_green }
         },
         inactive = {
           a = { fg = colors.light_gray, bg = colors.pale_green_1 },
           b = { fg = colors.light_gray, bg = colors.pale_green_2 },
-          c = { fg = colors.text_green, bg = colors.pale_green },
+          c = { fg = colors.pure_white, bg = colors.light_green },
+          x = { fg = colors.text_green, bg = colors.pale_green },
           y = { fg = colors.pure_white, bg = colors.light_green },
           z = { fg = colors.pure_white, bg = colors.darkest_green }
         },
@@ -121,18 +142,9 @@ return {
 
         sections = {
           lualine_a = { mode },
-          lualine_b = { diff },
-          lualine_c = { branch, filename },
-          lualine_x = {
-            {
-              "harpoon2",
-              indicators = { "h", "j", "k", "l" },
-              active_indicators = { "[H]", "[J]", "[K]", "[L]" },
-              no_harpoon = "Harpoon not loaded",
-              -- optional highlight if using `LualineHarpoonActive`
-              -- color = "LualineHarpoonActive",
-            },
-          },
+          lualine_b = { branch, diff },
+          lualine_c = { filename },
+          lualine_x = { datetime, harpoon },
           lualine_y = { "progress" },
           lualine_z = { "filetype" },
         },
