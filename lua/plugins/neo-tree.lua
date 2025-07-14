@@ -1,40 +1,40 @@
 return {
-  "nvim-neo-tree/neo-tree.nvim",
-  branch = "v3.x",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    "nvim-tree/nvim-web-devicons",
-    "MunifTanjim/nui.nvim",
-  },
-  lazy = false,
-  opts = {
-    filesystem = {
-      filtered_items = {
-        visible = true,
-        hide_dotfiles = false,
-        hide_gitignored = false,
-      },
-    },
-    window = {
-      mapping_options = {
-        noremap = true,
-        nowait = false,
-      },
-      mappings = {
-        ["<esc>"] = function()
-          require("notify").dismiss({ silent = true, pending = true })
-        end,
-      },
-    },
-    source_selector = {
-      winbar = true,
-      statusline = true,
-      sources = {
-        { source = "filesystem", display_name = " Files" },
-        { source = "buffers", display_name = " Buffers" },
-        { source = "git_status", display_name = " Git" },
-        { source = "document_symbols", display_name = " Symbols" },
-      },
-    },
-  },
+  -- "nvim-neo-tree/neo-tree.nvim",
+  -- branch = "v3.x",
+  -- dependencies = {
+  --   "nvim-lua/plenary.nvim",
+  --   "nvim-tree/nvim-web-devicons",
+  --   "MunifTanjim/nui.nvim",
+  -- },
+  -- lazy = false,
+  -- opts = {
+  --   filesystem = {
+  --     filtered_items = {
+  --       visible = true,
+  --       hide_dotfiles = false,
+  --       hide_gitignored = false,
+  --     },
+  --   },
+  --   window = {
+  --     mapping_options = {
+  --       noremap = true,
+  --       nowait = false,
+  --     },
+  --     mappings = {
+  --       ["<esc>"] = function()
+  --         require("notify").dismiss({ silent = true, pending = true })
+  --       end,
+  --     },
+  --   },
+  --   source_selector = {
+  --     winbar = true,
+  --     statusline = true,
+  --     sources = {
+  --       { source = "filesystem", display_name = " Files" },
+  --       { source = "buffers", display_name = " Buffers" },
+  --       { source = "git_status", display_name = " Git" },
+  --       { source = "document_symbols", display_name = " Symbols" },
+  --     },
+  --   },
+  -- },
 }

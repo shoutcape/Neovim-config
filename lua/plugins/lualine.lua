@@ -59,8 +59,8 @@ return {
 
       local harpoon = {
         "harpoon2",
-        indicators = { "h", "j", "k", "l" },
-        active_indicators = { "[H]", "[J]", "[K]", "[L]" },
+        indicators = { "j", "k", "l", "ö" },
+        active_indicators = { "[J]", "[K]", "[L]", "[Ö]" },
         no_harpoon = "Harpoon not loaded",
         -- optional highlight if using `LualineHarpoonActive`
         -- color = "LualineHarpoonActive",
@@ -70,7 +70,7 @@ return {
         "datetime",
         -- You can customize the datetime format here if needed
         -- fmt = function(str) return "🕒 " .. str end,
-        separator = { left = "", right = "\u{49000}" }, -- Custom separator just for this component
+        separator = { left = ""}, -- Custom separator just for this component
       }
 
       vim.api.nvim_set_hl(0, "LualineBuffersActive", { fg = "#ffffff", bg = "#185339", bold = true })

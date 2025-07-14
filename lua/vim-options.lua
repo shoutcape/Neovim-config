@@ -138,6 +138,7 @@ map("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>") -- Show error i
 
 -- Terminal
 map("t", "<Esc>", "<C-\\><C-n>") -- Exit terminal mode
+map("n", "ö", "<C-v>")
 
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "*",
@@ -228,4 +229,4 @@ end
 vim.api.nvim_create_user_command("AddImports", add_missing_imports, {})
 
 -- Optional: Add a convenient keymap
-vim.keymap.set('n', '<Leader>ai', add_missing_imports, { desc = 'Add missing imports' })
+vim.keymap.set('n', '<Leader>i', add_missing_imports, { desc = 'Add missing imports' })
