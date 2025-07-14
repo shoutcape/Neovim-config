@@ -8,7 +8,6 @@ return {
 	},
 	config = function()
 		local harpoon = require("harpoon")
-		local conf = require("telescope.config").values
 
 		harpoon:setup({
 			global_settings = {
@@ -16,26 +15,6 @@ return {
 				save_on_change = true,
 			},
 		})
-
-		-- NOTE: Experimenting
-		-- Telescope into Harpoon function
-		-- comment this function if you don't like it
-		-- local function toggle_telescope(harpoon_files)
-		-- 	local file_paths = {}
-		-- 	for _, item in ipairs(harpoon_files.items) do
-		-- 		table.insert(file_paths, item.value)
-		-- 	end
-		-- 	require("telescope.pickers")
-		-- 		.new({}, {
-		-- 			prompt_title = "Harpoon",
-		-- 			finder = require("telescope.finders").new_table({
-		-- 				results = file_paths,
-		-- 			}),
-		-- 			previewer = conf.file_previewer({}),
-		-- 			sorter = conf.generic_sorter({}),
-		-- 		})
-		-- 		:find()
-		-- end
 
 		--Harpoon Nav Interface
 		vim.keymap.set("n", "<leader>a", function()
@@ -46,16 +25,16 @@ return {
 		end)
 
 		--Harpoon marked files
-		vim.keymap.set("n", "<C-h>", function()
+		vim.keymap.set("n", "<C-j>", function()
 			harpoon:list():select(1)
 		end)
-		vim.keymap.set("n", "<C-j>", function()
+		vim.keymap.set("n", "<C-k>", function()
 			harpoon:list():select(2)
 		end)
-		vim.keymap.set("n", "<C-k>", function()
+		vim.keymap.set("n", "<C-l>", function()
 			harpoon:list():select(3)
 		end)
-		vim.keymap.set("n", "<C-l>", function()
+		vim.keymap.set("n", "<C-ö>", function()
 			harpoon:list():select(4)
 		end)
 
@@ -66,10 +45,5 @@ return {
 		vim.keymap.set("n", "<C-S-N>", function()
 			harpoon:list():next()
 		end)
-
-		-- Telescope inside Harpoon Window
-		-- vim.keymap.set("n", "<C-f>", function()
-		-- 	toggle_telescope(harpoon:list())
-		-- end)
 	end,
 }

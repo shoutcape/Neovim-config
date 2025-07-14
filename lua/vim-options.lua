@@ -59,7 +59,6 @@ map("n", "Ö", ":bprevious<CR>")
 map("n", "Ä", ":bnext<CR>")
 map("n", "Å", ":b#<CR>")
 map("n", "<C-G>", "<C-]>")
-map("n", "<C-F4>", "<C-w>o:bdelete!<CR>")
 
 -- Visual selection tweaks
 map("n", "vie", "maggVG")
@@ -71,12 +70,11 @@ map("v", "K", ":m '<-2<CR>gv=gv")
 -- Misc movement
 map("n", "<PageUp>", "<C-u>")
 map("n", "<PageDown>", "<C-d>")
-map("n", "<leader><leader>s", "Ea<CR><BS><Esc>")
 map("n", "ö", "<C-v>")
 
 -- Terminal and diagnostics
 map("t", "<Esc>", "<C-\\><C-n>")
-map("n", "<space>e", vim.diagnostic.open_float)
+map("n", "<leader>e", vim.diagnostic.open_float)
 
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "*",
@@ -178,4 +176,4 @@ end
 vim.api.nvim_create_user_command("AddImports", add_missing_imports, {})
 
 -- Optional: Add a convenient keymap
-vim.keymap.set('n', '<Leader>ai', add_missing_imports, { desc = 'Add missing imports' })
+vim.keymap.set('n', '<Leader>i', add_missing_imports, { desc = 'Add missing imports' })
