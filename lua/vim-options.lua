@@ -98,7 +98,7 @@ map("n", "<C-Right>", ":vertical resize -6<CR>") -- Decrease window width
 map("n", "Ö", ":bprevious<CR>")         -- Previous buffer
 map("n", "Ä", ":bnext<CR>")             -- Next buffer
 map("n", "Å", ":b#<CR>")                -- Last used buffer
-map("n", "<F6>", "<C-w>o:bdelete!<CR>") -- Close buffer and other splits
+-- map("n", "<F6>", "<C-w>o:bdelete!<CR>") -- Close buffer and other splits
 
 -- Search
 map("n", "*", "*N")                                                                   -- Search word without moving cursor

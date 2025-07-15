@@ -20,8 +20,8 @@ return {
 
     return {
       -- Keep existing snacks keybindings
-      { "<C-F4>", function() snacks.bufdelete() end, desc = "Delete buffer" },
-      { "<leader><space>", function() snacks.picker.smart() end, desc = "Smart Find Files" },
+      { "<F6>", function() snacks.bufdelete() end, desc = "Delete buffer" },
+      { "<leader><leader>", function() snacks.picker.smart() end, desc = "Smart Find Files" },
       { "<leader>n", function() snacks.explorer() end, desc = "File Explorer" },
       { "<Leader>ff", function() snacks.picker.files() end, desc = "Find Files" },
       { "<Leader>fp", function() snacks.picker.files({ cwd = custom_paths.github }) end, desc = "Find files in Github folder" },
