@@ -119,7 +119,6 @@ map("n", "ö", "<C-v>")       -- Visual block mode
 -- Editing
 map("v", "J", ":m '>+1<CR>gv=gv")                -- Move selected lines down
 map("v", "K", ":m '<-2<CR>gv=gv")                -- Move selected lines up
-map("n", "<leader><leader>s", "Ea<CR><BS><Esc>") -- New line at next whitespace
 map("n", "<leader>u", "mzu'z")                   -- Undo keeping cursor position
 map("n", "<leader>U", "mz<C-r>'z")               -- Redo keeping cursor position
 map("x", "<leader>p", '"_dP')                    -- Paste without yanking
