@@ -42,6 +42,28 @@ for _, lhs in ipairs(nops) do
   map("n", lhs, "<Nop>")
 end
 
+-- Toggle quickfix window
+local function toggle_quickfix()
+  local qf_exists = false
+  for _, win in pairs(vim.fn.getwininfo()) do
+    if win.quickfix == 1 then
+      qf_exists = true
+      break
+    end
+  end
+
+  if qf_exists then
+    vim.cmd("cclose")
+  else
+    vim.cmd("copen")
+  end
+end
+
+-- Quickfix List Navigation
+map("n", "<A-Down>", ":cnext<CR>")
+map("n", "<A-Up>", ":cprev<CR>")
+map("n", "<leader>q", toggle_quickfix) -- Toggle quickfix window
+
 -- Navigation between windows
 for _, mode in ipairs({ "n", "v" }) do
   map(mode, "<A-h>", "<C-w>h")
