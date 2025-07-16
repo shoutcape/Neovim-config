@@ -183,8 +183,6 @@ vim.api.nvim_create_user_command("Format", function()
   vim.lsp.buf.format()
 end, { desc = "Format current buffer" })
 
-map("n", "<Esc>", "<cmd>noh<CR><cmd>lua require('notify').dismiss()<CR>", { noremap = true, silent = true })
-
 -- Define user command and keymap to auto-import
 local function add_missing_imports()
   vim.wait(250, function()

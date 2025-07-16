@@ -14,8 +14,8 @@ return {
 
     -- Define your custom paths
     local custom_paths = {
-      github = "~/Documents/Github",
-      nvim = "~/AppData/Local/nvim"
+      github = "~/work",
+      nvim = "~/.config/nvim"
     }
 
     return {
@@ -67,7 +67,7 @@ return {
       { "<leader>S",  function() snacks.scratch.select() end, desc = "Select Scratch Buffer" },
       { "<leader>cR", function() snacks.rename.rename_file() end, desc = "Rename File" },
       { "<leader>lg", function() snacks.lazygit() end, desc = "Lazygit" },
-      { "<Esc>", function() snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
+      { "<Esc>", function() vim.cmd("nohlsearch") snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
     }
   end,
 }

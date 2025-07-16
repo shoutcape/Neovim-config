@@ -23,28 +23,28 @@ return {
     },
   },
 
-  {
-    "pmizio/typescript-tools.nvim",
-    ft = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
-    dependencies = { "nvim-lua/plenary.nvim" },
-    opts = {
-      settings = {
-        tsserver_plugins = {
-          "@styled/typescript-styled-plugin",
-        },
-        tsserver_max_memory = "auto",
-        tsserver_format_options = {
-          allowIncompleteCompletions = false,
-          allowRenameOfImportPath = false,
-        },
-        tsserver_file_preferences = {
-          includeInlayParameterNameHints = "all",
-          includeCompletionsForModuleExports = true,
-          quotePreference = "auto",
-        },
-      },
-    },
-  },
+  -- {
+  --   "pmizio/typescript-tools.nvim",
+  --   ft = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
+  --   dependencies = { "nvim-lua/plenary.nvim" },
+  --   opts = {
+  --     settings = {
+  --       tsserver_plugins = {
+  --         "@styled/typescript-styled-plugin",
+  --       },
+  --       tsserver_max_memory = "auto",
+  --       tsserver_format_options = {
+  --         allowIncompleteCompletions = false,
+  --         allowRenameOfImportPath = false,
+  --       },
+  --       tsserver_file_preferences = {
+  --         includeInlayParameterNameHints = "all",
+  --         includeCompletionsForModuleExports = true,
+  --         quotePreference = "auto",
+  --       },
+  --     },
+  --   },
+  -- },
 
   {
     "neovim/nvim-lspconfig",
