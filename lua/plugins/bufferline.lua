@@ -180,7 +180,7 @@ return {
         -- Warning diagnostics indicator
         warning = {
           fg = "#fff781",
-          bg = colors.light_green,
+          bg = colors.pure_white,
         },
         -- Warning diagnostics in selected buffer
         warning_selected = {
