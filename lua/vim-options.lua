@@ -95,15 +95,9 @@ map("n", "<C-Left>", ":vertical resize +6<CR>")  -- Increase window width
 map("n", "<C-Right>", ":vertical resize -6<CR>") -- Decrease window width
 
 -- Buffer Navigation
-map("n", "Ö", ":bprevious<CR>")         -- Previous buffer
-map("n", "Ä", ":bnext<CR>")             -- Next buffer
-map("n", "Å", ":b#<CR>")                -- Last used buffer
--- map("n", "<F6>", "<C-w>o:bdelete!<CR>") -- Close buffer and other splits
--- Buffers and tags
--- map("n", "Ö", ":bprevious<CR>")
--- map("n", "Ä", ":bnext<CR>")
 map("n", "Å", ":b#<CR>")
 map("n", "<C-G>", "<C-]>")
+
 
 map("n", "Ö", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
 map("n", "Ä", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
@@ -128,16 +122,16 @@ map("n", "yie", "maggVGy`a") -- Yank entire file
 map("n", "ö", "<C-v>")       -- Visual block mode
 
 -- Editing
-map("v", "J", ":m '>+1<CR>gv=gv")                -- Move selected lines down
-map("v", "K", ":m '<-2<CR>gv=gv")                -- Move selected lines up
-map("n", "<leader>u", "mzu'z")                   -- Undo keeping cursor position
-map("n", "<leader>U", "mz<C-r>'z")               -- Redo keeping cursor position
-map("x", "<leader>p", '"_dP')                    -- Paste without yanking
+map("v", "J", ":m '>+1<CR>gv=gv")  -- Move selected lines down
+map("v", "K", ":m '<-2<CR>gv=gv")  -- Move selected lines up
+map("n", "<leader>u", "mzu'z")     -- Undo keeping cursor position
+map("n", "<leader>U", "mz<C-r>'z") -- Redo keeping cursor position
+map("x", "<leader>p", '"_dP')      -- Paste without yanking
 
 -- Clipboard Integration
-map("v", "<C-c>", '"*y') -- Copy to system clipboard
-map("n", "<C-v>", '"*p') -- Paste from system clipboard
-map("v", "<C-v>", '"*p') -- Paste from system clipboard in visual mode
+map("v", "<D-c>", '"*y') -- Copy to system clipboard
+map("n", "<D-v>", '"*p') -- Paste from system clipboard
+map("v", "<D-v>", '"*p') -- Paste from system clipboard in visual mode
 
 -- Backspace Behavior
 map("i", "<C-BS>", "<C-W>")                     -- Control-Backspace in insert mode
@@ -164,13 +158,10 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end,
 })
 
--- Clipboard mappings
-map("v", "<C-c>", '"*y')
-map("n", "<C-v>", '"*p')
-map("v", "<C-v>", '"*p')
-
--- Insert mode enhancements
-map("i", "<C-BS>", "<C-W>")
+-- Quickfix List Navigation
+map("n", "<A-Down>", ":cnext<CR>")
+map("n", "<A-Up>", ":cprev<CR>")
+map("n", "<leader>q", toggle_quickfix) -- Toggle quickfix window
 
 -- Current file/path utils
 map("n", "<F18>", ":cd %:h<CR><cmd>echo getcwd()<CR>")
