@@ -77,14 +77,14 @@ map("n", "*", "*N")
 map("n", "/", ":noh<CR>/")
 
 -- Buffers and tags
-map("n", "Ö", ":bprevious<CR>")
-map("n", "Ä", ":bnext<CR>")
+-- map("n", "Ö", ":bprevious<CR>")
+-- map("n", "Ä", ":bnext<CR>")
 map("n", "Å", ":b#<CR>")
 map("n", "<C-G>", "<C-]>")
 
--- map("n", "<leader>bp", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
--- map("n", "<leader>bn", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
--- map("n", "<leader>bc", "<cmd>BufferLinePickClose<CR>", { desc = "Close buffer" })
+map("n", "Ö", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
+map("n", "Ä", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
+map("n", "<leader>b", "<cmd>BufferLinePick<CR>", { desc = "Close buffer" })
 -- map("n", "<leader>bh", "<cmd>BufferLineCloseLeft<CR>", { desc = "Close all to the left" })
 -- map("n", "<leader>bl", "<cmd>BufferLineCloseRight<CR>", { desc = "Close all to the right" })
 
@@ -117,10 +117,6 @@ vim.api.nvim_create_autocmd("TermOpen", {
     end
   end,
 })
-
--- ToggleTerm bindings
-map("n", "<leader>ö", ":1ToggleTerm<CR>")
-map("n", "<leader>ä", ":2ToggleTerm<CR>")
 
 -- Clipboard mappings
 map("v", "<C-c>", '"*y')

@@ -25,6 +25,7 @@ return {
         mode = "buffers",
         separator_style = "slant",
         always_show_bufferline = true,
+        themable = true,
         indicator = {
           style = "icon",
         },
@@ -58,6 +59,10 @@ return {
           return not vim.tbl_contains(excluded_ft, ft)
         end,
 
+        pick = {
+          alphabet = "abcdefghijklmopqrstuvwxyz",
+        },
+
         -- Add offset for special buffers to maintain main window width
         offsets = {
           {
@@ -75,8 +80,6 @@ return {
           -- Add other special filetypes as needed
         },
 
-        -- Keep current buffer visible even when not focused
-        focus_on_delete = "prev",
       },
       highlights = {
         -- Empty space in the bufferline
@@ -128,8 +131,8 @@ return {
         },
         -- Close button of visible but not focused buffer
         close_button_visible = {
-          fg = colors.pure_white,
-          bg = colors.light_green,
+          fg = colors.darkest_green,
+          bg = colors.pure_white,
         },
         -- Buffer indicator for selected buffer
         indicator_selected = {
@@ -165,22 +168,30 @@ return {
         },
         -- Error diagnostics indicator
         error = {
-          fg = "#ff0000",
+          fg = colors.accent_red,
+          sp = colors.accent_red,
           bg = colors.light_green,
+        },
+        tab_separator_selected = {
+          fg = colors.pure_white,
+          bg = colors.darkest_green,
+          sp = colors.medium_green, -- Special color for decoration
+          underline = true, -- Enable underlining (or specify a color)
         },
         -- Error diagnostics in selected buffer
         error_selected = {
-          fg = "#ff0000",
+          fg = colors.accent_red,
+          sp = colors.accent_red,
           bg = colors.darkest_green,
         },
         -- Warning diagnostics indicator
         warning = {
-          fg = "#ffaa00",
+          fg = "#fff781",
           bg = colors.light_green,
         },
         -- Warning diagnostics in selected buffer
         warning_selected = {
-          fg = "#ffaa00",
+          fg = "#fff781",
           bg = colors.darkest_green,
         },
         -- Info diagnostics indicator
