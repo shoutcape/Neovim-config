@@ -1,11 +1,5 @@
+-- Git diff signs and blame info
 return {
-  -- Git command interface
-  {
-    "tpope/vim-fugitive",
-    event = "VeryLazy",
-  },
-
-  -- Git diff signs and blame info
   {
     "lewis6991/gitsigns.nvim",
     event = "VeryLazy",
