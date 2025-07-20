@@ -49,7 +49,7 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      local lspconfig = require("lspconfig")
+      -- local lspconfig = require("lspconfig")
 
       -- 🌟 Set custom floating window borders globally
       vim.diagnostic.config({
@@ -72,42 +72,42 @@ return {
       })
 
       -- Set up LSP servers manually
-      lspconfig.lua_ls.setup({
-        settings = {
-          Lua = {
-            diagnostics = { globals = { "vim" } },
-            workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
-          },
-        },
-      })
+      -- lspconfig.lua_ls.setup({
+      --   settings = {
+      --     Lua = {
+      --       diagnostics = { globals = { "vim" } },
+      --       workspace = { checkThirdParty = false },
+      --       telemetry = { enable = false },
+      --     },
+      --   },
+      -- })
 
-      lspconfig.cssls.setup({
-        settings = {
-          css = {
-            lint = { unknownAtRules = "ignore" },
-          },
-        },
-      })
+      -- lspconfig.cssls.setup({
+      --   settings = {
+      --     css = {
+      --       lint = { unknownAtRules = "ignore" },
+      --     },
+      --   },
+      -- })
 
       -- lspconfig.ts_ls.setup({})
-      lspconfig.html.setup({})
-      lspconfig.jsonls.setup({})
-      lspconfig.pyright.setup({})
+      -- lspconfig.html.setup({})
+      -- lspconfig.jsonls.setup({})
+      -- lspconfig.pyright.setup({})
+      --
+      -- lspconfig.tailwindcss.setup({
+      --   settings = {
+      --     tailwindCSS = {
+      --       lint = { unknownAtRules = "ignore" },
+      --     },
+      --   },
+      -- })
 
-      lspconfig.tailwindcss.setup({
-        settings = {
-          tailwindCSS = {
-            lint = { unknownAtRules = "ignore" },
-          },
-        },
-      })
-
-      lspconfig.eslint.setup({
-        settings = {
-          workingDirectory = { mode = "auto" },
-        },
-      })
+      -- lspconfig.eslint.setup({
+      --   settings = {
+      --     workingDirectory = { mode = "auto" },
+      --   },
+      -- })
     end,
   },
 }
