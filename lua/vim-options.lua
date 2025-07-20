@@ -99,6 +99,17 @@ map("n", "Ö", ":bprevious<CR>")         -- Previous buffer
 map("n", "Ä", ":bnext<CR>")             -- Next buffer
 map("n", "Å", ":b#<CR>")                -- Last used buffer
 -- map("n", "<F6>", "<C-w>o:bdelete!<CR>") -- Close buffer and other splits
+-- Buffers and tags
+-- map("n", "Ö", ":bprevious<CR>")
+-- map("n", "Ä", ":bnext<CR>")
+map("n", "Å", ":b#<CR>")
+map("n", "<C-G>", "<C-]>")
+
+map("n", "Ö", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
+map("n", "Ä", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
+map("n", "<leader>b", "<cmd>BufferLinePick<CR>", { desc = "Close buffer" })
+-- map("n", "<leader>bh", "<cmd>BufferLineCloseLeft<CR>", { desc = "Close all to the left" })
+-- map("n", "<leader>bl", "<cmd>BufferLineCloseRight<CR>", { desc = "Close all to the right" })
 
 -- Search
 map("n", "*", "*N")                                                                   -- Search word without moving cursor
@@ -153,14 +164,29 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end,
 })
 
--- Quickfix List Navigation
-map("n", "<A-Down>", ":cnext<CR>")
-map("n", "<A-Up>", ":cprev<CR>")
-map("n", "<leader>q", toggle_quickfix) -- Toggle quickfix window
+-- Clipboard mappings
+map("v", "<C-c>", '"*y')
+map("n", "<C-v>", '"*p')
+map("v", "<C-v>", '"*p')
 
--- Directory Operations
-map("n", "<F18>", ":cd %:h<CR><cmd>echo getcwd()<CR>")                    -- CD to current file dir
-map("n", "<leader>cc", ":let @+ = expand('%:h')<CR>", { silent = false }) -- Copy current dir path
+-- Insert mode enhancements
+map("i", "<C-BS>", "<C-W>")
+
+-- Current file/path utils
+map("n", "<F18>", ":cd %:h<CR><cmd>echo getcwd()<CR>")
+map("n", "<leader>cc", ":let @+ = expand('%:h')<CR>")
+
+-- Run Python in terminal
+map("n", "<A-a>", ':TermExec cmd="python %:p" dir=%:h size=10 direction=horizontal<CR>')
+
+
+-- Obsidian and CopilotChat
+map("n", "<leader>cn", ":ObsidianNew<CR>")
+map({ "n", "v" }, "<leader>cp", function()
+  require("CopilotChat").toggle({ selection = require("CopilotChat.select").visual })
+end)
+-- Custom PowerShell script launcher (Windows)
+map("n", "<leader>sh", ":!powershell C:\\Users\\kauti\\autodevenv.ps1<CR>")
 
 -- Copilot Chat
 map(
