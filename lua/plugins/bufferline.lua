@@ -18,7 +18,7 @@ return {
       pale_green_3 = "#eafaf3",  -- Very light pale green for inactive
       text_green = "#004628",
       darkest_green = "#185339",
-      pastel_blue = "#8cbbea" -- Pastel blue for hint diagnostics
+      pastel_blue = "#3065a9"    -- Darker blue for hint diagnostics (was #8cbbea)
     }
 
     require("bufferline").setup({
@@ -43,7 +43,7 @@ return {
         tab_size = 20,
 
         -- Exclude special buffers from the bufferline
-        custom_filter = function(buf_number)
+        custom_filter = function(buf_number, buf)
           -- Exclude special buffer types
           local excluded_ft = {
             "help",
@@ -205,7 +205,7 @@ return {
         },
         -- Hint diagnostics in selected buffer
         hint_selected = {
-          fg = colors.pastel_blue, -- Changed from light_green to pastel_blue
+          fg = "#8cbbea", -- Changed from light_green to pastel_blue
           bg = colors.darkest_green,
         },
         -- Tab styling (when using tabs mode)
