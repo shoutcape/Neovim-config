@@ -35,6 +35,7 @@ return {
         diagnostics = "nvim_lsp",
         show_buffer_icons = true,
         show_buffer_close_icons = true,
+        show_duplicate_prefix = false,
         show_close_icon = true,
         enforce_regular_tabs = false,
         max_name_length = 30,
@@ -156,8 +157,8 @@ return {
         },
         -- Duplicate filename formatting
         duplicate = {
-          fg = colors.light_gray,
-          bg = colors.light_green,
+          fg = colors.darkest_green,
+          bg = colors.pure_white,
           italic = true,
         },
         -- Duplicate filename in selected buffer
@@ -169,19 +170,11 @@ return {
         -- Error diagnostics indicator
         error = {
           fg = colors.accent_red,
-          sp = colors.accent_red,
           bg = colors.light_green,
-        },
-        tab_separator_selected = {
-          fg = colors.pure_white,
-          bg = colors.darkest_green,
-          sp = colors.medium_green, -- Special color for decoration
-          underline = true, -- Enable underlining (or specify a color)
         },
         -- Error diagnostics in selected buffer
         error_selected = {
           fg = colors.accent_red,
-          sp = colors.accent_red,
           bg = colors.darkest_green,
         },
         -- Warning diagnostics indicator
