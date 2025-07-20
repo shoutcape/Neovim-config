@@ -179,12 +179,12 @@ return {
         },
         -- Warning diagnostics indicator
         warning = {
-          fg = "#fff781",
+          fg = "#e6c700",
           bg = colors.pure_white,
         },
         -- Warning diagnostics in selected buffer
         warning_selected = {
-          fg = "#fff781",
+          fg = "#e6c700",
           bg = colors.darkest_green,
         },
         -- Info diagnostics indicator
