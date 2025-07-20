@@ -44,6 +44,20 @@ return {
         end,
       }
 
+      local recording = {
+        "macro",
+        fmt = function()
+          local recording_register = vim.fn.reg_recording()
+          if recording_register == "" then
+            return ""
+          else
+            return "RECORDING " .. recording_register
+          end
+        end,
+        color = { bg = colors.accent_red, fg = colors.pale_green },
+        separators = { left = "", right = "" },
+      }
+
       local diff = {
         'diff',
         colored = true,
@@ -70,7 +84,7 @@ return {
         "datetime",
         -- You can customize the datetime format here if needed
         -- fmt = function(str) return "🕒 " .. str end,
-        separator = { left = ""}, -- Custom separator just for this component
+        separator = { left = "" }, -- Custom separator just for this component
       }
 
       vim.api.nvim_set_hl(0, "LualineBuffersActive", { fg = "#ffffff", bg = "#185339", bold = true })
@@ -141,7 +155,7 @@ return {
         },
 
         sections = {
-          lualine_a = { mode },
+          lualine_a = { mode, recording },
           lualine_b = { branch, diff },
           lualine_c = { filename },
           lualine_x = { datetime, harpoon },
