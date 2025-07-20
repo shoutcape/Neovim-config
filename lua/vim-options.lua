@@ -82,6 +82,12 @@ map("n", "Ä", ":bnext<CR>")
 map("n", "Å", ":b#<CR>")
 map("n", "<C-G>", "<C-]>")
 
+-- map("n", "<leader>bp", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
+-- map("n", "<leader>bn", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
+-- map("n", "<leader>bc", "<cmd>BufferLinePickClose<CR>", { desc = "Close buffer" })
+-- map("n", "<leader>bh", "<cmd>BufferLineCloseLeft<CR>", { desc = "Close all to the left" })
+-- map("n", "<leader>bl", "<cmd>BufferLineCloseRight<CR>", { desc = "Close all to the right" })
+
 -- Visual selection tweaks
 map("n", "vie", "maggVG")
 map("n", "yie", "maggVGy`a")

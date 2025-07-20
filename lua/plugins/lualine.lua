@@ -101,7 +101,7 @@ return {
           y = { fg = colors.pure_white, bg = colors.light_green },
           z = { fg = colors.pure_white, bg = colors.darkest_green }
         },
-        insert = {
+       insert = {
           a = { fg = colors.pure_white, bg = colors.soft_green },
           b = { fg = colors.pure_white, bg = colors.darkest_green, gui = "bold" },
           c = { fg = colors.pure_white, bg = colors.light_green },
@@ -163,24 +163,24 @@ return {
           lualine_z = { "filetype" },
         },
 
-        tabline = {
-          lualine_a = {
-            {
-              "buffers",
-              show_filename_only = true,
-              max_length = 250,
-              symbols = {
-                modified = " ",
-                alternate_file = "󰮲 ",
-                directory = "",
-              },
-              buffers_color = {
-                active = "LualineBuffersActive",
-                inactive = "LualineBuffersInactive",
-              },
-            },
-          },
-        },
+        -- tabline = {
+        --   lualine_a = {
+        --     {
+        --       "buffers",
+        --       show_filename_only = true,
+        --       max_length = 250,
+        --       symbols = {
+        --         modified = " ",
+        --         alternate_file = "󰮲 ",
+        --         directory = "",
+        --       },
+        --       buffers_color = {
+        --         active = "LualineBuffersActive",
+        --         inactive = "LualineBuffersInactive",
+        --       },
+        --     },
+        --   },
+        -- },
 
         winbar = {},
         inactive_winbar = {},
