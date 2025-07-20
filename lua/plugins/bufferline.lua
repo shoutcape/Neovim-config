@@ -29,7 +29,7 @@ return {
         indicator = {
           style = "icon",
         },
-        modified_icon = " ",
+        modified_icon = "✏️",
         left_trunc_marker = "",
         right_trunc_marker = "",
         diagnostics = "nvim_lsp",
@@ -90,7 +90,7 @@ return {
         },
         -- Regular buffer (not selected)
         background = {
-          fg = colors.text_green,
+          fg = colors.darkest_green,
           bg = colors.pure_white,
         },
         -- Currently focused buffer
@@ -102,7 +102,7 @@ return {
         },
         -- Buffer in a non-current window
         buffer_visible = {
-          fg = colors.text_green,
+          fg = colors.darkest_green,
           bg = colors.pure_white,
         },
         -- The separator between buffer tabs
@@ -122,7 +122,7 @@ return {
         },
         -- Close button of non-selected buffers
         close_button = {
-          fg = colors.text_green,
+          fg = colors.darkest_green,
           bg = colors.pure_white,
         },
         -- Close button of the selected buffer
@@ -152,7 +152,7 @@ return {
         },
         -- Modified indicator for visible but not focused buffer
         modified_visible = {
-          fg = colors.text_green,
+          fg = colors.darkest_green,
           bg = colors.pure_white,
         },
         -- Duplicate filename formatting
