@@ -18,6 +18,7 @@ return {
       pale_green_3 = "#eafaf3",  -- Very light pale green for inactive
       text_green = "#004628",
       darkest_green = "#185339",
+      pastel_blue = "#8cbbea" -- Pastel blue for hint diagnostics
     }
 
     require("bufferline").setup({
@@ -90,7 +91,7 @@ return {
         },
         -- Regular buffer (not selected)
         background = {
-          fg = colors.darkest_green,
+          fg = colors.text_green,
           bg = colors.pure_white,
         },
         -- Currently focused buffer
@@ -102,7 +103,7 @@ return {
         },
         -- Buffer in a non-current window
         buffer_visible = {
-          fg = colors.darkest_green,
+          fg = colors.text_green,
           bg = colors.pure_white,
         },
         -- The separator between buffer tabs
@@ -122,7 +123,7 @@ return {
         },
         -- Close button of non-selected buffers
         close_button = {
-          fg = colors.darkest_green,
+          fg = colors.text_green,
           bg = colors.pure_white,
         },
         -- Close button of the selected buffer
@@ -132,7 +133,7 @@ return {
         },
         -- Close button of visible but not focused buffer
         close_button_visible = {
-          fg = colors.darkest_green,
+          fg = colors.text_green,
           bg = colors.pure_white,
         },
         -- Buffer indicator for selected buffer
@@ -152,12 +153,12 @@ return {
         },
         -- Modified indicator for visible but not focused buffer
         modified_visible = {
-          fg = colors.darkest_green,
+          fg = colors.text_green,
           bg = colors.pure_white,
         },
         -- Duplicate filename formatting
         duplicate = {
-          fg = colors.darkest_green,
+          fg = colors.text_green,
           bg = colors.pure_white,
           italic = true,
         },
@@ -199,12 +200,12 @@ return {
         },
         -- Hint diagnostics indicator
         hint = {
-          fg = colors.light_green,
-          bg = colors.light_green,
+          fg = colors.pastel_blue, -- Changed from light_green to pastel_blue
+          bg = colors.pure_white,
         },
         -- Hint diagnostics in selected buffer
         hint_selected = {
-          fg = colors.light_green,
+          fg = colors.pastel_blue, -- Changed from light_green to pastel_blue
           bg = colors.darkest_green,
         },
         -- Tab styling (when using tabs mode)
