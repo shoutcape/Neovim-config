@@ -10,10 +10,11 @@ if vim.g.neovide then
 	vim.g.neovide_cursor_animation_length = 0.100
 
   --color/transparency
-  local tranparency = 0.88
+  local tranparency = 0.68
   -- vim.g.transparency = 0.88
-	-- vim.g.neovide_opacity = 0.73
+	vim.g.neovide_opacity = 0.83
   vim.g.neovide_background_color = ("#2D2A2E" .. string.format("%x", math.floor(((255 * tranparency) or 0.8))))
+  -- vim.g.neovide_background_color = "#2D2A2E"
 
 	RefreshGuiFont = function()
 		vim.opt.guifont = string.format("%s:h%s", vim.g.gui_font_face, vim.g.gui_font_size)
