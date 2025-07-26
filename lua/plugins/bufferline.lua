@@ -171,7 +171,7 @@ return {
         -- Error diagnostics indicator
         error = {
           fg = colors.accent_red,
-          bg = colors.light_green,
+          bg = colors.pure_white,
         },
         -- Error diagnostics in selected buffer
         error_selected = {
