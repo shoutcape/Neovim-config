@@ -129,6 +129,7 @@ map("x", "<leader>p", '"_dP') -- Paste without yanking
 
 -- Clipboard Integration
 map("v", "<D-c>", '"*y') -- Copy to system clipboard
+map("v", "<C-c>", '"*y') -- Copy to system clipboard "Ghostty"
 map("n", "<D-v>", '"*p') -- Paste from system clipboard
 map("v", "<D-v>", '"*p') -- Paste from system clipboard in visual mode
 
