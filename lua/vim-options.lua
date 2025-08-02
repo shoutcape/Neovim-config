@@ -19,6 +19,7 @@ vim.opt.termguicolors = true
 vim.opt.incsearch = true
 vim.opt.scrolloff = 20
 vim.opt.autoread = true
+vim.opt.cursorline = true
 
 ------------------------------------------------------------------------------
 -- AUTOCOMMANDS
