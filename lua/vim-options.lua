@@ -13,6 +13,7 @@ vim.opt.incsearch = true
 vim.opt.scrolloff = 20
 vim.opt.termguicolors = true
 vim.opt.autoread = true
+vim.opt.cursorline = true
 
 -- Auto reload on file changes
 local autoread_group = vim.api.nvim_create_augroup("AutoReadCheck", { clear = true })

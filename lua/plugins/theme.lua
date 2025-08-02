@@ -26,7 +26,15 @@ return {
         comments = { "italic" },
         conditionals = { "italic" },
       },
-      custom_highlights = {},
+      custom_highlights = function(colors)
+        return {
+          Comment = { fg = colors.flamingo },
+          TabLineSel = { bg = colors.green },
+          CmpBorder = { fg = colors.surface2 },
+          CursorLineNr = { fg = '#32a874', bold = true },
+          CursorLine = { bg = '#2f3c30' },
+        }
+      end,
       color_overrides = {
         mocha = { -- or whichever flavor you're using
           base = "#2D2A2E"
