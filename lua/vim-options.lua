@@ -67,42 +67,38 @@ map("n", "<leader>q", toggle_quickfix, {desc = "Toggle QfList"}) -- Toggle quick
 
 -- Navigation between windows
 for _, mode in ipairs({ "n", "v" }) do
-  map(mode, "<A-h>", "<C-w>h")
-  map(mode, "<A-j>", "<C-w>j")
-  map(mode, "<A-k>", "<C-w>k")
-  map(mode, "<A-l>", "<C-w>l")
+  map(mode, "<A-h>", "<C-w>h", { desc = "Move to left window" })
+  map(mode, "<A-j>", "<C-w>j", { desc = "Move to window below" })
+  map(mode, "<A-k>", "<C-w>k", { desc = "Move to window above" })
+  map(mode, "<A-l>", "<C-w>l", { desc = "Move to right window" })
 end
 
 -- Better search behavior
-map("n", "*", "*N")
-map("n", "/", ":noh<CR>/")
+map("n", "*", "*N", { desc = "Search word under cursor and go to previous match" })
+map("n", "/", ":noh<CR>/", { desc = "Clear highlights and start search" })
 
 -- Buffers and tags
--- map("n", "Ö", ":bprevious<CR>")
--- map("n", "Ä", ":bnext<CR>")
-map("n", "Å", ":b#<CR>")
-map("n", "<C-G>", "<C-]>")
+map("n", "Å", ":b#<CR>", { desc = "Switch to previously edited buffer" })
+map("n", "<C-G>", "<C-]>", { desc = "Go to tag definition" })
 
 map("n", "Ö", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
 map("n", "Ä", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
-map("n", "<leader>b", "<cmd>BufferLinePick<CR>", { desc = "Close buffer" })
--- map("n", "<leader>bh", "<cmd>BufferLineCloseLeft<CR>", { desc = "Close all to the left" })
--- map("n", "<leader>bl", "<cmd>BufferLineCloseRight<CR>", { desc = "Close all to the right" })
+map("n", "<leader>b", "<cmd>BufferLinePick<CR>", { desc = "Select buffer" })
 
 -- Visual selection tweaks
-map("n", "vie", "maggVG")
-map("n", "yie", "maggVGy`a")
-map("x", "<leader>p", '"_dP')
-map("v", "J", ":m '>+1<CR>gv=gv")
-map("v", "K", ":m '<-2<CR>gv=gv")
+map("n", "vie", "maggVG", { desc = "Select entire file content" })
+map("n", "yie", "maggVGy`a", { desc = "Copy entire file content" })
+map("x", "<leader>p", '"_dP', { desc = "Paste without overwriting register" })
+map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selected lines down" })
+map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selected lines up" })
 
 -- Misc movement
-map("n", "<PageUp>", "<C-u>")
-map("n", "<PageDown>", "<C-d>")
-map("n", "ö", "<C-v>")
+map("n", "<PageUp>", "<C-u>", { desc = "Page up (half screen)" })
+map("n", "<PageDown>", "<C-d>", { desc = "Page down (half screen)" })
+map("n", "ö", "<C-v>", { desc = "Enter visual block mode" })
 
 -- Terminal and diagnostics
-map("t", "<Esc>", "<C-\\><C-n>")
+map("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 map("n", "<leader>e", vim.diagnostic.open_float, {desc = "Open Diagnostic Float"})
 
 vim.api.nvim_create_autocmd("TermOpen", {
@@ -139,7 +135,7 @@ map("n", "<A-a>", ':TermExec cmd="python %:p" dir=%:h size=10 direction=horizont
 map("n", "<leader>cn", ":ObsidianNew<CR>")
 map({ "n", "v" }, "<leader>cp", function()
   require("CopilotChat").toggle({ selection = require("CopilotChat.select").visual })
-end)
+end, { desc = "Toggle CopilotChat"})
 -- Custom PowerShell script launcher (Windows)
 map("n", "<leader>sh", ":!powershell C:\\Users\\kauti\\autodevenv.ps1<CR>")
 
@@ -150,11 +146,11 @@ map(
   { noremap = true, silent = true, desc = "Toggle NeoTree" }
 )
 
-map("n", "<leader>gf", vim.lsp.buf.format, {})
+map("n", "<leader>gf", vim.lsp.buf.format, { desc = "Format current buffer with LSP" })
 
 map("n", "<leader>rn", function()
   return ":IncRename " .. vim.fn.expand("<cword>")
-end, { expr = true })
+end, { desc = "Rename in current file", expr = true })
 
 map("n", "<Esc>", "<cmd>noh<CR><cmd>lua require('notify').dismiss()<CR>", { noremap = true, silent = true })
 
