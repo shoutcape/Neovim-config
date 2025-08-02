@@ -62,7 +62,7 @@ end
 -- Quickfix List Navigation
 map("n", "<A-Down>", ":cnext<CR>")
 map("n", "<A-Up>", ":cprev<CR>")
-map("n", "<leader>q", toggle_quickfix) -- Toggle quickfix window
+map("n", "<leader>q", toggle_quickfix, {desc = "Toggle QfList"}) -- Toggle quickfix window
 
 -- Navigation between windows
 for _, mode in ipairs({ "n", "v" }) do
@@ -102,7 +102,7 @@ map("n", "ö", "<C-v>")
 
 -- Terminal and diagnostics
 map("t", "<Esc>", "<C-\\><C-n>")
-map("n", "<leader>e", vim.diagnostic.open_float)
+map("n", "<leader>e", vim.diagnostic.open_float, {desc = "Open Diagnostic Float"})
 
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "*",
