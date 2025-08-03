@@ -9,5 +9,8 @@ return {
       -- options, see Configuration section below
       -- there are no required options atm
     });
-  end
+  end,
+
+  -- Keymaps
+  vim.keymap.set({ "n", "v" }, "<leader>gr", ":GrugFar<CR>",  {desc = "Open GrugFar"})
 }
