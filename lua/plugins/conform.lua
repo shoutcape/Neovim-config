@@ -36,5 +36,9 @@ return {
         extra_args = { "-i", "2", "-ci" },
       },
     },
-  }
+  },
+  vim.keymap.set({ "n", "v" }, "<leader>gf", function(client, bufnr)
+    vim.lsp.buf.format()
+    require("conform").format({ bufnr })
+  end, { desc = "Format buffer or selection" })
 }

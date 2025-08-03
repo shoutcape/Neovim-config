@@ -63,7 +63,7 @@ end
 -- Quickfix List Navigation
 map("n", "<A-Down>", ":cnext<CR>")
 map("n", "<A-Up>", ":cprev<CR>")
-map("n", "<leader>q", toggle_quickfix, {desc = "Toggle QfList"}) -- Toggle quickfix window
+map("n", "<leader>q", toggle_quickfix, { desc = "Toggle QfList" }) -- Toggle quickfix window
 
 -- Navigation between windows
 for _, mode in ipairs({ "n", "v" }) do
@@ -105,7 +105,7 @@ map("n", "ö", "<C-v>", { desc = "Enter visual block mode" })
 
 -- Terminal and diagnostics
 map("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
-map("n", "<leader>e", vim.diagnostic.open_float, {desc = "Open Diagnostic Float"})
+map("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open Diagnostic Float" })
 
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "*",
@@ -141,7 +141,7 @@ map("n", "<A-a>", ':TermExec cmd="python %:p" dir=%:h size=10 direction=horizont
 map("n", "<leader>cn", ":ObsidianNew<CR>")
 map({ "n", "v" }, "<leader>cp", function()
   require("CopilotChat").toggle({ selection = require("CopilotChat.select").visual })
-end, { desc = "Toggle CopilotChat"})
+end, { desc = "Toggle CopilotChat" })
 -- Custom PowerShell script launcher (Windows)
 map("n", "<leader>sh", ":!powershell C:\\Users\\kauti\\autodevenv.ps1<CR>")
 
@@ -152,11 +152,10 @@ map(
   { noremap = true, silent = true, desc = "Toggle NeoTree" }
 )
 
-map("n", "<leader>gf", vim.lsp.buf.format, { desc = "Format current buffer with LSP" })
-
-map("n", "<leader>rn", function()
-  return ":IncRename " .. vim.fn.expand("<cword>")
-end, { desc = "Rename in current file", expr = true })
+map("n", "<leader>rn", ":%s/<c-r><c-w>/<c-r><c-w>/g<Left><Left>",
+  { desc = "Find and replace word under cursor", silent =  false })
+map("v", "<leader>rn", '"zy:%s/<C-r>z/<C-r>z/g<Left><Left>',
+  { desc = "Find and replace visual selection", silent = false })
 
 map("n", "<Esc>", "<cmd>noh<CR><cmd>lua require('notify').dismiss()<CR>", { noremap = true, silent = true })
 
