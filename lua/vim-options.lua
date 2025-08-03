@@ -79,15 +79,20 @@ map("n", "S", "<Nop>")
 map("n", "<C-v>", "<Nop>")
 map("n", "<C-G>", "<Nop>")
 
--- Window Navigation
-map("n", "<C-h>", "<C-w>h") -- Move focus to the left window
-map("n", "<C-j>", "<C-w>j") -- Move focus to the window below
-map("n", "<C-k>", "<C-w>k") -- Move focus to the window above
-map("n", "<C-l>", "<C-w>l") -- Move focus to the right window
-map("v", "<C-h>", "<C-w>h") -- Same for visual mode
-map("v", "<C-j>", "<C-w>j")
-map("v", "<C-k>", "<C-w>k")
-map("v", "<C-l>", "<C-w>l")
+-- Navigation between windows
+for _, mode in ipairs({ "n", "v" }) do
+  map(mode, "<C-h>", "<C-w>h", { desc = "Move to left window"  })
+  map(mode, "<C-j>", "<C-w>j", { desc = "Move to window below" })
+  map(mode, "<C-k>", "<C-w>k", { desc = "Move to window above" })
+  map(mode, "<C-l>", "<C-w>l", { desc = "Move to right window" })
+
+  -- Move windows (splits) around with Shift + Ctrl
+  map(mode, "<C-S-h>", "<C-w>H") { desc = "Move window to the far left" }
+  map(mode, "<C-S-j>", "<C-w>J") { desc = "Move window to the bottom" }
+  map(mode, "<C-S-k>", "<C-w>K") { desc = "Move window to the top" }
+  map(mode, "<C-S-l>", "<C-w>L") { desc = "Move window to the far right" }
+end
+
 
 -- Window Resizing
 map("n", "<C-Down>", ":resize +6<CR>") -- Increase window height
