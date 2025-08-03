@@ -71,6 +71,12 @@ for _, mode in ipairs({ "n", "v" }) do
   map(mode, "<A-j>", "<C-w>j", { desc = "Move to window below" })
   map(mode, "<A-k>", "<C-w>k", { desc = "Move to window above" })
   map(mode, "<A-l>", "<C-w>l", { desc = "Move to right window" })
+
+  -- Move windows (splits) around with Shift + Ctrl
+  map(mode, "<C-S-h>", "<C-w>H") -- Move window to the far left
+  map(mode, "<C-S-j>", "<C-w>J") -- Move window to the bottom
+  map(mode, "<C-S-k>", "<C-w>K") -- Move window to the top
+  map(mode, "<C-S-l>", "<C-w>L") -- Move window to the far right
 end
 
 -- Better search behavior
