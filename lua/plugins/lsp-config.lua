@@ -2,9 +2,7 @@ return {
   {
     "williamboman/mason.nvim",
     opts = {
-      ui = {
-        border = "rounded",
-      },
+      ui = { border = "rounded" },
     },
   },
 
@@ -19,6 +17,23 @@ return {
         "pyright",
         "tailwindcss",
         "eslint",
+        "ts_ls",
+      },
+      handlers = {
+        -- Default handler (applies to every server unless overridden below)
+        function(server)
+          require("lspconfig")[server].setup({})
+        end,
+
+        -- Per-server override(s)
+        ts_ls = function()
+          require("lspconfig").ts_ls.setup({
+            init_options = {
+              -- give the TypeScript server more memory
+              maxTsServerMemory = 8192, -- try 4096 first if 8GiB is too much
+            },
+          })
+        end,
       },
     },
   },
@@ -26,9 +41,7 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      local lspconfig = require("lspconfig")
-
-      -- 🌟 Set custom floating window borders globally
+      -- custom diagnostic float UI
       vim.diagnostic.config({
         float = {
           border = {
@@ -47,6 +60,7 @@ return {
           end,
         },
       })
+      -- no direct server setups here; mason-lspconfig handles those via handlers
     end,
   },
 }
