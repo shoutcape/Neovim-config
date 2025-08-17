@@ -1,29 +1,62 @@
 -- Set leader early to avoid remap issues
 vim.g.mapleader = " "
 
-------------------------------------------------------------------------------
--- EDITOR OPTIONS
-------------------------------------------------------------------------------
+-- Basic settings
+vim.opt.number = true                              -- Line numbers
+vim.opt.relativenumber = true                      -- Relative line numbers
+vim.opt.cursorline = true                          -- Highlight current line
+vim.opt.wrap = true                               -- Don't wrap lines
+vim.opt.scrolloff = 20                             -- Keep 10 lines above/below cursor 
+vim.opt.sidescrolloff = 8                          -- Keep 8 columns left/right of cursor
+
 -- Indentation
-vim.opt.expandtab = true
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2                                -- Tab width
+vim.opt.shiftwidth = 2                             -- Indent width
+vim.opt.softtabstop = 2                            -- Soft tab stop
+vim.opt.expandtab = true                           -- Use spaces instead of tabs
+vim.opt.smartindent = true                         -- Smart auto-indenting
+vim.opt.autoindent = true                          -- Copy indent from current line
 
--- Display
-vim.opt.conceallevel = 1
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.termguicolors = true
+-- Search settings
+vim.opt.ignorecase = true                          -- Case insensitive search
+vim.opt.smartcase = true                           -- Case sensitive if uppercase in search
+vim.opt.hlsearch = true                           -- Don't highlight search results 
+vim.opt.incsearch = true                           -- Show matches as you type
 
--- Behavior
-vim.opt.incsearch = true
-vim.opt.scrolloff = 20
-vim.opt.autoread = true
-vim.opt.cursorline = true
+-- Visual settings
+vim.opt.termguicolors = true                       -- Enable 24-bit colors
+vim.opt.signcolumn = "yes"                         -- Always show sign column
+vim.opt.showmatch = true                           -- Highlight matching brackets
+vim.opt.matchtime = 2                              -- How long to show matching bracket
+vim.opt.completeopt = "menuone,noinsert,noselect"  -- Completion options 
+vim.opt.conceallevel = 0                           -- Don't hide markup, show all text as is
+vim.opt.concealcursor = ""                         -- Don't hide cursor line markup 
+vim.opt.synmaxcol = 300                            -- Syntax highlighting limit 
 
-------------------------------------------------------------------------------
--- AUTOCOMMANDS
-------------------------------------------------------------------------------
+
+-- File handling
+vim.opt.backup = false                             -- Don't create backup files
+vim.opt.writebackup = false                        -- Don't create backup before writing
+vim.opt.swapfile = false                           -- Don't create swap files
+vim.opt.undofile = true                            -- Persistent undo
+vim.opt.undodir = vim.fn.expand("~/.vim/undodir")  -- Undo directory
+vim.opt.updatetime = 300                           -- Faster completion
+vim.opt.timeoutlen = 500                           -- Key timeout duration
+vim.opt.ttimeoutlen = 0                            -- Key code timeout
+vim.opt.autoread = true                            -- Auto reload files changed outside vim
+vim.opt.autowrite = false                          -- Don't auto save
+
+-- Behavior settings
+vim.opt.hidden = true                              -- Allow hidden buffers
+vim.opt.errorbells = false                         -- No error bells
+vim.opt.backspace = "indent,eol,start"             -- Better backspace behavior
+vim.opt.autochdir = false                          -- Don't auto change directory
+vim.opt.iskeyword:append("-")                      -- Treat dash as part of word
+vim.opt.selection = "exclusive"                    -- Selection behavior
+vim.opt.mouse = "a"                                -- Enable mouse support
+-- vim.opt.clipboard:append("unnamedplus")            -- Use system clipboard, as normal
+vim.opt.encoding = "UTF-8"                         -- Set encoding, emojis etc.
+
 -- Auto reload on file changes
 local autoread_group = vim.api.nvim_create_augroup("AutoReadCheck", { clear = true })
 vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "InsertEnter", "FocusGained" }, {
@@ -41,10 +74,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-------------------------------------------------------------------------------
--- HELPER FUNCTIONS
-------------------------------------------------------------------------------
--- Shorthand for setting keymaps
+-- Shorthand 
 local map = function(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", { noremap = true, silent = true }, opts or {}))
 end
