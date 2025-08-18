@@ -5,9 +5,7 @@ vim.g.mapleader = " "
 vim.opt.number = true                              -- Line numbers
 vim.opt.relativenumber = true                      -- Relative line numbers
 vim.opt.cursorline = true                          -- Highlight current line
-vim.opt.wrap = true                               -- Don't wrap lines
 vim.opt.scrolloff = 20                             -- Keep 10 lines above/below cursor 
-vim.opt.sidescrolloff = 8                          -- Keep 8 columns left/right of cursor
 
 -- Indentation
 vim.opt.tabstop = 2                                -- Tab width
@@ -38,8 +36,6 @@ vim.opt.synmaxcol = 300                            -- Syntax highlighting limit
 vim.opt.backup = false                             -- Don't create backup files
 vim.opt.writebackup = false                        -- Don't create backup before writing
 vim.opt.swapfile = false                           -- Don't create swap files
-vim.opt.undofile = true                            -- Persistent undo
-vim.opt.undodir = vim.fn.expand("~/.vim/undodir")  -- Undo directory
 vim.opt.updatetime = 300                           -- Faster completion
 vim.opt.timeoutlen = 500                           -- Key timeout duration
 vim.opt.ttimeoutlen = 0                            -- Key code timeout
@@ -47,15 +43,9 @@ vim.opt.autoread = true                            -- Auto reload files changed 
 vim.opt.autowrite = false                          -- Don't auto save
 
 -- Behavior settings
-vim.opt.hidden = true                              -- Allow hidden buffers
-vim.opt.errorbells = false                         -- No error bells
 vim.opt.backspace = "indent,eol,start"             -- Better backspace behavior
-vim.opt.autochdir = false                          -- Don't auto change directory
 vim.opt.iskeyword:append("-")                      -- Treat dash as part of word
-vim.opt.selection = "exclusive"                    -- Selection behavior
 vim.opt.mouse = "a"                                -- Enable mouse support
--- vim.opt.clipboard:append("unnamedplus")            -- Use system clipboard, as normal
-vim.opt.encoding = "UTF-8"                         -- Set encoding, emojis etc.
 
 -- Auto reload on file changes
 local autoread_group = vim.api.nvim_create_augroup("AutoReadCheck", { clear = true })
