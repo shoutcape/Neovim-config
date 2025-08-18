@@ -47,13 +47,18 @@ vim.opt.backspace = "indent,eol,start"             -- Better backspace behavior
 vim.opt.iskeyword:append("-")                      -- Treat dash as part of word
 vim.opt.mouse = "a"                                -- Enable mouse support
 
--- Auto reload on file changes
-local autoread_group = vim.api.nvim_create_augroup("AutoReadCheck", { clear = true })
-vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "InsertEnter", "FocusGained" }, {
-  group = autoread_group,
-  pattern = "*",
-  command = "if mode() != 'c' | checktime | endif",
-})
+-- Auto reload on file changes (Turn on if issues with file sync after external changes)
+
+-- local autoread_group = vim.api.nvim_create_augroup("AutoReadCheck", { clear = true })
+-- vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained" }, {
+--   group = autoread_group,
+--   pattern = "*",
+--   callback = function()
+--     if vim.g.auto_read_enabled and vim.fn.mode() ~= "c" then
+--       vim.cmd("checktime")
+--     end
+--   end,
+-- })
 
 -- Highlight yanked text
 local highlight_group = vim.api.nvim_create_augroup("HighlightYank", { clear = true })
