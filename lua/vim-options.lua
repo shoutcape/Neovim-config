@@ -44,7 +44,6 @@ vim.opt.autowrite = false                          -- Don't auto save
 
 -- Behavior settings
 vim.opt.backspace = "indent,eol,start"             -- Better backspace behavior
-vim.opt.iskeyword:append("-")                      -- Treat dash as part of word
 vim.opt.mouse = "a"                                -- Enable mouse support
 
 -- Auto reload on file changes (Turn on if issues with file sync after external changes)

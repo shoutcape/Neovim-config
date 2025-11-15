@@ -7,7 +7,7 @@ return {
     "nvim-lua/plenary.nvim",
   },
   opts = {
-    model = "claude-3.7-sonnet-thought",
+    model = "gpt-4o",
     debug = false,
 
     -- Optional: specify default context providers

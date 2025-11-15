@@ -83,6 +83,12 @@ return {
 
       cmp.setup({
         preselect = cmp.PreselectMode.None,
+
+        completion = {
+          keyword_length = 0
+        },
+
+
         formatting = {
           format = function(_, vim_item)
             vim_item.kind = cmp_kinds[vim_item.kind] .. vim_item.kind
@@ -103,6 +109,8 @@ return {
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
           ["<C-Space>"] = cmp.mapping.complete(),
+          ["<C-2>"] = cmp.mapping.complete(), -- for terminals that send NUL
+
         }),
         sources = {
           { name = "nvim_lsp" },
