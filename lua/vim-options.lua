@@ -205,7 +205,9 @@ map("n", "<A-a>", ':TermExec cmd="python %:p" dir=%:h size=10 direction=horizont
 -- Obsidian and CopilotChat
 map("n", "<leader>cn", ":ObsidianNew<CR>")
 map({ "n", "v" }, "<leader>cp", function()
-  require("CopilotChat").toggle({ selection = require("CopilotChat.select").visual })
+  require("CopilotChat").toggle({
+    selection = require("CopilotChat.context").visual,
+  })
 end)
 -- Custom PowerShell script launcher (Windows)
 map("n", "<leader>sh", ":!powershell C:\\Users\\kauti\\autodevenv.ps1<CR>")
@@ -225,7 +227,7 @@ map(
 --keymap for neotree toggle
 map("n", "<leader>n", ":Neotree toggle filesystem reveal right<CR>")
 
-map("n", "<leader>gf", vim.lsp.buf.format, {})
+-- map("n", "<leader>gf", vim.lsp.buf.format, {})
 
 vim.api.nvim_create_user_command("Format", function()
   vim.lsp.buf.format()
@@ -236,8 +238,13 @@ end, { desc = "Format current buffer" })
 local function ts_add_missing_imports_and_format(opts)
   opts = opts or {}
 
-  local params = vim.lsp.util.make_range_params()
-  params.context = { only = { "source.addMissingImports.ts" } }
+  local params = {
+    textDocument = range_params.textDocument,
+    range = range_params.range,
+    context = { only = { "source.addMissingImports.ts" }, diagnostics = {} }
+  }
+
+  params.context = { only = { "source.addMissingImports.ts" }, diagnostics = {} }
 
   vim.lsp.buf_request(0, "textDocument/codeAction", params, function(err, result)
     if err or not result or vim.tbl_isempty(result) then
@@ -255,10 +262,10 @@ local function ts_add_missing_imports_and_format(opts)
         vim.lsp.util.apply_workspace_edit(action.edit, "utf-8")
       end
       if type(action.command) == "table" then
-        vim.lsp.buf.execute_command(action.command)
+        vim.lsp.buf_request_sync(0, "workspace/executeCommand", action.command, 1000)
       end
     else
-      vim.lsp.buf.execute_command(action)
+      vim.lsp.buf_request_sync(0, "workspace/executeCommand", action, 1000)
     end
 
     vim.defer_fn(function()
