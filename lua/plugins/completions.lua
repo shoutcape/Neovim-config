@@ -70,8 +70,6 @@ return {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
-      "roginfarrer/cmp-css-variables",
-      'Jezda1337/nvim-html-css',
     },
     version = false,
     event = "InsertEnter",
@@ -109,8 +107,6 @@ return {
           { name = "nvim_lsp" },
           { name = "luasnip" },
           { name = "buffer" },
-          { name = 'css-variables' },
-          { name = 'html-css', option = { enableColors = true } }
         },
       })
 
