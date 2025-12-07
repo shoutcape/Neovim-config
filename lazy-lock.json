@@ -10,7 +10,7 @@
   "cmp-path": { "branch": "main", "commit": "c642487086dbd9a93160e1679a1327be111cbc25" },
   "cmp_luasnip": { "branch": "master", "commit": "98d9cb5c2c38532bd9bdb481067b20fea8f32e90" },
   "conform.nvim": { "branch": "master", "commit": "ffe26e8df8115c9665d24231f8a49fadb2d611ce" },
-  "copilot.lua": { "branch": "master", "commit": "881f99b827d65b41f522eecc21b112cf518028ac" },
+  "copilot.lua": { "branch": "master", "commit": "efe563802a550b7f1b7743b007987e97cba22718" },
   "folkeTokyonight": { "branch": "main", "commit": "5da1b76e64daf4c5d410f06bcb6b9cb640da7dfd" },
   "friendly-snippets": { "branch": "main", "commit": "572f5660cf05f8cd8834e096d7b4c921ba18e175" },
   "gitsigns.nvim": { "branch": "main", "commit": "5813e4878748805f1518cee7abb50fd7205a3a48" },
@@ -28,7 +28,7 @@
   "mason-nvim-dap.nvim": { "branch": "main", "commit": "9a10e096703966335bd5c46c8c875d5b0690dade" },
   "mason-tool-installer.nvim": { "branch": "main", "commit": "517ef5994ef9d6b738322664d5fdd948f0fdeb46" },
   "mason.nvim": { "branch": "main", "commit": "57e5a8addb8c71fb063ee4acda466c7cf6ad2800" },
-  "mini.nvim": { "branch": "main", "commit": "dca98843fab66d080779cd973e7139e258ff164c" },
+  "mini.nvim": { "branch": "main", "commit": "e27fcecf6cbffd8ed391bdf0eb746fdb5b9bfa44" },
   "mini.sessions": { "branch": "main", "commit": "6b69f4cf206ed8560669446a0310937d88e1c871" },
   "noice.nvim": { "branch": "main", "commit": "7bfd942445fb63089b59f97ca487d605e715f155" },
   "none-ls.nvim": { "branch": "main", "commit": "5abf61927023ea83031753504adb19630ba80eef" },
@@ -64,5 +64,5 @@
   "vim-visual-multi": { "branch": "master", "commit": "a6975e7c1ee157615bbc80fc25e4392f71c344d4" },
   "vim-wakatime": { "branch": "master", "commit": "d7973b157a632d1edeff01818f18d67e584eeaff" },
   "which-key.nvim": { "branch": "main", "commit": "3aab2147e74890957785941f0c1ad87d0a44c15a" },
-  "yazi.nvim": { "branch": "main", "commit": "fdf3e62d7f2a7304694e01537f3c678d9bb14dad" }
+  "yazi.nvim": { "branch": "main", "commit": "1e92a6dff8cb67c89d10f309043dba6e8e1ab343" }
 }
