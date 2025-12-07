@@ -16,9 +16,6 @@ return {
 					return false
 				end
 
-				if vim.bo[buf].filetype == "harpoon" then
-					return false
-				end
 
 				-- Don't save in command-line window (q:)
 				if vim.bo[buf].buftype == "command" then
@@ -27,7 +24,6 @@ return {
 
 				local utils = require("auto-save.utils.data")
 				local ft = vim.bo[buf].filetype
-				return vim.bo[buf].modifiable and utils.not_in(ft, { "harpoon" })
 			end,
 			write_all_buffers = false,
 			debounce_delay = 250,
