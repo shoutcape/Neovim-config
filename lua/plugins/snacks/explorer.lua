@@ -38,12 +38,18 @@ return {
         },
       },
     },
-    picker = {
-      sources = {
-        explorer = {
-          layout = { layout = { position = "right" } }
-        }
-      }
-    },
+		picker = {
+			sources = {
+				explorer = {
+          hidden = true,
+          ignored = true,
+					layout = {
+						layout = { position = "right" },
+						preview = { enabled = false, main = true },
+						focus = "list",
+					},
+				},
+			},
+		},
   },
 }
