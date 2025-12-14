@@ -1,125 +1,316 @@
 return {
+  {
     "catppuccin/nvim",
-    lazy = false,
     name = "catppuccin",
-    priority = 1000,
-    config = function()
-        require("catppuccin").setup({
-            flavour = "mocha", -- latte, frappe, macchiato, mocha
-            background = { -- :h background
-                light = "latte",
-                dark = "mocha",
-            },
-            transparent_background = true,
-            show_end_of_buffer = false,
-            term_colors = false,
-            dim_inactive = {
-                enabled = false,
-                shade = "dark",
-                percentage = 0.15,
-            },
-            no_italic = false,
-            no_bold = false,
-            no_underline = false,
-            styles = {
-                comments = { "italic" },
-                conditionals = { "italic" },
-                loops = {},
-                functions = {},
-                keywords = {},
-                strings = {},
-                variables = {},
-                numbers = {},
-                booleans = {},
-                properties = {},
-                types = {},
-                operators = {},
-            },
-            color_overrides = {},
-            custom_highlights = {},
-            default_integrations = true,
-            integrations = {
-                cmp = true,
-                gitsigns = true,
-                nvimtree = true,
-                treesitter = true,
-                notify = false,
-                mini = {
-                    enabled = true,
-                    indentscope_color = "",
-                },
-            },
-        })
+    lazy = false,
+    priority = 1000, -- load before anything else
 
-        vim.cmd.colorscheme("catppuccin")
+    opts = {
+      flavour = "auto", -- latte, frappe, macchiato, mocha
+      background = {
+        light = "latte",
+        dark = "mocha",
+      },
+      transparent_background = false,
+      show_end_of_buffer = false,
+      term_colors = true,
+      dim_inactive = {
+        enabled = false,
+        shade = "dark",
+        percentage = 0.15,
+      },
+      no_italic = false,
+      no_bold = false,
+      no_underline = false,
+      styles = {
+        comments = { "italic" },
+        conditionals = { "italic" },
+      },
+      custom_highlights = function(colors)
+        return {
+          Comment = { fg = colors.flamingo },
+          TabLineSel = { bg = colors.green },
+          CmpBorder = { fg = colors.surface2 },
+          CursorLineNr = { fg = '#32a874', bold = true },
+          CursorLine = { bg = '#2f3c30' },
+        }
+      end,
+      color_overrides = {
+        mocha = { -- or whichever flavor you're using
+          base = "#2D2A2E"
+        }
+      },
+      default_integrations = true,
+      integrations = {
+        cmp = true,
+        gitsigns = true,
+        nvimtree = true,
+        treesitter = true,
+        notify = false,
+        mini = {
+          enabled = true,
+          indentscope_color = "",
+        },
+      },
+    },
+
+    config = function(_, opts)
+      require("catppuccin").setup(opts)
+      vim.cmd.colorscheme("catppuccin")
     end,
-}
+  },
+  -- NOTE: Rose pine
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    -- priority = 1000,
+    config = function()
+      require("rose-pine").setup({
+        variant = "main",              -- auto, main, moon, or dawn
+        dark_variant = "main",         -- main, moon, or dawn
+        dim_inactive_windows = false,
+        -- disable_background = true,
+        -- 	disable_nc_background = false,
+        -- 	disable_float_background = false,
+        -- extend_background_behind_borders = false,
+        styles = {
+          bold = true,
+          italic = false,
+          transparency = true,
+        },
+        highlight_groups = {
+          ColorColumn = { bg = "#1C1C21" },
+          Normal = { bg = "none" },                                -- Main background remains transparent
+          Pmenu = { bg = "", fg = "#e0def4" },                     -- Completion menu background
+          PmenuSel = { bg = "#4a465d", fg = "#f8f5f2" },           -- Highlighted completion item
+          PmenuSbar = { bg = "#191724" },                          -- Scrollbar background
+          PmenuThumb = { bg = "#9ccfd8" },                         -- Scrollbar thumb
+        },
+        enable = {
+          terminal = false,
+          legacy_highlights = false,           -- Improve compatibility for previous versions of Neovim
+          migrations = true,                   -- Handle deprecated options automatically
+        },
 
--- return {
--- 	"loctvl842/monokai-pro.nvim",
--- 	lazy = false,
--- 	name = "monokai-pro",
--- 	priority = 1000,
--- 	config = function()
--- 		require("monokai-pro").setup({
--- 			transparent_background = true,
--- 			terminal_colors = true,
--- 			devicons = true, -- highlight the icons of `nvim-web-devicons`
--- 			styles = {
--- 				comment = { italic = true },
--- 				keyword = { italic = true }, -- any other keyword
--- 				type = { italic = true }, -- (preferred) int, long, char, etc
--- 				storageclass = { italic = true }, -- static, register, volatile, etc
--- 				structure = { italic = true }, -- struct, union, enum, etc
--- 				parameter = { italic = true }, -- parameter pass in function
--- 				annotation = { italic = true },
--- 				tag_attribute = { italic = true }, -- attribute of tag in reactjs
--- 			},
--- 			filter = "pro", -- classic | octagon | pro | machine | ristretto | spectrum
--- 			-- Enable this will disable filter option
--- 			inc_search = "background", -- underline | background
--- 			background_clear = {
--- 				"float_win",
--- 				"toggleterm",
--- 				"telescope",
--- 				"which-key",
--- 				"renamer",
--- 				"notify",
--- 				-- "nvim-tree",
--- 				"neo-tree",
--- 				-- "bufferline", -- better used if background of `neo-tree` or `nvim-tree` is cleared
--- 			}, -- "float_win", "toggleterm", "telescope", "which-key", "renamer", "neo-tree", "nvim-tree", "bufferline"
--- 			plugins = {
--- 				bufferline = {
--- 					underline_selected = false,
--- 					underline_visible = false,
--- 				},
--- 				indent_blankline = {
--- 					context_highlight = "default", -- default | pro
--- 					context_start_underline = false,
--- 				},
--- 			},
---       overridePalette = function(filter)
---       return {
---         dark2 = "#101014",
---         dark1 = "#16161E",
---         background = "#1A1B26",
---         text = "#C0CAF5",
---         accent1 = "#f7768e",
---         accent2 = "#7aa2f7",
---         accent3 = "#e0af68",
---         accent4 = "#9ece6a",
---         accent5 = "#0DB9D7",
---         accent6 = "#9d7cd8",
---         dimmed1 = "#737aa2",
---         dimmed2 = "#787c99",
---         dimmed3 = "#363b54",
---         dimmed4 = "#363b54",
---         dimmed5 = "#16161e",
---       }
---     end
--- 		})
---
--- 		vim.cmd.colorscheme("monokai-pro")
--- 	end,
--- }
+      })
+
+      -- HACK: set this on the color you want to be persistent
+      -- when quit and reopening nvim
+      -- vim.cmd("colorscheme rose-pine")
+    end,
+  },
+  -- NOTE: gruvbox
+  {
+    "ellisonleao/gruvbox.nvim",
+    -- priority = 1000 ,
+    config = function()
+      require("gruvbox").setup({
+        terminal_colors = true,         -- add neovim terminal colors
+        undercurl = true,
+        underline = true,
+        bold = true,
+        italic = {
+          strings = false,
+          emphasis = false,
+          comments = false,
+          folds = false,
+          operators = false,
+        },
+        strikethrough = true,
+        invert_selection = false,
+        invert_signs = false,
+        invert_tabline = false,
+        invert_intend_guides = false,
+        inverse = true,         -- invert background for search, diffs, statuslines and errors
+        contrast = "",          -- can be "hard", "soft" or empty string
+        palette_overrides = {},
+        overrides = {
+          Pmenu = { bg = "" },           -- Completion menu background
+        },
+        dim_inactive = false,
+        transparent_mode = true,
+      })
+    end,
+  },
+  -- NOTE: Kanagwa
+  {
+    "rebelot/kanagawa.nvim",
+    config = function()
+      require('kanagawa').setup({
+        compile = false,          -- enable compiling the colorscheme
+        undercurl = true,         -- enable undercurls
+        commentStyle = { italic = true },
+        functionStyle = {},
+        keywordStyle = { italic = false },
+        statementStyle = { bold = true },
+        typeStyle = {},
+        transparent = true,            -- do not set background color
+        dimInactive = false,           -- dim inactive window `:h hl-NormalNC`
+        terminalColors = true,         -- define vim.g.terminal_color_{0,17}
+        colors = {                     -- add/modify theme and palette colors
+          palette = {},
+          theme = {
+            wave = {},
+            dragon = {},
+            all = {
+              ui = {
+                bg_gutter = "none",
+                border = "rounded"
+              }
+            }
+          },
+        },
+        overrides = function(colors)         -- add/modify highlights
+          local theme = colors.theme
+          return {
+            NormalFloat = { bg = "none" },
+            FloatBorder = { bg = "none" },
+            FloatTitle = { bg = "none" },
+            Pmenu = { fg = theme.ui.shade0, bg = "NONE", blend = vim.o.pumblend },             -- add `blend = vim.o.pumblend` to enable transparency
+            PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
+            PmenuSbar = { bg = theme.ui.bg_m1 },
+            PmenuThumb = { bg = theme.ui.bg_p2 },
+
+            -- Save an hlgroup with dark background and dimmed foreground
+            -- so that you can use it where your still want darker windows.
+            -- E.g.: autocmd TermOpen * setlocal winhighlight=Normal:NormalDark
+            NormalDark = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m3 },
+
+            -- Popular plugins that open floats will link to NormalFloat by default;
+            -- set their background accordingly if you wish to keep them dark and borderless
+            LazyNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
+            MasonNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
+            TelescopeTitle = { fg = theme.ui.special, bold = true },
+            TelescopePromptBorder = { fg = theme.ui.special, },
+            TelescopeResultsNormal = { fg = theme.ui.fg_dim, },
+            TelescopeResultsBorder = { fg = theme.ui.special, },
+            TelescopePreviewBorder = { fg = theme.ui.special },
+          }
+        end,
+        theme = "wave",            -- Load "wave" theme when 'background' option is not set
+        background = {             -- map the value of 'background' option to a theme
+          dark = "wave",           -- try "dragon" !
+        },
+      })
+    end
+  },
+  -- NOTE: neosolarized
+  {
+    "craftzdog/solarized-osaka.nvim",
+    lazy = false,
+    config = function()
+      require("solarized-osaka").setup({
+        transparent = true,
+        terminal_colors = true,         -- Configure the colors used when opening a `:terminal` in [Neovim](https://github.com/neovim/neovim)
+        styles = {
+          -- Style to be applied to different syntax groups
+          -- Value is any valid attr-list value for `:help nvim_set_hl`
+          comments = { italic = true },
+          keywords = { italic = false },
+          functions = {},
+          variables = {},
+          -- Background styles. Can be "dark", "transparent" or "normal"
+          sidebars = "dark",                      -- style for sidebars, see below
+          floats = "dark",                        -- style for floating windows
+        },
+        sidebars = { "qf", "help" },              -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
+        day_brightness = 0.3,                     -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
+        hide_inactive_statusline = false,         -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
+        dim_inactive = false,                     -- dims inactive windows
+        lualine_bold = false,                     -- When `true`, section headers in the lualine theme will be bold
+        on_highlights = function(hl, c)
+          local prompt = "#2d3149"
+          hl.TelescopeNormal = {
+            bg = c.bg_dark,
+            fg = c.fg_dark,
+          }
+          hl.TelescopeBorder = {
+            bg = c.bg_dark,
+            fg = c.bg_dark,
+          }
+          hl.TelescopePromptNormal = {
+            bg = c.bg_dark,
+          }
+          hl.TelescopePromptBorder = {
+            bg = c.bg_dark,
+            fg = c.bg_dark,
+          }
+          hl.TelescopePromptTitle = {
+            bg = prompt,
+            fg = "#2C94DD",
+          }
+          hl.TelescopePreviewTitle = {
+            bg = c.bg_dark,
+            fg = c.bg_dark,
+          }
+          hl.TelescopeResultsTitle = {
+            bg = c.bg_dark,
+            fg = c.bg_dark,
+          }
+        end,
+      })
+    end
+  },
+  -- NOTE : tokyonight
+  {
+    "folke/tokyonight.nvim",
+    name = "folkeTokyonight",
+    -- priority = 1000,
+    config = function()
+      local transparent = true
+      local bg = "#011628"
+      local bg_dark = "#011423"
+      local bg_highlight = "#143652"
+      local bg_search = "#0A64AC"
+      local bg_visual = "#275378"
+      local fg = "#CBE0F0"
+      local fg_dark = "#B4D0E9"
+      local fg_gutter = "#627E97"
+      local border = "#547998"
+
+      require("tokyonight").setup({
+        style = "night",
+        transparent = transparent,
+
+        styles = {
+          comments = { italic = false },
+          keywords = { italic = false },
+          sidebars = transparent and "transparent" or "dark",
+          floats = transparent and "transparent" or "dark",
+        },
+        on_colors = function(colors)
+          colors.bg = transparent and colors.none or bg
+          colors.bg_dark = transparent and colors.none or bg_dark
+          colors.bg_float = transparent and colors.none or bg_dark
+          colors.bg_highlight = bg_highlight
+          colors.bg_popup = bg_dark
+          colors.bg_search = bg_search
+          colors.bg_sidebar = transparent and colors.none or bg_dark
+          colors.bg_statusline = transparent and colors.none or bg_dark
+          colors.bg_visual = bg_visual
+          colors.border = border
+          colors.fg = fg
+          colors.fg_dark = fg_dark
+          colors.fg_float = fg
+          colors.fg_gutter = fg_gutter
+          colors.fg_sidebar = fg_dark
+        end,
+      })
+      -- vim.cmd("colorscheme tokyonight")
+      -- NOTE: Auto switch to tokyonight for markdown files only
+      -- vim.api.nvim_create_autocmd("FileType", {
+      --     pattern = { "markdown" },
+      --     callback = function()
+      --         -- Ensure the theme switch only happens once for a buffer
+      --         local buffer = vim.api.nvim_get_current_buf()
+      --         if not vim.b[buffer].tokyonight_applied then
+      --             if vim.fn.expand("%:t") ~= "" and vim.api.nvim_buf_get_option(0, "buftype") ~= "nofile" then
+      --                 vim.cmd("colorscheme tokyonight")
+      --             end
+      --             vim.b[buffer].tokyonight_applied = true
+      --         end
+      --     end,
+      -- })
+    end,
+  },
+}

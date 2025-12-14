@@ -1,158 +1,138 @@
 local cmp_kinds = {
-	Text = "  ",
-	Method = "  ",
-	Function = "  ",
-	Constructor = "  ",
-	Field = "  ",
-	Variable = "  ",
-	Class = "  ",
-	Interface = "  ",
-	Module = "  ",
-	Property = "  ",
-	Unit = "  ",
-	Value = "  ",
-	Enum = "  ",
-	Keyword = "  ",
-	Snippet = "  ",
-	Color = "  ",
-	File = "  ",
-	Reference = "  ",
-	Folder = "  ",
-	EnumMember = "  ",
-	Constant = "  ",
-	Struct = "  ",
-	Event = "  ",
-	Operator = "  ",
-	TypeParameter = "  ",
-	Copilot = "  ",
+  Text = "  ",
+  Method = "  ",
+  Function = "  ",
+  Constructor = "  ",
+  Field = "  ",
+  Variable = "  ",
+  Class = "  ",
+  Interface = "  ",
+  Module = "  ",
+  Property = "  ",
+  Unit = "  ",
+  Value = "  ",
+  Enum = "  ",
+  Keyword = "  ",
+  Snippet = "  ",
+  Color = "  ",
+  File = "  ",
+  Reference = "  ",
+  Folder = "  ",
+  EnumMember = "  ",
+  Constant = "  ",
+  Struct = "  ",
+  Event = "  ",
+  Operator = "  ",
+  TypeParameter = "  ",
+  Copilot = "  ",
 }
 
 return {
-	{
-		"hrsh7th/nvim-cmp",
-		dependencies = {
-			{
-				"L3MON4D3/LuaSnip",
-				dependencies = { "rafamadriz/friendly-snippets" },
-				config = function()
-					local types = require("luasnip.util.types")
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      {
+        "L3MON4D3/LuaSnip",
+        dependencies = { "rafamadriz/friendly-snippets" },
+        config = function()
+          local types = require("luasnip.util.types")
+          local luasnip = require("luasnip")
 
-					require("luasnip.loaders.from_vscode").lazy_load()
+          require("luasnip.loaders.from_vscode").lazy_load()
 
-					require("luasnip").setup({
-						history = true,
-						delete_check_events = "TextChanged",
-						-- Display a cursor-like placeholder in unvisited nodes
-						-- of the snippet.
-						ext_opts = {
-							[types.insertNode] = {
-								unvisited = {
-									virt_text = { { "|", "Conceal" } },
-									virt_text_pos = "inline",
-								},
-							},
-						},
-					})
-				end,
-			},
+          luasnip.setup({
+            history = true,
+            delete_check_events = "TextChanged",
+            ext_opts = {
+              [types.insertNode] = {
+                unvisited = {
+                  virt_text = { { "|", "Conceal" } },
+                  virt_text_pos = "inline",
+                },
+              },
+            },
+          })
 
-			{
-				"Saecki/crates.nvim",
-				event = "BufRead Cargo.toml",
-				config = true,
-			},
+          local react = { "javascript", "typescript", "javascriptreact", "typescriptreact" }
+          for _, lang in ipairs(react) do
+            luasnip.add_snippets(lang, {
+              luasnip.snippet("clog", {
+                luasnip.text_node("console.log("),
+                luasnip.insert_node(1),
+                luasnip.text_node(")"),
+              }),
+            })
+          end
+        end,
+      },
       "saadparwaiz1/cmp_luasnip",
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-cmdline",
-		},
-		version = false,
-		event = "InsertEnter",
-		config = function()
-			local cmp = require("cmp")
-			local luasnip = require("luasnip")
-			-- some shorthands...
-			local snip = luasnip.snippet
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
+      "Saecki/crates.nvim",
+    },
+    version = false,
+    event = "InsertEnter",
+    config = function()
+      local cmp = require("cmp")
+      local luasnip = require("luasnip")
 
-			--for text placement
-			local text = luasnip.text_node
+      vim.keymap.set("i", "<S-Tab>", '<cmd>lua require("luasnip").jump(1)<CR>', { silent = true })
+      vim.keymap.set("i", "<S-S-Tab>", '<cmd>lua require("luasnip").jump(-1)<CR>', { silent = true })
 
-			--for text insertion,
-			local i = luasnip.insert_node
+      cmp.setup({
+        preselect = cmp.PreselectMode.None,
 
-			--here you can create your own snippets, see shorthands above.
+        completion = {
+          keyword_length = 0
+        },
 
-			--different react language snippets
-			local react = {"typescript", "javascriptreact", "javascript", "typescriptreact" }
 
-			for _, language in ipairs(react) do
-				luasnip.add_snippets(language, {
-					snip("clog", {
-						text("console.log("),
-						i(1, ""),
-						text(")"),
-					}),
-				})
-			end
+        formatting = {
+          format = function(_, vim_item)
+            vim_item.kind = cmp_kinds[vim_item.kind] .. vim_item.kind
+            return vim_item
+          end,
+        },
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
+        mapping = cmp.mapping.preset.insert({
+          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+          ["<C-Space>"] = cmp.mapping.complete(),
+          ["<C-2>"] = cmp.mapping.complete(), -- for terminals that send NUL
 
-			-- Inside a snippet, use backspace to remove the placeholder.
-			vim.keymap.set("s", "<BS>", "<C-O>s", { silent = true })
+        }),
+        sources = {
+          { name = "nvim_lsp" },
+          { name = "luasnip" },
+          { name = "buffer" },
+          { name = "crates" },
+        },
+      })
 
-			cmp.setup({
-				-- Disable preselect. On enter, the first thing will be used if nothing
-				-- is selected.
-				preselect = cmp.PreselectMode.None,
-				-- Add icons to the completion menu.
-				formatting = {
-					format = function(_, vim_item)
-						vim_item.kind = cmp_kinds[vim_item.kind] .. vim_item.kind
-						return vim_item
-					end,
-				},
-				snippet = {
-					expand = function(args)
-						luasnip.lsp_expand(args.body)
-					end,
-				},
-				window = {
-					-- Make the completion menu bordered.
-					completion = cmp.config.window.bordered(),
-					-- Disable the documentation popup. It gets too cluttered.
-					documentation = cmp.config.disable,
-				},
+      cmp.setup.cmdline({ "/", "?" }, {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = { { name = "buffer" } },
+      })
 
-				-- jump to next snippet placeholder
-				vim.api.nvim_set_keymap(
-					"i",
-					"<S-Tab>",
-					'<cmd>lua require("luasnip").jump(1)<CR>',
-					{ noremap = true, silent = true }
-				),
-				mapping = cmp.mapping.preset.insert({
-					["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<CR>"] = cmp.mapping.confirm({
-						behavior = cmp.ConfirmBehavior.Replace,
-						select = true,
-					}),
-					["<C-Space>"] = cmp.mapping.complete(),
-				}),
-				sources = {
-					{ name = "nvim_lsp" },
-					{ name = "luasnip" },
-					{ name = "buffer" },
-					{ name = "crates" },
-				},
-			})
-
-			cmp.setup.cmdline({ "/", "?" }, {
-				mapping = cmp.mapping.preset.cmdline(),
-				sources = {
-					{ name = "buffer" },
-				},
-			})
-
-		end,
-	},
+      cmp.setup.cmdline(":", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = "path" },
+        }, {
+          { name = "cmdline" },
+        }),
+      })
+    end,
+  },
 }

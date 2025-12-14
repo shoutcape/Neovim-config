@@ -1,126 +1,142 @@
 return {
   {
     "williamboman/mason.nvim",
-    config = function()
-      require("mason").setup({
-        ui = { border = "rounded" },
-      })
-    end,
-  },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    config = function()
-      opts = {
-        auto_installer = true,
-      }
-    end,
-  },
-
-  {
-    "jose-elias-alvarez/nvim-lsp-ts-utils",
+    opts = {
+      ui = { border = "rounded" },
+    },
   },
 
   {
     "williamboman/mason-lspconfig.nvim",
-    config = function()
-      require("mason-lspconfig").setup({
-        ensure_installed = {"pyright", "tailwindcss", "lua_ls", "html", "ts_ls", "cssls" },
-      })
-    end,
+    opts = {
+      ensure_installed = {
+        "lua_ls",
+        "cssls",
+        "html",
+        "jsonls",
+        "eslint",
+        "ts_ls",
+        "cssmodules_ls",
+        "css_variables",
+      },
+    },
   },
 
   {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      "folke/lazydev.nvim",
+      "williamboman/mason-lspconfig.nvim",
+    },
     config = function()
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
-      local lspconfig = require("lspconfig")
-
-      local diagnosticBorder = {
-        { "󰀦", "FloatBorder" },
-        { "▔", "FloatBorder" },
-        { "󰀦", "FloatBorder" },
-        { "▕", "FloatBorder" },
-        { "󰀦", "FloatBorder" },
-        { "▁", "FloatBorder" },
-        { "󰀦", "FloatBorder" },
-        { "▏", "FloatBorder" },
-      }
-
-      vim.diagnostic.config({
+      -- custom diagnostic float UI
+      --- Configures diagnostic settings for Neovim.
+--- @param config table The diagnostic configuration.
+vim.diagnostic.config({
         float = {
-          border = diagnosticBorder,
+          border = {
+            { "╭", "FloatBorder" },
+            { "─", "FloatBorder" },
+            { "╮", "FloatBorder" },
+            { "│", "FloatBorder" },
+            { "╯", "FloatBorder" },
+            { "─", "FloatBorder" },
+            { "╰", "FloatBorder" },
+            { "│", "FloatBorder" },
+          },
           source = "always",
-          prefix = function(_diagnostic, i, total)
-            local icon = "" -- You can customize the icon based on severity
-            return string.format("%s [%d/%d]", icon, i, total)
+          prefix = function(_, i, total)
+            return string.format(" [%d/%d]", i, total)
           end,
         },
       })
 
-      local on_attach = function(client, bufnr)
-        require("nvim-lsp-ts-utils").setup({
-          filter_out_diagnostics_by_code = { 80001, 7016 },
-        })
-        require("nvim-lsp-ts-utils").setup_client(client)
-
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr })
-        -- vim.keymap.set("n", "J", vim.diagnostic.open_float())
-        vim.keymap.set({ "n" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr })
-      end
-
-      --css styling
-      lspconfig.cssls.setup({
-        capabilities = capabilities,
+      -- Configure Lua_Ls
+      vim.lsp.config("lua_ls", {
+        -- Don't set workspace.library here: lazydev manages that for you 
         settings = {
-          css = {
-            lint = {
-              unknownAtRules = 'ignore'
-            }
-          }
-        }
+          Lua = {
+            completion = {
+              callSnippet = "Replace",
+            },
+            diagnostics = {
+              -- So LuaLS stops complaining about `vim`
+              globals = { "vim" },
+            },
+          },
+        },
       })
 
-      --typescript/javascript
-      lspconfig.ts_ls.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
+      -- Configure TypeScript server with extra memory
+      vim.lsp.config('ts_ls', {
+        cmd = { 'typescript-language-server', '--stdio' },
+        init_options = {
+          maxTsServerMemory = 8192,
+        },
       })
 
-      --html
-      lspconfig.html.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-      })
-
-      --python
-      lspconfig.pyright.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-      })
-
-      --tailwindcss
-      lspconfig.tailwindcss.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
+      -- Configure CSS Variables server with custom lookup files
+      vim.lsp.config('css_variables', {
+        cmd = { 'css-variables-language-server', '--stdio' },
+        init_options = {
+          lookupFiles = {
+            "src/**/*.css",
+            "node_modules/@s-group/design-system-tokens/dist/web/tokens/font.css",
+            "node_modules/@s-group/design-system-tokens/dist/web/tokens/text.css",
+            "node_modules/@s-group/design-system-tokens/dist/web/tokens/motion.css",
+            "node_modules/@s-group/design-system-tokens/dist/web/tokens/space.css",
+            "node_modules/@s-group/design-system-tokens/dist/web/tokens/size.css",
+            "node_modules/@s-group/design-system-tokens/dist/web/tokens/colors.css",
+            "node_modules/@s-group/design-system-tokens/dist/web/tokens/sbrand/colors.css",
+            "/src/app/(frontend)/mediaQueries.css"
+            -- "node_modules/@s-group/design-system-tokens/dist/web/tokens/**.css",
+          },
+          blacklistFolders = {
+            "**/.git",
+            "**/.cache",
+            "**/build",
+          },
+        },
         settings = {
-          tailwindCSS = {
-            lint = {
-              unknownAtRules = 'ignore'
-            }
+          cssVariables = {
+            lookupFiles = {
+            "src/**/*.css",
+            "node_modules/@s-group/design-system-tokens/dist/web/tokens/font.css",
+            "node_modules/@s-group/design-system-tokens/dist/web/tokens/text.css",
+            "node_modules/@s-group/design-system-tokens/dist/web/tokens/motion.css",
+            "node_modules/@s-group/design-system-tokens/dist/web/tokens/space.css",
+            "node_modules/@s-group/design-system-tokens/dist/web/tokens/size.css",
+            "node_modules/@s-group/design-system-tokens/dist/web/tokens/colors.css",
+            "node_modules/@s-group/design-system-tokens/dist/web/tokens/sbrand/colors.css",
+            "/src/app/(frontend)/mediaQueries.css"
+            -- "node_modules/@s-group/design-system-tokens/dist/web/tokens/**.css",
+            },
+            blacklistFolders = {
+              "**/.git",
+              "**/.cache",
+              "**/build",
+            },
           }
-        }
+        },
       })
 
-      --lua
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
+      vim.lsp.config('eslint', {
+        settings = {
+          workingDirectory = { mode = 'auto' },
+        },
       })
 
-      --eslint
-      lspconfig.eslint.setup({
-        workingDirectory = { mode = "auto" },
-      })
+      -- Enable all LSP servers
+      vim.lsp.enable('lua_ls')
+      vim.lsp.enable('cssls')
+      vim.lsp.enable('html')
+      vim.lsp.enable('jsonls')
+      vim.lsp.enable('eslint')
+      vim.lsp.enable('ts_ls')
+      vim.lsp.enable('cssmodules_ls')
+      vim.lsp.enable('css_variables')
+
+
     end,
   },
 }
