@@ -63,14 +63,6 @@ return {
 				{ icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
 				{ icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
 				{ section = "startup" },
-				-- {
-				-- 	section = "terminal",
-				-- 	cmd = "pokemon-colorscripts -r --no-title; sleep .1",
-				-- 	random = 1,
-				-- 	pane = 3,
-				-- 	indent = 2, -- Try this if the plugin supports auto-centering
-				-- 	height = 30,
-				-- },
 			},
 		},
 	},

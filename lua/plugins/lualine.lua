@@ -163,25 +163,6 @@ return {
           lualine_z = { "filetype" },
         },
 
-        -- tabline = {
-        --   lualine_a = {
-        --     {
-        --       "buffers",
-        --       show_filename_only = true,
-        --       max_length = 250,
-        --       symbols = {
-        --         modified = " ",
-        --         alternate_file = "󰮲 ",
-        --         directory = "",
-        --       },
-        --       buffers_color = {
-        --         active = "LualineBuffersActive",
-        --         inactive = "LualineBuffersInactive",
-        --       },
-        --     },
-        --   },
-        -- },
-
         winbar = {},
         inactive_winbar = {},
       })

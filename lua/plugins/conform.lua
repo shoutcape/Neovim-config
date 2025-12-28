@@ -25,22 +25,6 @@ return
         ["*"] = { "trim_whitespace" },
       },
 
-      -- Customize formatter invocation
-      -- formatters = {
-      --   prettierd = {
-      --     prepend_args = { "--no-semi", "--single-quote" },
-      --   },
-      --   prettier = {
-      --     prepend_args = { "--no-semi", "--single-quote" },
-      --   },
-      -- },
-
-      -- Enable format-on-save
-      -- format_on_save = {
-      --   timeout_ms = 500,
-      --   lsp_format = "fallback",
-      -- },
-
       -- Better defaults
       default_format_opts = {
         timeout_ms = 1000,

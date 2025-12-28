@@ -46,19 +46,6 @@ vim.opt.autowrite = false                          -- Don't auto save
 vim.opt.backspace = "indent,eol,start"             -- Better backspace behavior
 vim.opt.mouse = "a"                                -- Enable mouse support
 
--- Auto reload on file changes (Turn on if issues with file sync after external changes)
-
--- local autoread_group = vim.api.nvim_create_augroup("AutoReadCheck", { clear = true })
--- vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained" }, {
---   group = autoread_group,
---   pattern = "*",
---   callback = function()
---     if vim.g.auto_read_enabled and vim.fn.mode() ~= "c" then
---       vim.cmd("checktime")
---     end
---   end,
--- })
-
 -- Highlight yanked text
 local highlight_group = vim.api.nvim_create_augroup("HighlightYank", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -145,8 +132,6 @@ map("n", "<C-G>", "<C-]>")
 map("n", "Ö", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
 map("n", "Ä", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
 map("n", "<leader>b", "<cmd>BufferLinePick<CR>", { desc = "Pick buffer" })
--- map("n", "<leader>bh", "<cmd>BufferLineCloseLeft<CR>", { desc = "Close all to the left" })
--- map("n", "<leader>bl", "<cmd>BufferLineCloseRight<CR>", { desc = "Close all to the right" })
 
 -- Search
 map("n", "*", "*N")                                                                   -- Search word without moving cursor
@@ -216,8 +201,6 @@ map("n", "<A-a>", ':TermExec cmd="python %:p" dir=%:h size=10 direction=horizont
 map({ "n", "v" }, "<leader>cp", function()
   require("CopilotChat").toggle()
 end, { desc = "Toggle CopilotChat" })
-
--- map("n", "<leader>gf", vim.lsp.buf.format, {})
 
 vim.api.nvim_create_user_command("Format", function()
   vim.lsp.buf.format()

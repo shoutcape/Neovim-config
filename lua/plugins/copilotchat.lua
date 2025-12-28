@@ -1,22 +1,13 @@
 return {
   "CopilotC-Nvim/CopilotChat.nvim",
   branch = "main",
-  -- cmd = { "CopilotChat", "CopilotChatToggle", "CopilotChatExplain" }, -- lazy-load
   dependencies = {
-    "zbirenbaum/copilot.lua",                                        -- or 'github/copilot.vim'
+    "zbirenbaum/copilot.lua",
     "nvim-lua/plenary.nvim",
   },
   opts = {
     model = "claude-sonnet-4.5",
     debug = false,
-
-    -- Optional: specify default context providers
-    -- context = { "buffers", "diagnostics" },
-    -- Optional: sticky instructions at start of every chat
-    -- sticky = {
-    --   "Keep answers concise unless details are needed.",
-    --   "Stick to the same coding style as user code.",
-    -- },
 
     mappings = {
       close = {

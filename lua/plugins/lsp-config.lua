@@ -98,7 +98,6 @@ vim.diagnostic.config({
             "node_modules/@s-group/design-system-tokens/dist/web/tokens/colors.css",
             "node_modules/@s-group/design-system-tokens/dist/web/tokens/sbrand/colors.css",
             "/src/app/(frontend)/mediaQueries.css"
-            -- "node_modules/@s-group/design-system-tokens/dist/web/tokens/**.css",
           },
           blacklistFolders = {
             "**/.git",
@@ -118,7 +117,6 @@ vim.diagnostic.config({
             "node_modules/@s-group/design-system-tokens/dist/web/tokens/colors.css",
             "node_modules/@s-group/design-system-tokens/dist/web/tokens/sbrand/colors.css",
             "/src/app/(frontend)/mediaQueries.css"
-            -- "node_modules/@s-group/design-system-tokens/dist/web/tokens/**.css",
             },
             blacklistFolders = {
               "**/.git",

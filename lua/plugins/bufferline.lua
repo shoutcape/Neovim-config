@@ -53,7 +53,6 @@ return {
             "Trouble",
             "copilot",
             "noice",
-            "TelescopePrompt",
           }
 
           local ft = vim.bo[buf_number].filetype
