@@ -106,16 +106,16 @@ map("n", "<C-Tab>", ":tabnext<CR>", { desc = "next tab" })
 
 -- Navigation between windows
 for _, mode in ipairs({ "n", "v" }) do
-  map(mode, "<C-h>", "<C-w>h", { desc = "Move to left window" })
-  map(mode, "<C-j>", "<C-w>j", { desc = "Move to window below" })
-  map(mode, "<C-k>", "<C-w>k", { desc = "Move to window above" })
-  map(mode, "<C-l>", "<C-w>l", { desc = "Move to right window" })
+  map(mode, "<A-h>", "<C-w>h", { desc = "Move to left window" })
+  map(mode, "<A-j>", "<C-w>j", { desc = "Move to window below" })
+  map(mode, "<A-k>", "<C-w>k", { desc = "Move to window above" })
+  map(mode, "<A-l>", "<C-w>l", { desc = "Move to right window" })
 
   -- Move windows (splits) around with Shift + Ctrl
-  map(mode, "<C-S-h>", "<C-w>H", { desc = "Move window to the far left" })
-  map(mode, "<C-S-j>", "<C-w>J", { desc = "Move window to the bottom" })
-  map(mode, "<C-S-k>", "<C-w>K", { desc = "Move window to the top" })
-  map(mode, "<C-S-l>", "<C-w>L", { desc = "Move window to the far right" })
+  map(mode, "<A-S-h>", "<C-w>H", { desc = "Move window to the far left" })
+  map(mode, "<A-S-j>", "<C-w>J", { desc = "Move window to the bottom" })
+  map(mode, "<A-S-k>", "<C-w>K", { desc = "Move window to the top" })
+  map(mode, "<A-S-l>", "<C-w>L", { desc = "Move window to the far right" })
 end
 
 
