@@ -13,7 +13,7 @@ return {
   keys = function()
     local snacks = require("snacks")
 
-    -- Define your custom paths (adjusted for Linux)
+    -- Define your custom paths
     local custom_paths = {
       github = "~/work",
       nvim = "~/.config/nvim"
@@ -23,6 +23,7 @@ return {
       -- Keep existing snacks keybindings
       { "<F6>", function() snacks.bufdelete() end, desc = "Delete buffer" },
       { "<leader><leader>", function() snacks.picker.smart() end, desc = "Smart Find Files" },
+      { "<leader>fi", function() snacks.picker.files({ hidden = true, ignored = true }) end, desc = "Find Files (Hidden & Ignored)" },
       { "<leader>n", function() snacks.explorer() end, desc = "File Explorer" },
       { "<Leader>ff", function() snacks.picker.files() end, desc = "Find Files" },
       { "<Leader>fw", function() snacks.picker.files({ cwd = custom_paths.github }) end, desc = "Find files in Github folder" },
