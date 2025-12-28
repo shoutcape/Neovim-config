@@ -53,15 +53,24 @@ vim.diagnostic.config({
 
       -- Configure Lua_Ls
       vim.lsp.config("lua_ls", {
-        -- Don't set workspace.library here: lazydev manages that for you 
         settings = {
           Lua = {
+            runtime = {
+              version = "LuaJIT",
+              path = vim.split(package.path, ";"),
+            },
             completion = {
               callSnippet = "Replace",
             },
             diagnostics = {
-              -- So LuaLS stops complaining about `vim`
               globals = { "vim" },
+            },
+            workspace = {
+              checkThirdParty = false,
+              -- Don't set library here: lazydev manages that for you
+            },
+            telemetry = {
+              enable = false,
             },
           },
         },

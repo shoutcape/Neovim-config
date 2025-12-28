@@ -157,7 +157,6 @@ map("v", "<leader>rn", '"zy:%s/<C-r>z/<C-r>z/g<Left><Left>', { silent = false })
 -- Scroll and Navigation
 map("n", "<PageUp>", "<C-u>")
 map("n", "<PageDown>", "<C-d>")
-map("n", "<C-G>", "<C-]>") -- Jump to tag
 
 -- Selection
 map("n", "vie", "maggVG")    -- Select entire file
@@ -186,7 +185,6 @@ map("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>") -- Show error i
 
 -- Terminal
 map("t", "<Esc>", "<C-\\><C-n>") -- Exit terminal mode
-map("n", "ö", "<C-v>")
 
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "*",
@@ -214,30 +212,10 @@ map("n", "<leader>cc", ":let @+ = expand('%:h')<CR>")
 -- Run Python in terminal
 map("n", "<A-a>", ':TermExec cmd="python %:p" dir=%:h size=10 direction=horizontal<CR>')
 
--- Obsidian and CopilotChat
-map("n", "<leader>cn", ":ObsidianNew<CR>")
+-- CopilotChat
 map({ "n", "v" }, "<leader>cp", function()
-  require("CopilotChat").toggle({
-    selection = require("CopilotChat.context").visual,
-  })
-end)
--- Custom PowerShell script launcher (Windows)
-map("n", "<leader>sh", ":!powershell C:\\Users\\kauti\\autodevenv.ps1<CR>")
-
--- Copilot Chat
-map(
-  "n",
-  "<leader>cp",
-  ":<C-u>lua require('CopilotChat').toggle({selection = require('CopilotChat.select').visual })<CR>"
-)
-map(
-  "v",
-  "<leader>cp",
-  ":<C-u>lua require('CopilotChat').toggle({ selection = require('CopilotChat.select').visual })<CR>"
-)
-
---keymap for neotree toggle
-map("n", "<leader>n", ":Neotree toggle filesystem reveal right<CR>")
+  require("CopilotChat").toggle()
+end, { desc = "Toggle CopilotChat" })
 
 -- map("n", "<leader>gf", vim.lsp.buf.format, {})
 
