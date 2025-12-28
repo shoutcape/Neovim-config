@@ -7,30 +7,24 @@ return {
     bigfile = { enabled = true },
     scope = { enabled = true },
     statuscolumn = { enabled = true },
-    notifier = {enabled = true }
+    notifier = {enabled = true },
   },
   keys = function()
     local snacks = require("snacks")
 
-    -- Define your custom paths
-    local custom_paths = {
-      github = "~/Documents/Github",
-      nvim = "~/AppData/Local/nvim"
-    }
-
     return {
       -- Keep existing snacks keybindings
-      { "<C-F4>", function() snacks.bufdelete() end, desc = "Delete buffer" },
-      { "<leader><space>", function() snacks.picker.smart() end, desc = "Smart Find Files" },
+      { "<F6>", function() snacks.bufdelete() end, desc = "Delete buffer" },
+      { "<leader><leader>", function() snacks.picker.smart() end, desc = "Smart Find Files" },
       { "<leader>n", function() snacks.explorer() end, desc = "File Explorer" },
+      -- Project navigation
       { "<Leader>ff", function() snacks.picker.files() end, desc = "Find Files" },
-      { "<Leader>fw", function() snacks.picker.files({ cwd = custom_paths.github }) end, desc = "Find files in Github folder" },
-      { "<Leader>fv", function() snacks.picker.files({ cwd = custom_paths.nvim }) end, desc = "Find files in nvim folder" },
+      { "<Leader>fi", function() snacks.picker.files({ hidden = true, ignored = true }) end, desc = "Find Files (including hidden/ignored)" },
+      { "<Leader>fp", function() snacks.picker.projects() end, desc = "Find Projects" },
       { "<leader>å", function() snacks.picker.git_files() end, desc = "Git Files" },
       { "<leader>fb", function() snacks.picker.buffers() end, desc = "Buffers" },
       -- Existing find mappings
       { "<leader>fc", function() snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
-      { "<leader>fp", function() snacks.picker.projects() end, desc = "Projects" },
       { "<leader>fr", function() snacks.picker.recent() end, desc = "Recent" },
       -- git
       { "<leader>gd", function() snacks.picker.git_diff() end, desc = "Git Diff (Hunks)" },
@@ -52,7 +46,6 @@ return {
       { "<leader>sk", function() snacks.picker.keymaps() end, desc = "Keymaps" },
       { "<leader>su", function() snacks.picker.undo() end, desc = "Undo History" },
       { "<leader>uC", function() snacks.picker.colorschemes() end, desc = "Colorschemes" },
-
       -- LSP
       { "gD", function() snacks.picker.lsp_declarations() end, desc = "Goto Declaration" },
       { "<leader>lr", function() snacks.picker.lsp_references() end, nowait = true, desc = "References" },

@@ -4,8 +4,8 @@ return {
 		picker = {
 			sources = {
 				files = {
-					hidden = true,
-					ignored = true,
+					hidden = false,
+					ignored = false,
 				},
 			},
       layout = {
