@@ -96,6 +96,10 @@ end
 
 -- Disabled default keymaps
 map("n", "<C-L>", "<Nop>")
+map("n", "<C-a>", "<Nop>")
+map("n", "<C-e>", "<Nop>")
+map("v", "<C-a>", "<Nop>")
+map("v", "<C-e>", "<Nop>")
 map("n", "<C-.>", "<Nop>")
 map("n", "L", "<Nop>")
 map("n", "<C-,>", "<Nop>")
@@ -103,6 +107,7 @@ map("n", "S", "<Nop>")
 map("n", "<C-v>", "<Nop>")
 map("n", "<C-G>", "<Nop>")
 map("n", "<C-Tab>", ":tabnext<CR>", { desc = "next tab" })
+
 
 -- Navigation between windows
 for _, mode in ipairs({ "n", "v" }) do
@@ -119,6 +124,13 @@ for _, mode in ipairs({ "n", "v" }) do
 end
 
 
+-- Default movements
+map("n", "<C-a>", "^") -- start of line (first non-blank)
+map("n", "<C-e>", "$") -- end of line
+map("v", "<C-a>", "^") -- start of line (first non-blank)
+map("v", "<C-e>", "$") -- end of line
+map("o", "<C-a>", "^") -- operator-pending: start of line
+map("o", "<C-e>", "$") -- operator-pending: end of line
 
 -- Window Resizing
 map("n", "<D-Down>", ":resize +6<CR>")           -- Increase window height
@@ -237,6 +249,7 @@ end, { desc = "Format current buffer" })
 --function for adding missing imports in ts
 local function ts_add_missing_imports_and_format(opts)
   opts = opts or {}
+  local range_params = vim.lsp.util.make_range_params(0, "utf-8")
 
   local params = {
     textDocument = range_params.textDocument,

@@ -7,7 +7,7 @@ return {
     "nvim-lua/plenary.nvim",
   },
   opts = {
-    model = "claude-4.5-sonnet",
+    model = "claude-sonnet-4.5",
     debug = false,
 
     -- Optional: specify default context providers
