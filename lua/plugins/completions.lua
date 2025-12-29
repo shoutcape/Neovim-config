@@ -108,9 +108,7 @@ return {
           ["<C-b>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<C-2>"] = cmp.mapping.complete(), -- for terminals that send NUL
-
+          ["<C-n>"] = cmp.mapping.complete(),
         }),
         sources = {
           { name = "nvim_lsp" },
