@@ -11,14 +11,12 @@ A modern, feature-rich Neovim configuration optimized for TypeScript/JavaScript 
 
 ## 📸 Screenshots
 
-### Dashboard
-*[Screenshot placeholder - Take a screenshot of the startup dashboard]*
+<img width="800" alt="Screenshot 2026-01-03 001057" src="https://github.com/user-attachments/assets/e3d10606-afbf-4403-83cb-f0c61c8f4bff" />
 
-### Coding Session
-*[Screenshot placeholder - Take a screenshot showing LSP, bufferline, lualine in action]*
+<img width="800" alt="Screenshot 2026-01-03 000331" src="https://github.com/user-attachments/assets/68e9acca-965b-4d65-a73f-5c8066da3302" />
 
-### Fuzzy Finding
-*[Screenshot placeholder - Take a screenshot of the snacks picker in action]*
+
+
 
 ## ✨ Key Features
 
