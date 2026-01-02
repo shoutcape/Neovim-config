@@ -34,15 +34,6 @@ return {
 					{ icon = " ", key = "q", desc = "Quit", action = ":qa" },
 				},
 				header = [[
-  ___       ________      ___    ___ ________  ___   _________    ___    ___ 
- |\  \     |\   __  \    |\  \  /  /|\   __  \|\  \ |\___   ___| |\  \  /  /|
- \ \  \    \ \  \|\  \   \ \  \/  / | \  \|\  \ \  \\|___ \  \_| \ \  \/  / /
-  \ \  \    \ \  \\\  \   \ \    / / \ \   __  \ \  \    \ \  \   \ \    / / 
-   \ \  \____\ \  \\\  \   \/  /  /   \ \  \ \  \ \  \____\ \  \   \/  /  /  
-    \ \_______\ \_______\__/  / /      \ \__\ \__\ \_______\ \__\__/  / /    
-     \|_______|\|_______|\___/ /        \|__|\|__|\|_______|\|__|\___/ /     
-                        \|___|/                                 \|___|/      
-                                                                           
       ________   _______   ________  ___      ___ ___  _____ ______        
     |\   ___  \|\  ___ \ |\   __  \|\  \    /  /|\  \|\   _ \  _   \      
     \ \  \\ \  \ \   __/|\ \  \|\  \ \  \  /  / | \  \ \  \\\__\ \  \     
@@ -63,14 +54,6 @@ return {
 				{ icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
 				{ icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
 				{ section = "startup" },
-				-- {
-				-- 	section = "terminal",
-				-- 	cmd = "pokemon-colorscripts -r --no-title; sleep .1",
-				-- 	random = 1,
-				-- 	pane = 3,
-				-- 	indent = 2, -- Try this if the plugin supports auto-centering
-				-- 	height = 30,
-				-- },
 			},
 		},
 	},
