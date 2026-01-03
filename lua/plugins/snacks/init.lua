@@ -15,7 +15,7 @@ return {
 
     -- Define your custom paths
     local custom_paths = {
-      github = "~/work",
+      github = "~/Github",
       nvim = "~/.config/nvim"
     }
 
@@ -27,7 +27,6 @@ return {
       { "<leader>n", function() snacks.explorer() end, desc = "File Explorer" },
       { "<Leader>ff", function() snacks.picker.files() end, desc = "Find Files" },
       { "<Leader>fw", function() snacks.picker.files({ cwd = custom_paths.github }) end, desc = "Find files in Github folder" },
-      { "<Leader>fv", function() snacks.picker.files({ cwd = custom_paths.nvim }) end, desc = "Find files in nvim folder" },
       { "<leader>å", function() snacks.picker.git_files() end, desc = "Git Files" },
       { "<leader>fb", function() snacks.picker.buffers() end, desc = "Buffers" },
       -- Existing find mappings
