@@ -1,5 +1,4 @@
-return
-{
+return {
   "stevearc/conform.nvim",
   opts = function()
     return {
@@ -36,8 +35,15 @@ return
     }
   end,
 
-  vim.keymap.set({ "n", "v" }, "<leader>gf", function(client, bufnr)
-    vim.lsp.buf.format()
-    require("conform").format({ bufnr })
-  end, { desc = "Format buffer or selection" })
+  keys = {
+    {
+      "<leader>gf",
+      function()
+        vim.lsp.buf.format()
+        require("conform").format()
+      end,
+      mode = { "n", "v" },
+      desc = "Format buffer or selection"
+    }
+  }
 }

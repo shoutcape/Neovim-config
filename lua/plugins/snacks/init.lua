@@ -8,7 +8,7 @@ return {
     bigfile = { enabled = true },
     scope = { enabled = true },
     statuscolumn = { enabled = true },
-    notifier = {enabled = true }
+    notifier = { enabled = false } -- Disabled to avoid conflict with noice.nvim
   },
   keys = function()
     local snacks = require("snacks")
@@ -69,7 +69,13 @@ return {
       { "<leader>S",  function() snacks.scratch.select() end, desc = "Select Scratch Buffer" },
       { "<leader>cR", function() snacks.rename.rename_file() end, desc = "Rename File" },
       { "<leader>lg", function() snacks.lazygit() end, desc = "Lazygit" },
-      { "<Esc>", function() vim.cmd("nohlsearch") snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
+      { "<Esc>", function()
+        vim.cmd("nohlsearch")
+        local ok, noice = pcall(require, "noice")
+        if ok then
+          noice.cmd("dismiss")
+        end
+      end, desc = "Dismiss All Notifications" },
     }
   end,
 }
