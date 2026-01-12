@@ -114,9 +114,6 @@ return {
           { name = "luasnip" },
           { name = "buffer" },
           { name = "crates" },
-          { name = "obsidian" },
-          { name = "obsidian_new" },
-          { name = "obsidian_tags" },
         },
       })
 
