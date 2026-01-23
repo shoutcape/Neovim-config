@@ -2,7 +2,7 @@ return {
   "windwp/nvim-autopairs",
   event = "InsertEnter",
   opts = {
-    disable_filetype = { "TelescopePrompt", "spectre_panel" },
+    disable_filetype = { "spectre_panel" },
   },
   config = function(_, opts)
     require("nvim-autopairs").setup(opts)

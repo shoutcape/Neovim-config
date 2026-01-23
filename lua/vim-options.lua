@@ -5,7 +5,7 @@ vim.g.mapleader = " "
 vim.opt.number = true                              -- Line numbers
 vim.opt.relativenumber = true                      -- Relative line numbers
 vim.opt.cursorline = true                          -- Highlight current line
-vim.opt.scrolloff = 20                             -- Keep 10 lines above/below cursor 
+vim.opt.scrolloff = 20                             -- Keep 20 lines above/below cursor 
 
 -- Indentation
 vim.opt.tabstop = 2                                -- Tab width
@@ -13,12 +13,11 @@ vim.opt.shiftwidth = 2                             -- Indent width
 vim.opt.softtabstop = 2                            -- Soft tab stop
 vim.opt.expandtab = true                           -- Use spaces instead of tabs
 vim.opt.smartindent = true                         -- Smart auto-indenting
-vim.opt.autoindent = true                          -- Copy indent from current line
 
 -- Search settings
 vim.opt.ignorecase = true                          -- Case insensitive search
 vim.opt.smartcase = true                           -- Case sensitive if uppercase in search
-vim.opt.hlsearch = true                           -- Don't highlight search results 
+vim.opt.hlsearch = true                            -- Highlight search results 
 vim.opt.incsearch = true                           -- Show matches as you type
 
 -- Visual settings
@@ -45,19 +44,6 @@ vim.opt.autowrite = false                          -- Don't auto save
 -- Behavior settings
 vim.opt.backspace = "indent,eol,start"             -- Better backspace behavior
 vim.opt.mouse = "a"                                -- Enable mouse support
-
--- Auto reload on file changes (Turn on if issues with file sync after external changes)
-
--- local autoread_group = vim.api.nvim_create_augroup("AutoReadCheck", { clear = true })
--- vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained" }, {
---   group = autoread_group,
---   pattern = "*",
---   callback = function()
---     if vim.g.auto_read_enabled and vim.fn.mode() ~= "c" then
---       vim.cmd("checktime")
---     end
---   end,
--- })
 
 -- Highlight yanked text
 local highlight_group = vim.api.nvim_create_augroup("HighlightYank", { clear = true })
@@ -96,6 +82,10 @@ end
 
 -- Disabled default keymaps
 map("n", "<C-L>", "<Nop>")
+map("n", "<C-a>", "<Nop>")
+map("n", "<C-e>", "<Nop>")
+map("v", "<C-a>", "<Nop>")
+map("v", "<C-e>", "<Nop>")
 map("n", "<C-.>", "<Nop>")
 map("n", "L", "<Nop>")
 map("n", "<C-,>", "<Nop>")
@@ -104,27 +94,35 @@ map("n", "<C-v>", "<Nop>")
 map("n", "<C-G>", "<Nop>")
 map("n", "<C-Tab>", ":tabnext<CR>", { desc = "next tab" })
 
+
 -- Navigation between windows
 for _, mode in ipairs({ "n", "v" }) do
-  map(mode, "<A-h>", "<C-w>h", { desc = "Move to left window" })
-  map(mode, "<A-j>", "<C-w>j", { desc = "Move to window below" })
-  map(mode, "<A-k>", "<C-w>k", { desc = "Move to window above" })
-  map(mode, "<A-l>", "<C-w>l", { desc = "Move to right window" })
+  map(mode, "<C-h>", "<C-w>h", { desc = "Move to left window" })
+  map(mode, "<C-j>", "<C-w>j", { desc = "Move to window below" })
+  map(mode, "<C-k>", "<C-w>k", { desc = "Move to window above" })
+  map(mode, "<C-l>", "<C-w>l", { desc = "Move to right window" })
 
   -- Move windows (splits) around with Shift + Ctrl
-  map(mode, "<A-S-h>", "<C-w>H", { desc = "Move window to the far left" })
-  map(mode, "<A-S-j>", "<C-w>J", { desc = "Move window to the bottom" })
-  map(mode, "<A-S-k>", "<C-w>K", { desc = "Move window to the top" })
-  map(mode, "<A-S-l>", "<C-w>L", { desc = "Move window to the far right" })
+  map(mode, "<C-S-h>", "<C-w>H", { desc = "Move window to the far left" })
+  map(mode, "<C-S-j>", "<C-w>J", { desc = "Move window to the bottom" })
+  map(mode, "<C-S-k>", "<C-w>K", { desc = "Move window to the top" })
+  map(mode, "<C-S-l>", "<C-w>L", { desc = "Move window to the far right" })
 end
 
 
+-- Default movements
+map("n", "<C-a>", "^") -- start of line (first non-blank)
+map("n", "<C-e>", "$") -- end of line
+map("v", "<C-a>", "^") -- start of line (first non-blank)
+map("v", "<C-e>", "$") -- end of line
+map("o", "<C-a>", "^") -- operator-pending: start of line
+map("o", "<C-e>", "$") -- operator-pending: end of line
 
--- Window Resizing (using Alt instead of Cmd for Linux)
-map("n", "<A-Down>", ":resize +6<CR>")           -- Increase window height
-map("n", "<A-Up>", ":resize -6<CR>")             -- Decrease window height
-map("n", "<A-Left>", ":vertical resize +6<CR>")  -- Increase window width
-map("n", "<A-Right>", ":vertical resize -6<CR>") -- Decrease window width
+-- Window Resizing
+map("n", "<D-Down>", ":resize +6<CR>")           -- Increase window height
+map("n", "<D-Up>", ":resize -6<CR>")             -- Decrease window height
+map("n", "<D-Left>", ":vertical resize +6<CR>")  -- Increase window width
+map("n", "<D-Right>", ":vertical resize -6<CR>") -- Decrease window width
 
 -- Buffer Navigation
 map("n", "Å", ":b#<CR>")
@@ -133,8 +131,6 @@ map("n", "<C-G>", "<C-]>")
 map("n", "Ö", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
 map("n", "Ä", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
 map("n", "<leader>b", "<cmd>BufferLinePick<CR>", { desc = "Pick buffer" })
--- map("n", "<leader>bh", "<cmd>BufferLineCloseLeft<CR>", { desc = "Close all to the left" })
--- map("n", "<leader>bl", "<cmd>BufferLineCloseRight<CR>", { desc = "Close all to the right" })
 
 -- Search
 map("n", "*", "*N")                                                                   -- Search word without moving cursor
@@ -145,7 +141,6 @@ map("v", "<leader>rn", '"zy:%s/<C-r>z/<C-r>z/g<Left><Left>', { silent = false })
 -- Scroll and Navigation
 map("n", "<PageUp>", "<C-u>")
 map("n", "<PageDown>", "<C-d>")
-map("n", "<C-G>", "<C-]>") -- Jump to tag
 
 -- Selection
 map("n", "vie", "maggVG")    -- Select entire file
@@ -159,10 +154,11 @@ map("n", "<leader>u", "mzu'z")     -- Undo keeping cursor position
 map("n", "<leader>U", "mz<C-r>'z") -- Redo keeping cursor position
 map("x", "<leader>p", '"_dP')      -- Paste without yanking
 
--- Clipboard Integration (using Ctrl instead of Cmd for Linux)
-map("v", "<C-c>", '"*y') -- Copy to system clipboard
-map("n", "<C-v>", '"*p') -- Paste from system clipboard
-map("v", "<C-v>", '"*p') -- Paste from system clipboard in visual mode
+-- Clipboard Integration
+map("v", "<D-c>", '"*y') -- Copy to system clipboard
+map("v", "<C-c>", '"*y') -- Copy to system clipboard "Ghostty"
+map("n", "<D-v>", '"*p') -- Paste from system clipboard
+map("v", "<D-v>", '"*p') -- Paste from system clipboard in visual mode
 
 -- Backspace Behavior
 map("i", "<C-BS>", "<C-W>")                     -- Control-Backspace in insert mode
@@ -173,7 +169,6 @@ map("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>") -- Show error i
 
 -- Terminal
 map("t", "<Esc>", "<C-\\><C-n>") -- Exit terminal mode
-map("n", "ö", "<C-v>")
 
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "*",
@@ -201,26 +196,10 @@ map("n", "<leader>cc", ":let @+ = expand('%:h')<CR>")
 -- Run Python in terminal
 map("n", "<A-a>", ':TermExec cmd="python %:p" dir=%:h size=10 direction=horizontal<CR>')
 
--- CopilotChat toggle
+-- CopilotChat
 map({ "n", "v" }, "<leader>cp", function()
-  require("CopilotChat").toggle({
-    selection = require("CopilotChat.context").visual,
-  })
-end)
-
--- Copilot Chat (legacy keymaps for compatibility)
-map(
-  "n",
-  "<leader>cp",
-  ":<C-u>lua require('CopilotChat').toggle({selection = require('CopilotChat.select').visual })<CR>"
-)
-map(
-  "v",
-  "<leader>cp",
-  ":<C-u>lua require('CopilotChat').toggle({ selection = require('CopilotChat.select').visual })<CR>"
-)
-
--- map("n", "<leader>gf", vim.lsp.buf.format, {})
+  require("CopilotChat").toggle()
+end, { desc = "Toggle CopilotChat" })
 
 vim.api.nvim_create_user_command("Format", function()
   vim.lsp.buf.format()
@@ -230,8 +209,14 @@ end, { desc = "Format current buffer" })
 --function for adding missing imports in ts
 local function ts_add_missing_imports_and_format(opts)
   opts = opts or {}
+  local range_params = vim.lsp.util.make_range_params(0, "utf-8")
 
-  local params = vim.lsp.util.make_range_params()
+  local params = {
+    textDocument = range_params.textDocument,
+    range = range_params.range,
+    context = { only = { "source.addMissingImports.ts" }, diagnostics = {} }
+  }
+
   params.context = { only = { "source.addMissingImports.ts" }, diagnostics = {} }
 
   vim.lsp.buf_request(0, "textDocument/codeAction", params, function(err, result)

@@ -40,7 +40,7 @@ return {
         fmt = function(str)
           -- Replace the returnable value with' ' or use a custom unicode
           -- displays only the first character of the mode
-          return "\u{49000}" .. str
+          return " " .. str
         end,
       }
 

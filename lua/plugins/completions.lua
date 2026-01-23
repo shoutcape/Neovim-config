@@ -79,7 +79,6 @@ return {
       local luasnip = require("luasnip")
 
       vim.keymap.set("i", "<S-Tab>", '<cmd>lua require("luasnip").jump(1)<CR>', { silent = true })
-      vim.keymap.set("i", "<S-S-Tab>", '<cmd>lua require("luasnip").jump(-1)<CR>', { silent = true })
 
       cmp.setup({
         preselect = cmp.PreselectMode.None,

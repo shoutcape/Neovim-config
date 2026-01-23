@@ -53,15 +53,24 @@ vim.diagnostic.config({
 
       -- Configure Lua_Ls
       vim.lsp.config("lua_ls", {
-        -- Don't set workspace.library here: lazydev manages that for you 
         settings = {
           Lua = {
+            runtime = {
+              version = "LuaJIT",
+              path = vim.split(package.path, ";"),
+            },
             completion = {
               callSnippet = "Replace",
             },
             diagnostics = {
-              -- So LuaLS stops complaining about `vim`
               globals = { "vim" },
+            },
+            workspace = {
+              checkThirdParty = false,
+              -- Don't set library here: lazydev manages that for you
+            },
+            telemetry = {
+              enable = false,
             },
           },
         },
@@ -89,7 +98,6 @@ vim.diagnostic.config({
             "node_modules/@s-group/design-system-tokens/dist/web/tokens/colors.css",
             "node_modules/@s-group/design-system-tokens/dist/web/tokens/sbrand/colors.css",
             "/src/app/(frontend)/mediaQueries.css"
-            -- "node_modules/@s-group/design-system-tokens/dist/web/tokens/**.css",
           },
           blacklistFolders = {
             "**/.git",
@@ -109,7 +117,6 @@ vim.diagnostic.config({
             "node_modules/@s-group/design-system-tokens/dist/web/tokens/colors.css",
             "node_modules/@s-group/design-system-tokens/dist/web/tokens/sbrand/colors.css",
             "/src/app/(frontend)/mediaQueries.css"
-            -- "node_modules/@s-group/design-system-tokens/dist/web/tokens/**.css",
             },
             blacklistFolders = {
               "**/.git",

@@ -1,5 +1,4 @@
-return
-{
+return {
   "stevearc/conform.nvim",
   opts = function()
     return {
@@ -25,22 +24,6 @@ return
         ["*"] = { "trim_whitespace" },
       },
 
-      -- Customize formatter invocation
-      -- formatters = {
-      --   prettierd = {
-      --     prepend_args = { "--no-semi", "--single-quote" },
-      --   },
-      --   prettier = {
-      --     prepend_args = { "--no-semi", "--single-quote" },
-      --   },
-      -- },
-
-      -- Enable format-on-save
-      -- format_on_save = {
-      --   timeout_ms = 500,
-      --   lsp_format = "fallback",
-      -- },
-
       -- Better defaults
       default_format_opts = {
         timeout_ms = 1000,
@@ -52,8 +35,15 @@ return
     }
   end,
 
-  vim.keymap.set({ "n", "v" }, "<leader>gf", function(client, bufnr)
-    vim.lsp.buf.format()
-    require("conform").format({ bufnr })
-  end, { desc = "Format buffer or selection" })
+  keys = {
+    {
+      "<leader>gf",
+      function()
+        vim.lsp.buf.format()
+        require("conform").format()
+      end,
+      mode = { "n", "v" },
+      desc = "Format buffer or selection"
+    }
+  }
 }
