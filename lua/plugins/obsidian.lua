@@ -45,7 +45,7 @@ return {
 		workspaces = {
 			{
 				name = "personal",
-				path = "~/Documents/Muistiinpanot",
+				path = "~/Documents/Obsidian Notes",
 			},
 		},
 
@@ -74,17 +74,42 @@ return {
 			highlight_text = { hl_group = "ObsidianHighlightText" },
 			tags = { hl_group = "ObsidianTag" },
 		},
+
+		-- Configure daily notes
+		daily_notes = {
+			folder = "daily-notes",
+			date_format = "%Y-%m-%d-%A",
+			alias_format = "%B %-d, %Y",
+			default_tags = { "daily-notes" },
+			template = nil,
+		},
+
+		-- Configure note ID generation
+		note_id_func = function(title)
+			-- For daily notes, use the date format with day name
+			if title ~= nil then
+				return title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+			else
+				-- For regular notes, use timestamp
+				return tostring(os.time())
+			end
+		end,
+
+		-- Configure note frontmatter (new syntax)
+		frontmatter = {
+			func = function(note)
+				local out = { id = note.id, aliases = note.aliases, tags = note.tags }
+				if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+					for k, v in pairs(note.metadata) do
+						out[k] = v
+					end
+				end
+				return out
+			end,
+		},
 	},
 
 	config = function(_, opts)
 		require("obsidian").setup(opts)
-
-		-- Set conceallevel for markdown files to enable Obsidian UI features
-		vim.api.nvim_create_autocmd("FileType", {
-			pattern = "markdown",
-			callback = function()
-				vim.opt_local.conceallevel = 2
-			end,
-		})
 	end,
 }
