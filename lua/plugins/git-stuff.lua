@@ -25,4 +25,23 @@ return {
       vim.keymap.set("n", "<leader>gt", gitsigns.toggle_current_line_blame, { desc = "Toggle Git Blame" })
     end,
   },
+
+  -- Advanced git diff viewer
+  {
+    "sindrets/diffview.nvim",
+    event = "VeryLazy",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("diffview").setup({
+        -- Configuration options can be added here
+      })
+
+      -- Keymaps
+      vim.keymap.set("n", "<leader>gd", "<cmd>DiffviewOpen<cr>", { desc = "Open Diffview" })
+      vim.keymap.set("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", { desc = "File History (current)" })
+      vim.keymap.set("n", "<leader>gH", "<cmd>DiffviewFileHistory<cr>", { desc = "File History (branch)" })
+      vim.keymap.set("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
+      vim.keymap.set("n", "<leader>gn", "<cmd>DiffviewToggleFiles<cr>", { desc = "Toggle Files Panel" })
+    end,
+  },
 }

@@ -34,7 +34,6 @@ return {
       { "<leader>fp", function() snacks.picker.projects() end, desc = "Projects" },
       { "<leader>fr", function() snacks.picker.recent() end, desc = "Recent" },
       -- git
-      { "<leader>gd", function() snacks.picker.git_diff() end, desc = "Git Diff (Hunks)" },
       { "<leader>gB", function() snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
       -- Grep
       { "<leader>rs", function() snacks.picker.grep_word() end, desc = "Visual selection or word", mode = { "n", "x" } },
