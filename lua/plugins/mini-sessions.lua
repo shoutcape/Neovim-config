@@ -31,24 +31,28 @@ return {
         },
 
         -- Whether to print session path after action
+        -- Keep reads quiet to avoid noisy startup in case something triggers it.
         verbose = { read = true, write = true, delete = true },
       })
 
       -- Keymaps for session management
       local map = vim.keymap.set
-      map('n', '<leader>ss', function()
+      map('n', '<leader>qs', function()
         vim.ui.input({ prompt = 'Session name: ' }, function(name)
           if name then
-            require('mini.sessions').write(name)
+
+
+
+  require('mini.sessions').write(name)
           end
         end)
       end, { desc = 'Save session' })
 
-      map('n', '<leader>sl', function()
+      map('n', '<leader>ql', function()
         require('mini.sessions').select('read')
       end, { desc = 'Load session' })
 
-      map('n', '<leader>sd', function()
+      map('n', '<leader>qd', function()
         require('mini.sessions').select('delete')
       end, { desc = 'Delete session' })
     end
