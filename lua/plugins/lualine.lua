@@ -1,17 +1,5 @@
 return {
   {
-    "letieu/harpoon-lualine",
-    event = "VeryLazy",
-    dependencies = {
-      {
-        "ThePrimeagen/harpoon",
-        branch = "harpoon2",
-        event = "VeryLazy",
-      },
-    },
-  },
-
-  {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
     dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -69,15 +57,6 @@ return {
         'filename',
         file_status = true,
         path = 1,
-      }
-
-      local harpoon = {
-        "harpoon2",
-        indicators = { "j", "k", "l", "ö" },
-        active_indicators = { "[J]", "[K]", "[L]", "[Ö]" },
-        no_harpoon = "Harpoon not loaded",
-        -- optional highlight if using `LualineHarpoonActive`
-        -- color = "LualineHarpoonActive",
       }
 
       local datetime = {
@@ -158,7 +137,7 @@ return {
           lualine_a = { mode, recording },
           lualine_b = { branch, diff },
           lualine_c = { filename },
-          lualine_x = { datetime, harpoon },
+          lualine_x = { datetime },
           lualine_y = { "progress" },
           lualine_z = { "filetype" },
         },
