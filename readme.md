@@ -2,7 +2,7 @@
 
 A Neovim configuration for TypeScript/JavaScript development with AI assistants, LSP support, and snacks.nvim-based UI.
 
-**Linux Branch**: Includes debugging (nvim-dap), Harpoon, and smooth scrolling. For other platforms, see the `main` (Windows) or `MacOs` branches.
+**Linux Branch**: Includes debugging (nvim-dap) and smooth scrolling. For other platforms, see the `main` (Windows) or `MacOs` branches.
 
 ## 📸 Screenshots
 
@@ -18,7 +18,7 @@ A Neovim configuration for TypeScript/JavaScript development with AI assistants,
 - 🤖 **AI Development** - CopilotChat (Claude Sonnet 4.5) + OpenCode
 - 🔧 **LSP Support** - 8 language servers with auto-installation
 - 🎨 **UI** - 6 color schemes, statusline, buffer tabs, notifications
-- ⚡ **Navigation** - Leap.nvim, snacks picker, Harpoon
+- ⚡ **Navigation** - Leap.nvim, snacks picker
 - 🌳 **Git Integration** - lazygit, gitsigns, fugitive
 - 💾 **Auto-save & Sessions** - Automatic file saving and session management
 - 🐛 **Debugging** - nvim-dap for JavaScript/TypeScript
@@ -140,7 +140,7 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 - **[zbirenbaum/copilot.lua](https://github.com/zbirenbaum/copilot.lua)** - Copilot integration
 - **[NickvanDyke/opencode.nvim](https://github.com/NickvanDyke/opencode.nvim)** - AI coding assistant
   - Requires: OpenCode CLI tool installed
-  - Keymaps: `<C-.>` toggle, `ga` add to context, `<C-a>` ask
+  - Keymaps: `<C-.>` toggle, `ga` add to context, `<C-a>` ask (Visual)
 
 ### Debugging
 
@@ -215,9 +215,6 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 - **[mikavilpas/yazi.nvim](https://github.com/mikavilpas/yazi.nvim)** - Yazi file manager integration
   - Requires: yazi installed
   - Keymaps: `<leader>-` at current file, `<leader>cw` at working directory
-- **[ThePrimeagen/harpoon](https://github.com/ThePrimeagen/harpoon)** - Quick file bookmarking
-  - Fast file switching with numbered marks
-  - Keymaps: `<leader>a` add file, `<C-e>` toggle menu, `<C-h/j/k/l>` jump to marks 1-4
 - **[karb94/neoscroll.nvim](https://github.com/karb94/neoscroll.nvim)** - Smooth scrolling
 
 ### Git Integration
@@ -284,17 +281,6 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 | `<leader>cw` | Open yazi at working directory | yazi.nvim |
 | `<c-up>` | Resume last yazi session | yazi.nvim |
 
-### Harpoon
-
-| Key | Action |
-|-----|--------|
-| `<leader>a` | Add file to harpoon |
-| `<C-e>` | Toggle harpoon menu |
-| `<C-h>` | Jump to harpoon mark 1 |
-| `<C-t>` | Jump to harpoon mark 2 |
-| `<C-n>` | Jump to harpoon mark 3 |
-| `<C-s>` | Jump to harpoon mark 4 |
-
 ### Buffer Management
 
 | Key | Action |
@@ -311,24 +297,24 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 
 | Key | Action |
 |-----|--------|
-| `<A-h>` | Move to left window |
-| `<A-j>` | Move to window below |
-| `<A-k>` | Move to window above |
-| `<A-l>` | Move to right window |
-| `<A-S-h>` | Move window to far left |
-| `<A-S-j>` | Move window to bottom |
-| `<A-S-k>` | Move window to top |
-| `<A-S-l>` | Move window to far right |
+| `<C-h>` | Move to left window |
+| `<C-j>` | Move to window below |
+| `<C-k>` | Move to window above |
+| `<C-l>` | Move to right window |
+| `<C-S-h>` | Move window to far left |
+| `<C-S-j>` | Move window to bottom |
+| `<C-S-k>` | Move window to top |
+| `<C-S-l>` | Move window to far right |
 
 ### LSP Operations
 
 | Key | Action |
 |-----|--------|
-| `gd` | Go to definition |
-| `gD` | Go to declaration |
-| `gr` | References |
-| `gI` | Implementations |
-| `gy` | Type definitions |
+| `gd` | Go to definition (picker) |
+| `gD` | Go to declaration (picker) |
+| `gr` | References (picker) |
+| `gI` | Implementations (picker) |
+| `gy` | Type definitions (picker) |
 | `K` | Hover documentation |
 | `<leader>rn` | Rename symbol |
 | `<leader>gf` | Format buffer/selection |
@@ -389,7 +375,7 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 |-----|--------|--------|
 | `<leader>gr` | Open GrugFar (search/replace) | grug-far.nvim |
 | `<leader>rs` | Grep word under cursor | snacks.picker |
-| `<leader>rn` | Find & replace word under cursor | builtin |
+| `<leader>rw` | Find & replace word/selection | builtin |
 | `s` | Leap forward | leap.nvim |
 | `S` | Leap backward | leap.nvim |
 | `gs` | Leap from window | leap.nvim |
@@ -443,6 +429,7 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 |-----|--------|
 | `<C-+>` | Increase font size |
 | `<C-->` | Decrease font size |
+| `<D-Arrow>` | Resize splits |
 
 > **Note on Nordic Keyboard Layout**: This config includes keybindings optimized for Nordic keyboards (Ö, Ä, Å keys for buffer navigation). If you're using a different layout, you may want to remap these in `lua/vim-options.lua:124-129`.
 
@@ -471,7 +458,6 @@ nvim/
 │       ├── opencode.lua       # OpenCode config
 │       ├── treesitter.lua     # Treesitter config
 │       ├── debugging.lua      # nvim-dap config (Linux/macOS)
-│       ├── harpoon.lua        # Harpoon config (Linux/macOS)
 │       ├── smooth-scroll.lua  # Neoscroll config (Linux/macOS)
 │       ├── lualine.lua        # Statusline config
 │       ├── bufferline.lua     # Buffer tabs config
@@ -782,19 +768,6 @@ Or toggle it at runtime with `:ASToggle`
 3. Check background processes: `htop` or `top`
 4. Disable smooth scrolling: Comment out neoscroll in `lua/plugins/smooth-scroll.lua`
 5. Check Treesitter highlighting: `:TSDisable highlight`
-
-### Harpoon Not Working
-
-**Symptoms**: Harpoon marks don't persist or keybindings don't work
-
-**Solutions**:
-1. Check Harpoon config: `lua/plugins/harpoon.lua`
-2. Verify keybindings: `:map <C-e>` should show harpoon mapping
-3. Clear Harpoon state:
-   ```bash
-   rm -rf ~/.local/share/nvim/harpoon.json
-   ```
-4. Restart Neovim
 
 ### Yazi Integration Issues
 
