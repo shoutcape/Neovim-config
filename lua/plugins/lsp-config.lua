@@ -23,16 +23,45 @@ return {
   },
 
   {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    dependencies = { "williamboman/mason.nvim" },
+    opts = {
+      ensure_installed = {
+        -- Formatters used by conform.nvim
+        "stylua",
+        "prettierd",
+        "prettier",
+        "shfmt",
+      },
+      run_on_start = true,
+    },
+  },
+
+  {
     "neovim/nvim-lspconfig",
     dependencies = {
       "folke/lazydev.nvim",
       "williamboman/mason-lspconfig.nvim",
     },
     config = function()
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("UserLspKeymaps", { clear = true }),
+        callback = function(args)
+          local buf = args.buf
+
+          local function bmap(mode, lhs, rhs, desc)
+            vim.keymap.set(mode, lhs, rhs, { buffer = buf, desc = desc })
+          end
+
+          bmap("n", "K", vim.lsp.buf.hover, "Hover documentation")
+          bmap("n", "<leader>rn", vim.lsp.buf.rename, "Rename symbol")
+        end,
+      })
+
       -- custom diagnostic float UI
       --- Configures diagnostic settings for Neovim.
---- @param config table The diagnostic configuration.
-vim.diagnostic.config({
+ --- @param config table The diagnostic configuration.
+ vim.diagnostic.config({
         float = {
           border = {
             { "╭", "FloatBorder" },

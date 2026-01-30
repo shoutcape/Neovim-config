@@ -54,7 +54,9 @@ return {
       { "<leader>uC", function() snacks.picker.colorschemes() end, desc = "Colorschemes" },
 
       -- LSP
+      { "gd", function() snacks.picker.lsp_definitions() end, desc = "Goto Definition" },
       { "gD", function() snacks.picker.lsp_declarations() end, desc = "Goto Declaration" },
+      { "gr", function() snacks.picker.lsp_references() end, desc = "References" },
       { "<leader>lr", function() snacks.picker.lsp_references() end, nowait = true, desc = "References" },
       { "gI", function() snacks.picker.lsp_implementations() end, desc = "Goto Implementation" },
       { "gy", function() snacks.picker.lsp_type_definitions() end, desc = "Goto T[y]pe Definition" },

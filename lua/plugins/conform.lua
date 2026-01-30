@@ -39,8 +39,7 @@ return {
     {
       "<leader>gf",
       function()
-        vim.lsp.buf.format()
-        require("conform").format()
+        require("conform").format({ lsp_format = "fallback" })
       end,
       mode = { "n", "v" },
       desc = "Format buffer or selection"

@@ -138,8 +138,8 @@ map("n", "<leader>b", "<cmd>BufferLinePick<CR>", { desc = "Pick buffer" })
 -- Search
 map("n", "*", "*N")                                                                   -- Search word without moving cursor
 map("n", "/", ":noh<CR>/")                                                            -- Reset highlight on new search
-map("n", "<leader>rn", ":%s/<c-r><c-w>/<c-r><c-w>/g<Left><Left>", { silent = false }) -- Find and replace word under cursor
-map("v", "<leader>rn", '"zy:%s/<C-r>z/<C-r>z/g<Left><Left>', { silent = false })      -- Find and replace visual selection
+map("n", "<leader>rw", ":%s/<c-r><c-w>/<c-r><c-w>/g<Left><Left>", { silent = false }) -- Find and replace word under cursor
+map("v", "<leader>rw", '"zy:%s/<C-r>z/<C-r>z/g<Left><Left>', { silent = false })      -- Find and replace visual selection
 
 -- Scroll and Navigation
 map("n", "<PageUp>", "<C-u>")
@@ -205,7 +205,7 @@ map({ "n", "v" }, "<leader>cp", function()
 end, { desc = "Toggle CopilotChat" })
 
 vim.api.nvim_create_user_command("Format", function()
-  vim.lsp.buf.format()
+  require("conform").format({ lsp_format = "fallback" })
 end, { desc = "Format current buffer" })
 
 
@@ -245,7 +245,7 @@ local function ts_add_missing_imports_and_format(opts)
     end
 
     vim.defer_fn(function()
-      vim.lsp.buf.format({ async = false })
+      require("conform").format({ lsp_format = "fallback", async = false })
     end, 100)
   end)
 end
