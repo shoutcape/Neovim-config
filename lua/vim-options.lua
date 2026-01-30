@@ -20,6 +20,9 @@ vim.opt.smartcase = true                           -- Case sensitive if uppercas
 vim.opt.hlsearch = true                            -- Highlight search results 
 vim.opt.incsearch = true                           -- Show matches as you type
 
+
+
+
 -- Visual settings
 vim.opt.termguicolors = true                       -- Enable 24-bit colors
 vim.opt.signcolumn = "yes"                         -- Always show sign column
@@ -155,10 +158,10 @@ map("n", "<leader>U", "mz<C-r>'z") -- Redo keeping cursor position
 map("x", "<leader>p", '"_dP')      -- Paste without yanking
 
 -- Clipboard Integration
-map("v", "<D-c>", '"*y') -- Copy to system clipboard
-map("v", "<C-c>", '"*y') -- Copy to system clipboard "Ghostty"
-map("n", "<D-v>", '"*p') -- Paste from system clipboard
-map("v", "<D-v>", '"*p') -- Paste from system clipboard in visual mode
+map("v", "<C-c>", '"+y')       -- Copy to system clipboard
+map("n", "<C-v>", '"+p')       -- Paste from system clipboard
+map("i", "<C-v>", '<C-r>+')    -- Paste from system clipboard in insert mode
+map("v", "<C-v>", '"+p')       -- Paste from system clipboard in visual mode
 
 -- Backspace Behavior
 map("i", "<C-BS>", "<C-W>")                     -- Control-Backspace in insert mode
