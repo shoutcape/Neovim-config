@@ -10,7 +10,7 @@ return {
     ---@type opencode.Opts
     vim.g.opencode_opts = {
       -- Your configuration, if any — see `lua/opencode/config.lua`, or "goto definition".  
-      provider = {
+      server = {
         enabled = "snacks", -- Default if `snacks.terminal` is available and enabled.
         snacks = {
           win={
