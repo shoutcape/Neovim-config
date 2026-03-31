@@ -84,6 +84,24 @@ vim.diagnostic.config({
         },
       })
 
+      -- MDX language server for JSX intellisense in .mdx files
+      vim.lsp.config('mdx_analyzer', {
+        cmd = { 'mdx-language-server', '--stdio' },
+        filetypes = { 'mdx' },
+        root_markers = { 'package.json', '.git' },
+        init_options = {
+          typescript = {},
+        },
+        on_attach = function(client, bufnr)
+          -- mdx_analyzer doesn't provide its own completions/diagnostics,
+          -- it delegates to ts_ls. Attach ts_ls as a secondary server.
+          local clients = vim.lsp.get_clients({ name = 'ts_ls' })
+          if #clients > 0 then
+            vim.lsp.buf_attach_client(bufnr, clients[1].id)
+          end
+        end,
+      })
+
       -- Configure CSS Variables server with custom lookup files
       vim.lsp.config('css_variables', {
         cmd = { 'css-variables-language-server', '--stdio' },
@@ -142,6 +160,7 @@ vim.diagnostic.config({
       vim.lsp.enable('ts_ls')
       vim.lsp.enable('cssmodules_ls')
       vim.lsp.enable('css_variables')
+      vim.lsp.enable('mdx_analyzer')
 
 
     end,
