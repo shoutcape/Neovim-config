@@ -170,6 +170,23 @@ map("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>") -- Show error i
 -- Terminal
 map("t", "<Esc>", "<C-\\><C-n>") -- Exit terminal mode
 
+-- Reset current terminal: closes this terminal buffer and opens a fresh one in cwd
+vim.api.nvim_create_user_command("Treset", function()
+  local buf = vim.api.nvim_get_current_buf()
+  if vim.bo[buf].buftype ~= "terminal" then
+    vim.notify("Not in a terminal buffer", vim.log.levels.WARN)
+    return
+  end
+  -- Get the toggleterm number if it's a toggleterm buffer
+  local term_id = vim.b[buf].toggle_number
+  vim.cmd("bdelete! " .. buf)
+  if term_id then
+    vim.cmd(term_id .. "ToggleTerm")
+  else
+    vim.cmd("ToggleTerm")
+  end
+end, { desc = "Reset current terminal (reopen in cwd)" })
+
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "*",
   callback = function(args)
@@ -250,3 +267,9 @@ end
 -- Add bang support so :AddImports! is "quiet"
 vim.api.nvim_create_user_command("AddImports", ts_add_missing_imports_and_format, { bang = true })
 vim.keymap.set("n", "<Leader>i", ts_add_missing_imports_and_format, { desc = "Add missing imports" })
+
+vim.keymap.set("n", "<leader>oc", function()
+  local path = vim.fn.expand("%:.") -- relative to current working directory
+  vim.fn.setreg("+", "@" .. path)
+  vim.notify("Copied: @" .. path)
+end, { desc = "Copy @cwd-relative file path" })
