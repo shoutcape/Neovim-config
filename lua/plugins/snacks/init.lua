@@ -6,6 +6,8 @@ return {
   ---@type snacks.Config
   opts = {
     bigfile = { enabled = true },
+    input = { enabled = true },
+    lazygit = { enabled = true },
     scope = { enabled = true },
     statuscolumn = { enabled = true },
     notifier = { enabled = false } -- Disabled to avoid conflict with noice.nvim
