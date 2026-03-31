@@ -30,7 +30,6 @@ return {
 		{ "<leader>or", "<cmd>Obsidian rename<cr>", desc = "Rename note"},
 		{ "<leader>oi", "<cmd>Obsidian paste_img<cr>", desc = "Paste image"},
 		{ "<leader>oT", "<cmd>Obsidian template<cr>", desc = "Insert template"},
-		{ "<leader>oc", "<cmd>Obsidian toggle_checkbox<cr>", desc = "Toggle checkbox"},
 		{ "<leader>o.", "<cmd>Obsidian toc<cr>", desc = "Table of contents"},
 		
 		-- Visual mode commands
@@ -81,7 +80,28 @@ return {
 			date_format = "%Y-%m-%d-%A",
 			alias_format = "%B %-d, %Y",
 			default_tags = { "daily-notes" },
-			template = nil,
+			template = "Daily Note.md",
+		},
+
+		-- Configure templates
+		templates = {
+			folder = "Templates",
+			date_format = "%Y-%m-%d",
+			time_format = "%H:%M",
+			substitutions = {
+				id = function()
+					return os.date("%Y-%m-%d-%A")
+				end,
+				alias = function()
+					return os.date("%B %-d, %Y")
+				end,
+				yesterday = function()
+					return os.date("%Y-%m-%d-%A", os.time() - 86400)
+				end,
+				tomorrow = function()
+					return os.date("%Y-%m-%d-%A", os.time() + 86400)
+				end,
+			},
 		},
 
 		-- Configure note ID generation
