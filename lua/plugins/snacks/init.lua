@@ -72,12 +72,10 @@ return {
         local newdir_file = vim.fn.expand("~/.lazygit/newdir")
         vim.fn.mkdir(vim.fn.expand("~/.lazygit"), "p")
 
-        local win = snacks.lazygit({
+        snacks.lazygit({
           env = { LAZYGIT_NEW_DIR_FILE = newdir_file },
         })
 
-        -- Snacks terminal doesn't reliably trigger win:on("TermClose") for lazygit closures.
-        -- We'll register a one-shot global autocmd for the next TermClose.
         vim.api.nvim_create_autocmd("TermClose", {
           pattern = "*lazygit*",
           once = true,
@@ -88,7 +86,7 @@ return {
               local dir = f:read("*a"):gsub("%s+$", "")
               f:close()
               os.remove(newdir_file)
-              if dir ~= "" and dir ~= vim.fn.getcwd() and vim.fn.isdirectory(dir) == 1 then
+              if dir ~= "" and dir ~= vim.fn.getcwd() then
                 vim.cmd("cd " .. vim.fn.fnameescape(dir))
               end
             end)
