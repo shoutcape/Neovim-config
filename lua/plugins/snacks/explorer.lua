@@ -14,7 +14,7 @@ return {
 						["r"] = "explorer_rename",
 						["c"] = "explorer_copy",
 						["m"] = "explorer_move",
-						["o"] = "explorer_open", -- open with system application
+					["o"] = "explorer_open", -- open with system application
 						["P"] = "toggle_preview",
 						["y"] = { "explorer_yank", mode = { "n", "x" } },
 						["p"] = "explorer_paste",
