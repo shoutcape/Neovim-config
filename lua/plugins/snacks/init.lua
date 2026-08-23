@@ -79,31 +79,7 @@ return {
       { "<leader>.",  function() snacks.scratch() end, desc = "Toggle Scratch Buffer" },
       { "<leader>S",  function() snacks.scratch.select() end, desc = "Select Scratch Buffer" },
       { "<leader>cR", function() snacks.rename.rename_file() end, desc = "Rename File" },
-      { "<leader>lg", function()
-        local newdir_file = vim.fn.expand("~/.lazygit/newdir")
-        vim.fn.mkdir(vim.fn.expand("~/.lazygit"), "p")
-
-        snacks.lazygit({
-          env = { LAZYGIT_NEW_DIR_FILE = newdir_file },
-        })
-
-        vim.api.nvim_create_autocmd("TermClose", {
-          pattern = "*lazygit*",
-          once = true,
-          callback = function()
-            vim.schedule(function()
-              local f = io.open(newdir_file, "r")
-              if not f then return end
-              local dir = f:read("*a"):gsub("%s+$", "")
-              f:close()
-              os.remove(newdir_file)
-              if dir ~= "" and dir ~= vim.fn.getcwd() then
-                vim.cmd("cd " .. vim.fn.fnameescape(dir))
-              end
-            end)
-          end
-        })
-      end, desc = "Lazygit" },
+      { "<leader>lg", function() snacks.lazygit() end, desc = "Lazygit" },
       { "<Esc>", function() vim.cmd("nohlsearch") snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
     }
   end,
