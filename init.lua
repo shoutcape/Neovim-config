@@ -1,6 +1,9 @@
 --- Enable Lua loader for better performance
 vim.loader.enable(true)
 
+-- Use the isolated TypeScript 7 language server. Set to false to restore ts_ls.
+vim.g.use_tsc = true
+
 ---@type string
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 

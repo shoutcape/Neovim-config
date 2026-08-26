@@ -9,6 +9,9 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     opts = {
+      automatic_enable = {
+        exclude = { "ts_ls" },
+      },
       ensure_installed = {
         "lua_ls",
         "cssls",
@@ -29,6 +32,9 @@ return {
       "williamboman/mason-lspconfig.nvim",
     },
     config = function()
+      local use_tsc = vim.g.use_tsc == true
+      local typescript_server = use_tsc and 'tsc' or 'ts_ls'
+
       -- custom diagnostic float UI
       --- Configures diagnostic settings for Neovim.
 --- @param config table The diagnostic configuration.
@@ -84,6 +90,14 @@ vim.diagnostic.config({
         },
       })
 
+      vim.lsp.config('tsc', {
+        cmd = {
+          vim.fn.stdpath('data') .. '/tools/tsc/node_modules/.bin/tsc',
+          '--lsp',
+          '--stdio',
+        },
+      })
+
       -- MDX language server for JSX intellisense in .mdx files
       vim.lsp.config('mdx_analyzer', {
         cmd = { 'mdx-language-server', '--stdio' },
@@ -94,8 +108,8 @@ vim.diagnostic.config({
         },
         on_attach = function(client, bufnr)
           -- mdx_analyzer doesn't provide its own completions/diagnostics,
-          -- it delegates to ts_ls. Attach ts_ls as a secondary server.
-          local clients = vim.lsp.get_clients({ name = 'ts_ls' })
+          -- it delegates to the active TypeScript server.
+          local clients = vim.lsp.get_clients({ name = typescript_server })
           if #clients > 0 then
             vim.lsp.buf_attach_client(bufnr, clients[1].id)
           end
@@ -157,7 +171,7 @@ vim.diagnostic.config({
       vim.lsp.enable('html')
       vim.lsp.enable('jsonls')
       vim.lsp.enable('eslint')
-      vim.lsp.enable('ts_ls')
+      vim.lsp.enable(typescript_server)
       vim.lsp.enable('cssmodules_ls')
       vim.lsp.enable('css_variables')
       vim.lsp.enable('mdx_analyzer')
