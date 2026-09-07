@@ -16,7 +16,7 @@ A Neovim configuration for TypeScript/JavaScript development with AI assistants,
 ## ✨ Key Features
 
 - 🤖 **AI Development** - CopilotChat (Claude Sonnet 4.5) + OpenCode
-- 🔧 **LSP Support** - 8 language servers with auto-installation
+- 🔧 **LSP Support** - 9 language servers with auto-installation
 - 🎨 **UI** - 6 color schemes, statusline, buffer tabs, notifications
 - ⚡ **Navigation** - Leap.nvim, snacks picker
 - 🌳 **Git Integration** - lazygit, gitsigns, fugitive
@@ -116,7 +116,7 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 ### LSP & Completion
 
 - **[neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)** - LSP client configuration
-  - Configured servers: lua_ls, ts_ls, cssls, html, jsonls, eslint, cssmodules_ls, css_variables
+  - Configured servers: lua_ls, ts_ls, cssls, html, jsonls, eslint, cssmodules_ls, css_variables, gopls
 - **[williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)** - LSP/tool installer
   - Dependencies: mason-lspconfig.nvim, mason-tool-installer.nvim
 - **[hrsh7th/nvim-cmp](https://github.com/hrsh7th/nvim-cmp)** - Autocompletion engine
@@ -511,6 +511,7 @@ nvim/
 | ESLint | eslint | Linting for JS/TS | ✅ |
 | CSS Modules | cssmodules_ls | CSS modules support | ✅ |
 | CSS Variables | css_variables | CSS variable completion | ✅ |
+| Go | gopls | Completion, diagnostics, static analysis, formatting | ✅ |
 
 ### Formatters (via conform.nvim)
 

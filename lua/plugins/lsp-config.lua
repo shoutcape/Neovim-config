@@ -19,6 +19,7 @@ return {
         "ts_ls",
         "cssmodules_ls",
         "css_variables",
+        "gopls",
       },
     },
   },
@@ -163,6 +164,21 @@ return {
         },
       })
 
+      -- Configure Go language support
+      vim.lsp.config('gopls', {
+        settings = {
+          gopls = {
+            analyses = {
+              shadow = true,
+              unusedparams = true,
+            },
+            gofumpt = true,
+            staticcheck = true,
+            usePlaceholders = true,
+          },
+        },
+      })
+
       -- Enable all LSP servers
       vim.lsp.enable('lua_ls')
       vim.lsp.enable('cssls')
@@ -172,6 +188,7 @@ return {
       vim.lsp.enable('ts_ls')
       vim.lsp.enable('cssmodules_ls')
       vim.lsp.enable('css_variables')
+      vim.lsp.enable('gopls')
 
 
     end,
