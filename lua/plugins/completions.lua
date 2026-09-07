@@ -24,7 +24,6 @@ local cmp_kinds = {
   Event = "  ",
   Operator = "  ",
   TypeParameter = "  ",
-  Copilot = "  ",
 }
 
 return {

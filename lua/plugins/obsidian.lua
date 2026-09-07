@@ -55,7 +55,6 @@ return {
 
 		-- Enable completion of wiki links, tags, etc.
 		completion = {
-			nvim_cmp = true,
 			min_chars = 2,
 		},
 

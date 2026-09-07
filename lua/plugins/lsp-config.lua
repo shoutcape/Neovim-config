@@ -21,6 +21,7 @@ return {
         "ts_ls",
         "cssmodules_ls",
         "css_variables",
+        "kotlin_lsp",
       },
     },
   },
@@ -92,10 +93,26 @@ vim.diagnostic.config({
 
       vim.lsp.config('tsc', {
         cmd = {
-          vim.fn.stdpath('data') .. '/tools/tsc/node_modules/.bin/tsc',
+          vim.fn.stdpath('data') .. '/mason/bin/tsc',
           '--lsp',
           '--stdio',
         },
+      })
+
+      vim.lsp.config('kotlin_lsp', {
+        cmd = {
+          vim.fn.stdpath('data') .. '/mason/bin/intellij-server',
+          '--stdio',
+        },
+        root_markers = {
+          'settings.gradle',
+          'settings.gradle.kts',
+          'pom.xml',
+          'build.gradle',
+          'build.gradle.kts',
+          'workspace.json',
+        },
+        single_file_support = false,
       })
 
       -- MDX language server for JSX intellisense in .mdx files
@@ -159,10 +176,30 @@ vim.diagnostic.config({
         },
       })
 
+      local eslint_before_init = vim.lsp.config.eslint.before_init
+
       vim.lsp.config('eslint', {
         settings = {
           workingDirectory = { mode = 'auto' },
         },
+        before_init = function(params, config)
+          eslint_before_init(params, config)
+
+          local repo_root = '/Users/ville.kautiainen/work/customer-owner-ui'
+          local frontend_root = repo_root .. '/apps/frontend'
+          local worktree_prefix = repo_root .. '/.worktrees/'
+          local root_dir = config.root_dir
+          local is_worktree_frontend = root_dir:sub(1, #worktree_prefix) == worktree_prefix
+            and root_dir:sub(-#'/apps/frontend') == '/apps/frontend'
+
+          if root_dir ~= frontend_root and not is_worktree_frontend then
+            return
+          end
+
+          config.settings.options = {
+            overrideConfigFile = vim.fn.expand('~/.config/nvim/nvim-eslint/customer-owner-ui.config.mjs'),
+          }
+        end,
       })
 
       -- Enable all LSP servers
@@ -174,6 +211,7 @@ vim.diagnostic.config({
       vim.lsp.enable(typescript_server)
       vim.lsp.enable('cssmodules_ls')
       vim.lsp.enable('css_variables')
+      vim.lsp.enable('kotlin_lsp')
       vim.lsp.enable('mdx_analyzer')
 
 

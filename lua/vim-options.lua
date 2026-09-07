@@ -126,7 +126,7 @@ map("n", "<D-Right>", ":vertical resize -6<CR>") -- Decrease window width
 
 -- Buffer Navigation
 map("n", "Å", ":b#<CR>")
-map("n", "<C-G>", "<C-]>")
+map("n", "<C-G>", vim.lsp.buf.definition, { desc = "Go to definition" })
 
 map("n", "Ö", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
 map("n", "Ä", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
@@ -165,7 +165,7 @@ map("i", "<C-BS>", "<C-W>")                     -- Control-Backspace in insert m
 map("c", "<C-BS>", "<C-W>", { silent = false }) -- Control-Backspace in command mode
 
 -- Diagnostics
-map("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>") -- Show error in float
+map("n", "<space>e", vim.diagnostic.open_float, { desc = "Show diagnostics" })
 
 -- Terminal
 map("t", "<Esc>", "<C-\\><C-n>") -- Exit terminal mode
@@ -212,11 +212,6 @@ map("n", "<leader>cc", ":let @+ = expand('%:h')<CR>")
 
 -- Run Python in terminal
 map("n", "<A-a>", ':TermExec cmd="python %:p" dir=%:h size=10 direction=horizontal<CR>')
-
--- CopilotChat
-map({ "n", "v" }, "<leader>cp", function()
-  require("CopilotChat").toggle()
-end, { desc = "Toggle CopilotChat" })
 
 vim.api.nvim_create_user_command("Format", function()
   vim.lsp.buf.format()
