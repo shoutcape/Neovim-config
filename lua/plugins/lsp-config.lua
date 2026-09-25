@@ -7,11 +7,20 @@ return {
   },
 
   {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    dependencies = { "williamboman/mason.nvim" },
+    opts = {
+      ensure_installed = { "ktlint" },
+      run_on_start = true,
+      start_delay = 1000,
+      debounce_hours = 24,
+    },
+  },
+
+  {
     "williamboman/mason-lspconfig.nvim",
     opts = {
-      automatic_enable = {
-        exclude = { "ts_ls" },
-      },
+      automatic_enable = false,
       ensure_installed = {
         "lua_ls",
         "cssls",
@@ -31,10 +40,16 @@ return {
     dependencies = {
       "folke/lazydev.nvim",
       "williamboman/mason-lspconfig.nvim",
+      "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
       local use_tsc = vim.g.use_tsc == true
       local typescript_server = use_tsc and 'tsc' or 'ts_ls'
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+      vim.lsp.config("*", {
+        capabilities = capabilities,
+      })
 
       -- custom diagnostic float UI
       --- Configures diagnostic settings for Neovim.
@@ -112,7 +127,7 @@ vim.diagnostic.config({
           'build.gradle.kts',
           'workspace.json',
         },
-        single_file_support = false,
+        workspace_required = true,
       })
 
       -- MDX language server for JSX intellisense in .mdx files

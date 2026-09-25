@@ -126,7 +126,31 @@ map("n", "<D-Right>", ":vertical resize -6<CR>") -- Decrease window width
 
 -- Buffer Navigation
 map("n", "Å", ":b#<CR>")
-map("n", "<C-G>", vim.lsp.buf.definition, { desc = "Go to definition" })
+
+local function go_to_definition_without_node_modules()
+  vim.lsp.buf.definition({
+    on_list = function(options)
+      local items = vim.tbl_filter(function(item)
+        local filename = (item.filename or ""):gsub("\\", "/")
+        return not filename:find("/node_modules/", 1, true)
+      end, options.items)
+
+      if #items == 0 then
+        vim.notify("No project definition found", vim.log.levels.INFO)
+        return
+      end
+
+      vim.fn.setqflist({}, " ", { title = options.title, items = items })
+      if #items == 1 then
+        vim.cmd("cc 1")
+      else
+        vim.cmd("botright copen")
+      end
+    end,
+  })
+end
+
+map("n", "<C-G>", go_to_definition_without_node_modules, { desc = "Go to definition" })
 
 map("n", "Ö", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
 map("n", "Ä", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
@@ -212,11 +236,6 @@ map("n", "<leader>cc", ":let @+ = expand('%:h')<CR>")
 
 -- Run Python in terminal
 map("n", "<A-a>", ':TermExec cmd="python %:p" dir=%:h size=10 direction=horizontal<CR>')
-
-vim.api.nvim_create_user_command("Format", function()
-  vim.lsp.buf.format()
-end, { desc = "Format current buffer" })
-
 
 --function for adding missing imports in ts
 local function ts_add_missing_imports_and_format(opts)

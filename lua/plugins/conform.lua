@@ -1,6 +1,8 @@
 return {
   "stevearc/conform.nvim",
   opts = function()
+    local kotlin_tools = require("kotlin-tools")
+
     return {
       -- Map filetypes to formatters (run sequentially unless stop_after_first is set)
       formatters_by_ft = {
@@ -22,12 +24,25 @@ return {
         mdx = { "prettierd", "prettier", stop_after_first = true },
         yaml = { "prettierd", "prettier", stop_after_first = true },
 
+        kotlin = { "ktlint" },
+
         ["*"] = { "trim_whitespace" },
+      },
+
+      formatters = {
+        ktlint = {
+          command = kotlin_tools.executable("ktlint"),
+          args = { "--log-level=none", "--format", "--stdin", "--stdin-path", "$FILENAME" },
+          stdin = true,
+          condition = function()
+            return vim.fn.executable(kotlin_tools.executable("ktlint")) == 1
+          end,
+        },
       },
 
       -- Better defaults
       default_format_opts = {
-        timeout_ms = 1000,
+        timeout_ms = 3000,
         lsp_format = "fallback",
       },
 
@@ -41,7 +56,7 @@ return {
       "<leader>gf",
       function()
         vim.lsp.buf.format()
-        require("conform").format()
+        require("conform").format({ async = true })
       end,
       mode = { "n", "v" },
       desc = "Format buffer or selection"

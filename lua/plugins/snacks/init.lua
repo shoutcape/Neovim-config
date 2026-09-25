@@ -7,7 +7,17 @@ return {
   opts = {
     bigfile = { enabled = true },
     input = { enabled = true },
-    lazygit = { enabled = true },
+    lazygit = {
+      config = {
+        os = {
+          editPreset = "",
+          edit = 'nvim --server "$NVIM" --remote-send "<C-\\><C-N>:q<CR>" && nvim --server "$NVIM" --remote {{filename}}',
+          editAtLine = 'nvim --server "$NVIM" --remote-send "<C-\\><C-N>:q<CR>" && nvim --server "$NVIM" --remote {{filename}} && nvim --server "$NVIM" --remote-send ":{{line}}<CR>"',
+          editAtLineAndWait = 'nvim --server "$NVIM" --remote-send "<C-\\><C-N>:q<CR>" && nvim --server "$NVIM" --remote {{filename}} && nvim --server "$NVIM" --remote-send ":{{line}}<CR>"',
+          editInTerminal = false,
+        },
+      },
+    },
     scope = { enabled = true },
     statuscolumn = { enabled = true },
     notifier = { enabled = false } -- Disabled to avoid conflict with noice.nvim
