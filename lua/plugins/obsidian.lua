@@ -50,7 +50,7 @@ return {
 
 		-- Use snacks.picker for file picking
 		picker = {
-			name = "snacks.pick",
+			name = "snacks.picker",
 		},
 
 		-- Enable completion of wiki links, tags, etc.
