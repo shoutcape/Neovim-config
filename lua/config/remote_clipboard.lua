@@ -1,9 +1,10 @@
--- Clipboard for sessions whose yanks may need to reach another machine:
--- every copy is emitted as OSC 52 (inside tmux this becomes a tmux buffer,
--- rebroadcast to every attached client, local or SSH). Paste prefers the
--- local Wayland clipboard when one is available, so content copied in other
--- apps remains pasteable; without a display, paste is an OSC 52 query that
--- tmux (or the terminal) answers.
+-- Clipboard for Neovim running inside Herdr or over SSH. Copies go to the local
+-- Wayland clipboard when there is one and are also emitted as OSC 52, so they
+-- reach the terminal on another machine. Reads use Wayland, falling back to
+-- this Neovim's last copy. Never query the terminal with OSC 52: support for
+-- writes does not imply permission to read, and an unanswered query blocks
+-- ordinary paste for ten seconds. To insert new text from the host when no
+-- readable clipboard exists, use terminal paste.
 local M = {}
 
 local function proc_lines(pid, file)
@@ -41,11 +42,10 @@ local function ancestor_process_named(name)
 end
 
 function M.setup()
-  local in_tmux = vim.env.TMUX ~= nil
   local in_ssh = vim.env.SSH_TTY ~= nil or vim.env.SSH_CONNECTION ~= nil
   local in_herdr = vim.env.HERDR_PANE_ID ~= nil or ancestor_process_named("herdr")
 
-  if not (in_tmux or in_ssh or in_herdr) then
+  if not (in_ssh or in_herdr) then
     return
   end
 
@@ -54,12 +54,24 @@ function M.setup()
     and vim.fn.executable("wl-copy") == 1
     and vim.fn.executable("wl-paste") == 1
 
+  -- The provider cache is off, so remember each copy here: it restores the
+  -- linewise/blockwise type on paste and is the fallback when nothing is readable.
+  local last_copy = {}
+
+  -- wl-paste drops the final newline that a linewise copy ends with, so compare
+  -- clipboard contents without it.
+  local function text(lines)
+    return (table.concat(lines, "\n"):gsub("\n$", ""))
+  end
+
   local function copy(register)
     local emit = osc52.copy(register)
 
-    return function(lines)
+    return function(lines, regtype)
+      last_copy[register] = { vim.deepcopy(lines), regtype }
+
       if has_wayland then
-        local cmd = { "wl-copy", "--sensitive", "--type", "text/plain" }
+        local cmd = { "wl-copy", "--type", "text/plain" }
         if register == "*" then
           cmd[#cmd + 1] = "--primary"
         end
@@ -73,18 +85,25 @@ function M.setup()
   end
 
   local function paste(register)
-    if not has_wayland then
-      return osc52.paste(register)
-    end
-
     return function()
-      local cmd = { "wl-paste", "--no-newline" }
-      if register == "*" then
-        cmd[#cmd + 1] = "--primary"
+      if has_wayland then
+        local cmd = { "wl-paste", "--no-newline" }
+        if register == "*" then
+          cmd[#cmd + 1] = "--primary"
+        end
+
+        local lines = vim.fn.systemlist(cmd, "", 1)
+        if vim.v.shell_error == 0 then
+          -- An empty clipboard is valid; only failed reads use the fallback.
+          -- Our own copy comes back with the type it was yanked with.
+          if last_copy[register] and text(lines) == text(last_copy[register][1]) then
+            return vim.deepcopy(last_copy[register])
+          end
+          return lines
+        end
       end
 
-      local lines = vim.fn.systemlist(cmd, "", 1)
-      return vim.v.shell_error == 0 and lines or {}
+      return vim.deepcopy(last_copy[register] or { {}, "v" })
     end
   end
 
