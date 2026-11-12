@@ -2,7 +2,7 @@
 
 A Neovim configuration for TypeScript/JavaScript development with AI assistants, LSP support, and snacks.nvim-based UI.
 
-**Linux Branch**: Includes debugging (nvim-dap) and smooth scrolling. For other platforms, see the `main` (Windows) or `MacOs` branches.
+**Linux Branch**: Includes smooth scrolling. For other platforms, see the `main` (Windows) or `MacOs` branches.
 
 ## 📸 Screenshots
 
@@ -21,15 +21,15 @@ A Neovim configuration for TypeScript/JavaScript development with AI assistants,
 - ⚡ **Navigation** - Leap.nvim, snacks picker
 - 🌳 **Git Integration** - lazygit, gitsigns, fugitive
 - 💾 **Auto-save & Sessions** - Automatic file saving and session management
-- 🐛 **Debugging** - nvim-dap for JavaScript/TypeScript
 - 📜 **Smooth Scrolling** - neoscroll
-- 🎯 **65+ Plugins** - Complete setup
+- 🎯 **56 Plugins** - Complete setup
 
 ## 📋 Requirements
 
 ### Core (Required)
 
-- **Neovim** >= 0.10.0
+- **Neovim** >= 0.11.0
+- **tree-sitter CLI and a C compiler** - Treesitter parser installation
 - **Git** - Version control
 - **Node.js & npm** - LSP servers and formatters
 - **Bash/Zsh** - Terminal shell
@@ -101,7 +101,7 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 - Restart Neovim after installing external tools
 - Run `:checkhealth` to verify everything is working
 
-## 🔌 Plugin Ecosystem (65+ Plugins)
+## 🔌 Plugin Ecosystem (56 Plugins)
 
 ### Core Framework
 
@@ -109,7 +109,7 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
   - Smart lazy loading, lockfile support
 - **[folke/snacks.nvim](https://github.com/folke/snacks.nvim)** - Multi-purpose plugin suite *(centerpiece)*
   - Replaces: dashboard, file explorer, fuzzy finder, notifications, and more
-  - Modules: bufdelete, dashboard, explorer, indent, picker, words, notifier, zen, zoom, scratch, lazygit, rename, gitbrowse
+  - Modules: bufdelete, dashboard, explorer, indent, picker, notifier, zen, zoom, scratch, lazygit, rename, gitbrowse
 - **[nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim)** - Utility library
   - Required dependency for many plugins
 
@@ -117,7 +117,7 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 
 - **[neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)** - LSP client configuration
   - Configured servers: lua_ls, ts_ls, cssls, html, jsonls, eslint, cssmodules_ls, css_variables, gopls
-- **[williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)** - LSP/tool installer
+- **[mason-org/mason.nvim](https://github.com/mason-org/mason.nvim)** - LSP/tool installer
   - Dependencies: mason-lspconfig.nvim, mason-tool-installer.nvim
 - **[hrsh7th/nvim-cmp](https://github.com/hrsh7th/nvim-cmp)** - Autocompletion engine
   - Sources: cmp-nvim-lsp, cmp-buffer, cmp-path, cmp-cmdline
@@ -127,8 +127,7 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 - **[folke/lazydev.nvim](https://github.com/folke/lazydev.nvim)** - Neovim Lua development
   - Provides proper Lua types and completions
 - **[stevearc/conform.nvim](https://github.com/stevearc/conform.nvim)** - Code formatting
-  - Formatters: stylua, prettierd, prettier, shfmt
-- **[nvimtools/none-ls.nvim](https://github.com/nvimtools/none-ls.nvim)** - Null-ls replacement
+  - Formatters: stylua, prettierd, prettier
 - **[dmmulroy/tsc.nvim](https://github.com/dmmulroy/tsc.nvim)** - TypeScript compiler integration
 
 ### AI Assistants
@@ -138,21 +137,10 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
   - Ask now: comment on a line or selection and send it immediately
   - Review mode: collect comments across files, then send them as one prompt
 
-### Debugging
-
-- **[mfussenegger/nvim-dap](https://github.com/mfussenegger/nvim-dap)** - Debug Adapter Protocol client
-  - Core debugging functionality
-- **[rcarriga/nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui)** - UI for nvim-dap
-  - Visual debugging interface with breakpoints, variables, call stack
-- **[mxsdev/nvim-dap-vscode-js](https://github.com/mxsdev/nvim-dap-vscode-js)** - JavaScript/TypeScript debugging
-  - Node.js and browser debugging support
-- **[microsoft/vscode-js-debug](https://github.com/microsoft/vscode-js-debug)** - VS Code JS debugger
-  - Integrated via nvim-dap-vscode-js
-
 ### Syntax & Parsing
 
 - **[nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)** - Advanced syntax highlighting
-  - Auto-installed parsers: lua, vim, javascript, typescript, html, json, elixir, heex, c, query, vimdoc
+  - The parser list in `lua/plugins/treesitter.lua` is installed automatically.
 - **[windwp/nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag)** - Auto-close/rename HTML tags
   - Requires: nvim-treesitter
 
@@ -187,10 +175,10 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
   - Minimal render style with snacks.nvim integration
 - **[MunifTanjim/nui.nvim](https://github.com/MunifTanjim/nui.nvim)** - UI component library
   - Required by noice.nvim
-- **[echasnovski/mini.nvim](https://github.com/echasnovski/mini.nvim)** - Minimal plugin collection
+- **[nvim-mini/mini.icons](https://github.com/nvim-mini/mini.icons)** - File icons for snacks
 - **[nvim-tree/nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons)** - File icons
   - Required by many UI plugins
-- **[norcalli/nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)** - Color code highlighter
+- **[catgoose/nvim-colorizer.lua](https://github.com/catgoose/nvim-colorizer.lua)** - Color code highlighter
   - Highlights hex colors, RGB, color names in code
 - **[RRethy/vim-illuminate](https://github.com/RRethy/vim-illuminate)** - Highlight word under cursor
 - **[folke/which-key.nvim](https://github.com/folke/which-key.nvim)** - Keybinding hints
@@ -228,11 +216,11 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 
 - **[windwp/nvim-autopairs](https://github.com/windwp/nvim-autopairs)** - Auto-close brackets/quotes
   - Treesitter integration, nvim-cmp integration
-- **[tpope/vim-surround](https://github.com/tpope/vim-surround)** - Surround text objects
+- **[tpope/vim-surround](https://github.com/tpope/vim-surround)** - Surround text objects (visual `S` is surround)
   - Commands: `cs` change surround, `ds` delete surround, `ys` add surround
 - **[mg979/vim-visual-multi](https://github.com/mg979/vim-visual-multi)** - Multiple cursors
 - **[sQVe/sort.nvim](https://github.com/sQVe/sort.nvim)** - Sorting utility
-- **[Pocco81/auto-save.nvim](https://github.com/Pocco81/auto-save.nvim)** - Auto-save files
+- **[okuuva/auto-save.nvim](https://github.com/okuuva/auto-save.nvim)** - Auto-save files
   - Debounce: 250ms on TextChanged event
 
 ### Terminal & Sessions
@@ -240,7 +228,7 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 - **[akinsho/toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim)** - Terminal management
   - Shell: bash/zsh
   - Keymap: `ä` to toggle
-- **[echasnovski/mini.sessions](https://github.com/echasnovski/mini.sessions)** - Session management
+- **[nvim-mini/mini.sessions](https://github.com/nvim-mini/mini.sessions)** - Session management
   - Auto-writes sessions on exit
 
 ### Documentation
@@ -271,11 +259,12 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 | `<leader>sk` | Keymaps | snacks.picker |
 | `<leader>su` | Undo history | snacks.picker |
 | `<leader>sd` | Diagnostics | snacks.picker |
+| `<leader>st` | Colorschemes | snacks.picker |
 | `<leader>ss` | LSP symbols | snacks.picker |
 | `<leader>n` | Toggle file explorer | snacks.explorer |
 | `<leader>-` | Open yazi at current file | yazi.nvim |
 | `<leader>cw` | Open yazi at working directory | yazi.nvim |
-| `<c-up>` | Resume last yazi session | yazi.nvim |
+| `<leader>cy` | Resume last yazi session | yazi.nvim |
 
 ### Buffer Management
 
@@ -286,8 +275,8 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 | `<leader>b` | Pick buffer (interactive) |
 | `<F6>` | Delete buffer |
 | `Å` | Switch to previously edited buffer *(Nordic layout)* |
-| `vie` | Select entire file content |
-| `yie` | Copy entire file content |
+| `vie` | Select entire buffer via the `ie` text object (also `die`, `cie`) |
+| `yie` | Yank entire buffer via the `ie` text object, keeping the cursor in place |
 
 ### Window Navigation
 
@@ -313,23 +302,11 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 | `gy` | Type definitions (picker) |
 | `K` | Hover documentation |
 | `<leader>rn` | Rename symbol |
+| `<leader>ca` | Code action |
 | `<leader>gf` | Format buffer/selection |
 | `<leader>e` | Open diagnostic float |
 | `<leader>i` | Add missing imports |
 | `<leader>lr` | LSP references |
-
-### Debugging
-
-| Key | Action |
-|-----|--------|
-| `<F5>` | Continue/Start debugging |
-| `<F10>` | Step over |
-| `<F11>` | Step into |
-| `<F12>` | Step out |
-| `<leader>b` | Toggle breakpoint |
-| `<leader>B` | Set conditional breakpoint |
-| `<leader>dr` | Open REPL |
-| `<leader>dl` | Run last debug session |
 
 ### Diagnostics & Trouble
 
@@ -352,7 +329,7 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 | `<leader>lg` | Open lazygit | snacks.nvim |
 | `<leader>gp` | Preview git hunk | gitsigns |
 | `<leader>gt` | Toggle git blame | gitsigns |
-| `<leader>gd` | Git diff (hunks) | snacks.nvim |
+| `<leader>gd` | Open Diffview | diffview.nvim |
 | `<leader>gB` | Git browse (open in browser) | snacks.nvim |
 | `]g` / `[g` | Navigate git hunks (in explorer) | snacks.explorer |
 
@@ -376,7 +353,7 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 | `<leader>rs` | Grep word under cursor | snacks.picker |
 | `<leader>rw` | Find & replace word/selection | builtin |
 | `s` | Leap forward | leap.nvim |
-| `S` | Leap backward | leap.nvim |
+| `S` | Leap backward (normal and operator-pending only) | leap.nvim |
 | `gs` | Leap from window | leap.nvim |
 | `x` / `X` | Leap till forward/backward (V/O) | leap.nvim |
 | `*` | Search word under cursor (stay) | builtin |
@@ -398,6 +375,7 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 | `ä` | Toggle terminal *(Nordic layout)* |
 | `<Esc>` | Exit terminal mode (in terminal) |
 | `<A-a>` | Run Python file in terminal |
+| `<leader>ms` / `<leader>ml` / `<leader>md` | Save / load / delete session |
 
 ### UI & Workflow
 
@@ -430,7 +408,7 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 | `<C-->` | Decrease font size |
 | `<D-Arrow>` | Resize splits |
 
-> **Note on Nordic Keyboard Layout**: This config includes keybindings optimized for Nordic keyboards (Ö, Ä, Å keys for buffer navigation). If you're using a different layout, you may want to remap these in `lua/vim-options.lua:124-129`.
+> **Note on Nordic Keyboard Layout**: This config includes keybindings optimized for Nordic keyboards (Ö, Ä, Å keys for buffer navigation). If you're using a different layout, you may want to remap these in `lua/vim-options.lua`.
 
 ## 🛠️ Configuration Structure
 
@@ -440,27 +418,27 @@ nvim/
 ├── lua/
 │   ├── vim-options.lua        # Core Vim settings & keymaps
 │   ├── neovide.lua            # Neovide GUI configuration
+│   ├── colors.lua             # Shared colors
+│   ├── herdr_agent.lua        # Herdr agent comments
+│   ├── config/
+│   │   └── remote_clipboard.lua # Remote clipboard configuration
 │   └── plugins/               # Plugin configurations (auto-loaded by lazy.nvim)
 │       ├── snacks/            # Snacks.nvim module configs
 │       │   ├── init.lua       # Main snacks setup
-│       │   ├── bufdelete.lua  # Buffer deletion config
 │       │   ├── dashboard.lua  # Startup dashboard
 │       │   ├── explorer.lua   # File explorer config
 │       │   ├── indent.lua     # Indent guides
-│       │   ├── picker.lua     # Fuzzy finder config
-│       │   └── words.lua      # Word highlighting
+│       │   └── picker.lua     # Fuzzy finder config
 │       ├── lsp-config.lua     # LSP server configurations
 │       ├── completions.lua    # nvim-cmp setup
 │       ├── theme.lua          # Color scheme configuration
 │       ├── conform.lua        # Formatter setup
 │       ├── herdr.lua          # Herdr agent comments loader
 │       ├── treesitter.lua     # Treesitter config
-│       ├── debugging.lua      # nvim-dap config (Linux/macOS)
 │       ├── smooth-scroll.lua  # Neoscroll config (Linux/macOS)
 │       ├── lualine.lua        # Statusline config
 │       ├── bufferline.lua     # Buffer tabs config
 │       ├── noice.lua          # UI enhancements
-│       ├── gitsigns.lua       # Git signs config
 │       ├── git-stuff.lua      # Fugitive setup
 │       ├── leap.lua           # Leap motion config
 │       ├── trouble.lua        # Trouble config
@@ -479,7 +457,6 @@ nvim/
 │       ├── auto-save.lua      # Auto-save config
 │       ├── sort.lua           # Sorting utility
 │       ├── lazydev.lua        # Lua dev support
-│       ├── none-ls.lua        # None-ls setup
 │       ├── tsc.lua            # TypeScript compiler
 │       └── minicons.lua       # Mini.nvim setup
 ├── lazy-lock.json             # Plugin version lockfile
@@ -516,25 +493,20 @@ nvim/
 | Language/File Type | Formatter | Options |
 |-------------------|-----------|---------|
 | Lua | stylua | Default |
-| JavaScript/JSX | prettierd → prettier | `--no-semi`, `--single-quote` |
-| TypeScript/TSX | prettierd → prettier | `--no-semi`, `--single-quote` |
-| HTML | prettierd → prettier | `--no-semi`, `--single-quote` |
-| CSS/SCSS | prettierd → prettier | `--no-semi`, `--single-quote` |
-| JSON/JSONC | prettierd → prettier | `--no-semi`, `--single-quote` |
-| Markdown | prettierd → prettier | `--no-semi`, `--single-quote` |
-| YAML | prettierd → prettier | `--no-semi`, `--single-quote` |
-| Shell/Bash | shfmt | `-i 2 -ci` (2 space indent, case indent) |
+| JavaScript/JSX | prettierd → prettier | project config |
+| TypeScript/TSX | prettierd → prettier | project config |
+| HTML | prettierd → prettier | project config |
+| CSS/SCSS | prettierd → prettier | project config |
+| JSON/JSONC | prettierd → prettier | project config |
+| Markdown | prettierd → prettier | project config |
+| YAML | prettierd → prettier | project config |
 | Fallback | trim_whitespace | Removes trailing whitespace |
 
 > **Note**: Formatters use prettierd (daemon) as primary, falling back to prettier if unavailable.
 
 ### Treesitter Parsers (Auto-Install)
 
-- **Core**: lua, vim, vimdoc, query, c
-- **Web**: javascript, typescript, html, json
-- **Elixir**: elixir, heex
-
-Additional parsers will be automatically installed when you open files of that type.
+The parser list in `lua/plugins/treesitter.lua` is installed automatically.
 
 ## 🎨 Customization
 
@@ -590,11 +562,10 @@ map("n", "<leader>test", ":echo 'Hello!'<CR>", { desc = "Test keymap" })
    ```
 3. Add server-specific setup (if needed):
    ```lua
-   lspconfig.your_new_server.setup({
-     capabilities = capabilities,
-     on_attach = on_attach,
+   vim.lsp.config("your_new_server", {
      -- server-specific options
    })
+   vim.lsp.enable("your_new_server")
    ```
 4. Restart Neovim - Mason will auto-install the server
 5. Verify with `:Mason` and `:LspInfo`
@@ -720,25 +691,13 @@ Or toggle it at runtime with `:ASToggle`
 
 **Solutions**:
 1. Update all parsers: `:TSUpdate`
-2. Check installed parsers: `:TSInstallInfo`
-3. Manually install parser: `:TSInstall <language>`
-4. Check health: `:checkhealth nvim-treesitter`
-5. Clear parser cache:
+2. Manually install parser: `:TSInstall <language>`
+3. Check health: `:checkhealth nvim-treesitter`
+4. Clear parser cache:
    ```bash
    rm -rf ~/.local/share/nvim/tree-sitter
    ```
-6. On Linux, ensure you have build tools: `sudo apt install build-essential` (Ubuntu/Debian)
-
-### Debugging Not Working
-
-**Symptoms**: nvim-dap doesn't start, breakpoints don't work
-
-**Solutions**:
-1. Check if js-debug-adapter is installed: `:Mason`
-2. Verify debugger configuration: `lua/plugins/debugging.lua`
-3. Check DAP UI is loaded: `:lua require('dapui').toggle()`
-4. Check logs: `:DapShowLog`
-5. Manually install debugger: `:MasonInstall js-debug-adapter`
+5. On Linux, ensure you have build tools: `sudo apt install build-essential` (Ubuntu/Debian)
 
 ### Performance Issues
 
