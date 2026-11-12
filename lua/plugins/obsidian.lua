@@ -1,6 +1,7 @@
 return {
 	"obsidian-nvim/obsidian.nvim",
 	version = "*", -- Use latest release, remove to use latest commit
+	ft = "markdown",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"hrsh7th/nvim-cmp", -- Optional completion integration
@@ -24,7 +25,7 @@ return {
 		{ "<leader>oH", "<cmd>Obsidian helpgrep<cr>", desc = "Grep help wiki"},
 		
 		-- Note commands
-		{ "gf", "<cmd>Obsidian follow_link<cr>", desc = "Follow link"},
+		{ "gf", "<cmd>Obsidian follow_link<cr>", desc = "Follow link", ft = "markdown" },
 		{ "<leader>ol", "<cmd>Obsidian links<cr>", desc = "List links"},
 		{ "<leader>ob", "<cmd>Obsidian backlinks<cr>", desc = "Show backlinks"},
 		{ "<leader>or", "<cmd>Obsidian rename<cr>", desc = "Rename note"},
