@@ -158,6 +158,7 @@ map("n", "<leader>U", "mz<C-r>'z") -- Redo keeping cursor position
 map("x", "<leader>p", '"_dP')      -- Paste without yanking
 
 -- Clipboard Integration
+require("config.remote_clipboard").setup() -- OSC 52 copies inside Herdr and over SSH
 map("v", "<C-c>", '"+y')       -- Copy to system clipboard
 map("n", "<C-v>", '"+p')       -- Paste from system clipboard
 map("i", "<C-v>", '<C-r>+')    -- Paste from system clipboard in insert mode
