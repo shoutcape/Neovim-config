@@ -38,6 +38,23 @@ return {
   },
 
   {
+<<<<<<< HEAD
+=======
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    dependencies = { "mason-org/mason.nvim" },
+    opts = {
+      ensure_installed = {
+        -- Formatters used by conform.nvim
+        "stylua",
+        "prettierd",
+        "prettier",
+      },
+      run_on_start = true,
+    },
+  },
+
+  {
+>>>>>>> 829aa08 (fix: resolve config review findings and restrict comment move restoration)
     "neovim/nvim-lspconfig",
     dependencies = {
       "folke/lazydev.nvim",
