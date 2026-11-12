@@ -45,7 +45,7 @@ return {
         end,
 
         pick = {
-          alphabet = "abcdefghijklmopqrstuvwxyz",
+          alphabet = "abcdefghijklmnopqrstuvwxyz",
         },
 
         -- Add offset for special buffers to maintain main window width
