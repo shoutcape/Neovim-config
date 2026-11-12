@@ -97,6 +97,12 @@ map("n", "<C-v>", "<Nop>")
 map("n", "<C-G>", "<Nop>")
 map("n", "<C-Tab>", ":tabnext<CR>", { desc = "next tab" })
 
+-- Remove Neovim's default gr* LSP maps so `gr` (references picker) fires instantly
+for _, lhs in ipairs({ "gra", "gri", "grn", "grr", "grt", "grx" }) do
+  pcall(vim.keymap.del, "n", lhs)
+end
+pcall(vim.keymap.del, "x", "gra")
+
 
 -- Navigation between windows
 for _, mode in ipairs({ "n", "v" }) do

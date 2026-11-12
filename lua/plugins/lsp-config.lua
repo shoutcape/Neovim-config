@@ -57,6 +57,7 @@ return {
 
           bmap("n", "K", vim.lsp.buf.hover, "Hover documentation")
           bmap("n", "<leader>rn", vim.lsp.buf.rename, "Rename symbol")
+          bmap({ "n", "x" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
         end,
       })
 
