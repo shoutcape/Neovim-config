@@ -1,6 +1,5 @@
 return {
   "catgoose/nvim-colorizer.lua",
-<<<<<<< HEAD
   event = "BufReadPre",
   opts = {
     filetypes = {
@@ -17,15 +16,6 @@ return {
         names = { enable = true },
         rgb = { enable = false },
         hsl = { enable = false },
-=======
-  event = "VeryLazy",
-  config = function()
-    require("colorizer").setup({
-      filetypes = {
-        "css",
-        "javascript",
-        html = { mode = "foreground" },
->>>>>>> 829aa08 (fix: resolve config review findings and restrict comment move restoration)
       },
       display = {
         mode = "background",
