@@ -38,6 +38,7 @@ vim.opt.synmaxcol = 300                            -- Syntax highlighting limit
 vim.opt.backup = false                             -- Don't create backup files
 vim.opt.writebackup = false                        -- Don't create backup before writing
 vim.opt.swapfile = false                           -- Don't create swap files
+vim.opt.undofile = true                            -- Persist undo history across restarts
 vim.opt.updatetime = 300                           -- Faster completion
 vim.opt.timeoutlen = 500                           -- Key timeout duration
 vim.opt.ttimeoutlen = 0                            -- Key code timeout
