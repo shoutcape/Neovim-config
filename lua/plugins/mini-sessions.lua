@@ -37,7 +37,7 @@ return {
 
       -- Keymaps for session management
       local map = vim.keymap.set
-      map('n', '<leader>qs', function()
+      map('n', '<leader>ms', function()
         vim.ui.input({ prompt = 'Session name: ' }, function(name)
           if name then
 
@@ -48,11 +48,11 @@ return {
         end)
       end, { desc = 'Save session' })
 
-      map('n', '<leader>ql', function()
+      map('n', '<leader>ml', function()
         require('mini.sessions').select('read')
       end, { desc = 'Load session' })
 
-      map('n', '<leader>qd', function()
+      map('n', '<leader>md', function()
         require('mini.sessions').select('delete')
       end, { desc = 'Delete session' })
     end
