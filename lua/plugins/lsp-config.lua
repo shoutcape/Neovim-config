@@ -1,13 +1,13 @@
 return {
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = {
       ui = { border = "rounded" },
     },
   },
 
   {
-    "williamboman/mason-lspconfig.nvim",
+    "mason-org/mason-lspconfig.nvim",
     opts = {
       automatic_enable = false,
       ensure_installed = {
@@ -26,7 +26,7 @@ return {
 
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    dependencies = { "williamboman/mason.nvim" },
+    dependencies = { "mason-org/mason.nvim" },
     opts = {
       ensure_installed = {
         -- Formatters used by conform.nvim
@@ -43,7 +43,7 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       "folke/lazydev.nvim",
-      "williamboman/mason-lspconfig.nvim",
+      "mason-org/mason-lspconfig.nvim",
     },
     config = function()
       vim.api.nvim_create_autocmd("LspAttach", {
