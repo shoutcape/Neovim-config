@@ -4,6 +4,7 @@ local agent = dofile("lua/herdr_agent.lua")
 vim.notify = function() end
 vim.ui.input = function(_, cb) cb("review this") end
 vim.env.HERDR_ENV = "1"
+vim.env.HC_TERMINAL_ID = nil
 local sent
 vim.system = function(cmd, _, cb)
   local result
