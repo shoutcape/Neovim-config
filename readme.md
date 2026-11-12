@@ -15,7 +15,7 @@ A Neovim configuration for TypeScript/JavaScript development with AI assistants,
 
 ## ✨ Key Features
 
-- 🤖 **AI Development** - CopilotChat (Claude Sonnet 4.5) + OpenCode
+- 🤖 **AI Development** - Send code comments to coding agents running in Herdr
 - 🔧 **LSP Support** - 9 language servers with auto-installation
 - 🎨 **UI** - 6 color schemes, statusline, buffer tabs, notifications
 - ⚡ **Navigation** - Leap.nvim, snacks picker
@@ -133,14 +133,10 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 
 ### AI Assistants
 
-- **[CopilotC-Nvim/CopilotChat.nvim](https://github.com/CopilotC-Nvim/CopilotChat.nvim)** - GitHub Copilot chat
-  - Dependency: copilot.lua
-  - Configured model: Claude Sonnet 4.5
-  - Keymaps: `<leader>cp` to toggle
-- **[zbirenbaum/copilot.lua](https://github.com/zbirenbaum/copilot.lua)** - Copilot integration
-- **[NickvanDyke/opencode.nvim](https://github.com/NickvanDyke/opencode.nvim)** - AI coding assistant
-  - Requires: OpenCode CLI tool installed
-  - Keymaps: `<C-.>` toggle, `ga` add to context, `<C-a>` ask (Visual)
+- **herdr-agent** (local, `lua/herdr_agent.lua`) - Send code comments to a coding agent running in a Herdr pane
+  - Requires: Neovim running inside a Herdr pane, with an agent in another pane
+  - Ask now: comment on a line or selection and send it immediately
+  - Review mode: collect comments across files, then send them as one prompt
 
 ### Debugging
 
@@ -364,10 +360,13 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
 
 | Key | Action | Plugin |
 |-----|--------|--------|
-| `<leader>cp` | Toggle CopilotChat | CopilotChat |
-| `<C-.>` | Toggle OpenCode | opencode.nvim |
-| `ga` | Add to OpenCode (N/V) | opencode.nvim |
-| `<C-a>` | Ask OpenCode (Visual) | opencode.nvim |
+| `<leader>aa` | Ask agent about line/selection (N/V) | herdr-agent |
+| `<leader>ac` | Add review comment (N/V) | herdr-agent |
+| `<leader>as` | Send review comments | herdr-agent |
+| `<leader>al` | List review comments (quickfix) | herdr-agent |
+| `<leader>ad` | Delete review comment under cursor | herdr-agent |
+| `<leader>ax` | Clear review comments | herdr-agent |
+| `<leader>at` | Choose target agent | herdr-agent |
 
 ### Search & Replace
 
@@ -454,8 +453,7 @@ nvim/
 │       ├── completions.lua    # nvim-cmp setup
 │       ├── theme.lua          # Color scheme configuration
 │       ├── conform.lua        # Formatter setup
-│       ├── copilotchat.lua    # CopilotChat config
-│       ├── opencode.lua       # OpenCode config
+│       ├── herdr.lua          # Herdr agent comments loader
 │       ├── treesitter.lua     # Treesitter config
 │       ├── debugging.lua      # nvim-dap config (Linux/macOS)
 │       ├── smooth-scroll.lua  # Neoscroll config (Linux/macOS)
@@ -730,23 +728,6 @@ Or toggle it at runtime with `:ASToggle`
    rm -rf ~/.local/share/nvim/tree-sitter
    ```
 6. On Linux, ensure you have build tools: `sudo apt install build-essential` (Ubuntu/Debian)
-
-### CopilotChat / OpenCode Not Working
-
-**Symptoms**: AI assistants don't respond or show errors
-
-**Solutions**:
-- **CopilotChat**:
-  1. Check GitHub Copilot subscription is active
-  2. Authenticate: `:Copilot auth`
-  3. Check status: `:Copilot status`
-  4. Restart LSP: `:LspRestart`
-
-- **OpenCode**:
-  1. Ensure OpenCode CLI is installed and in PATH
-  2. Check OpenCode is running: `opencode --version`
-  3. Restart OpenCode service if needed
-  4. Check plugin config: `lua/plugins/opencode.lua`
 
 ### Debugging Not Working
 

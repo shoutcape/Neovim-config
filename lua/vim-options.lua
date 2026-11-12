@@ -199,11 +199,6 @@ map("n", "<leader>cc", ":let @+ = expand('%:h')<CR>")
 -- Run Python in terminal
 map("n", "<A-a>", ':TermExec cmd="python %:p" dir=%:h size=10 direction=horizontal<CR>')
 
--- CopilotChat
-map({ "n", "v" }, "<leader>cp", function()
-  require("CopilotChat").toggle()
-end, { desc = "Toggle CopilotChat" })
-
 vim.api.nvim_create_user_command("Format", function()
   require("conform").format({ lsp_format = "fallback" })
 end, { desc = "Format current buffer" })

@@ -36,7 +36,6 @@ return {
             "fugitive",
             "git",
             "Trouble",
-            "copilot",
             "noice",
           }
 
@@ -54,12 +53,6 @@ return {
           {
             filetype = "help",
             text = "Help Documentation",
-            highlight = "Directory",
-            text_align = "center",
-          },
-          {
-            filetype = "copilot",
-            text = "Copilot",
             highlight = "Directory",
             text_align = "center",
           },
