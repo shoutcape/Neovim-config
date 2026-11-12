@@ -256,10 +256,14 @@ local function live_comments()
   for _, c in ipairs(comments) do
     if vim.api.nvim_buf_is_valid(c.buf) then
       local pos = vim.api.nvim_buf_get_extmark_by_id(c.buf, ns, c.mark, { details = true })
-      if pos[1] then
+      if pos[1] and not pos[3].invalid then
         local first = pos[1] + 1
-        local last = math.max(first, (pos[3].end_row or pos[1]) + 1)
+        -- end_row is the 0-indexed row after the range, which equals the 1-indexed last line
+        local last = math.max(first, pos[3].end_row or first)
         live[#live + 1] = { comment = c, first = first, last = last }
+      elseif pos[1] then
+        -- every commented line was deleted: remove the mark for good
+        pcall(vim.api.nvim_buf_del_extmark, c.buf, ns, c.mark)
       end
     end
   end
@@ -282,7 +286,11 @@ function M.add()
     end
     comment = vim.trim(comment)
     local mark = vim.api.nvim_buf_set_extmark(buf, ns, first - 1, 0, {
-      end_row = last - 1,
+      -- The range covers the whole commented lines, so it is invalidated only when all are deleted.
+      end_row = last,
+      end_col = 0,
+      strict = false,
+      invalidate = true,
       sign_text = "💬",
       sign_hl_group = "DiagnosticInfo",
       virt_text = { { "  💬 " .. comment, "DiagnosticInfo" } },
