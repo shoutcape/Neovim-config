@@ -323,7 +323,11 @@ function M.send()
       parts[#parts + 1] = table.concat(item, "\n")
     end
     send(agent, table.concat(parts, "\n\n"), function()
-      M.clear(true)
+      -- Remove only the comments that were sent; ones added meanwhile stay pending.
+      for _, l in ipairs(live) do
+        pcall(vim.api.nvim_buf_del_extmark, l.comment.buf, ns, l.comment.mark)
+      end
+      live_comments()
       notify(("Sent %d review comment%s to %s"):format(#live, #live == 1 and "" or "s", agent_label(agent)))
     end)
   end)
