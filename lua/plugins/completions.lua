@@ -69,7 +69,6 @@ return {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
-      "Saecki/crates.nvim",
     },
     version = false,
     event = "InsertEnter",
@@ -109,10 +108,10 @@ return {
           ["<C-n>"] = cmp.mapping.complete(),
         }),
         sources = {
+          { name = "lazydev", group_index = 0 },
           { name = "nvim_lsp" },
           { name = "luasnip" },
           { name = "buffer" },
-          { name = "crates" },
         },
       })
 
