@@ -1,6 +1,6 @@
 return {
   "catgoose/nvim-colorizer.lua",
-  event = { "BufReadPre", "BufNewFile" }, -- before FileType, so the first buffer is attached too
+  event = "VeryLazy",
   config = function()
     require("colorizer").setup({
       filetypes = {

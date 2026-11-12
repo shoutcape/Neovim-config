@@ -109,7 +109,7 @@ sudo dnf install ripgrep fd-find nodejs npm git neovim
   - Smart lazy loading, lockfile support
 - **[folke/snacks.nvim](https://github.com/folke/snacks.nvim)** - Multi-purpose plugin suite *(centerpiece)*
   - Replaces: dashboard, file explorer, fuzzy finder, notifications, and more
-  - Modules: bufdelete, dashboard, explorer, indent, picker, notifier, zen, zoom, scratch, lazygit, rename, gitbrowse
+  - Modules: bufdelete, dashboard, explorer, indent, picker, zen, zoom, scratch, lazygit, rename, gitbrowse
 - **[nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim)** - Utility library
   - Required dependency for many plugins
 
@@ -458,7 +458,7 @@ nvim/
 │       ├── sort.lua           # Sorting utility
 │       ├── lazydev.lua        # Lua dev support
 │       ├── tsc.lua            # TypeScript compiler
-│       └── minicons.lua       # Mini.nvim setup
+│       └── minicons.lua       # Mini.icons setup
 ├── lazy-lock.json             # Plugin version lockfile
 └── readme.md                  # This file
 ```

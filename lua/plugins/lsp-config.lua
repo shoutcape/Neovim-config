@@ -33,7 +33,6 @@ return {
         "stylua",
         "prettierd",
         "prettier",
-        "shfmt",
       },
       run_on_start = true,
     },

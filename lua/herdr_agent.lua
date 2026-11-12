@@ -25,11 +25,17 @@ local config = {
 }
 
 local ns = vim.api.nvim_create_namespace("herdr_agent_review")
+local sign_ns = vim.api.nvim_create_namespace("herdr_agent_review_signs")
 
 ---@class herdr_agent.Comment
 ---@field buf integer
 ---@field mark integer extmark id; tracks the commented range through edits
 ---@field text string
+---@field first integer cached 1-based start before the next buffer change
+---@field last integer cached inclusive end before the next buffer change
+---@field lines string[] cached source for restoring delete/put moves
+---@field deleted? string[] source of a range awaiting a matching put
+---@field cut? string[] linewise register contents from that deletion
 
 ---@type herdr_agent.Comment[]
 local comments = {}
@@ -250,6 +256,150 @@ function M.ask()
   end)
 end
 
+--- Convert the exclusive extmark endpoint into inclusive, 1-based line numbers.
+local function range_of(mark)
+  local first = mark[1] + 1
+  local details = mark[3]
+  local last = (details.end_row or mark[1]) + ((details.end_col or 0) > 0 and 1 or 0)
+  return first, math.max(first, last)
+end
+
+local function place_comment(c, first, last)
+  c.mark = vim.api.nvim_buf_set_extmark(c.buf, ns, first - 1, 0, {
+    id = c.mark,
+    end_row = last,
+    end_col = 0,
+    strict = false,
+    invalidate = true,
+    virt_text = { { "  💬 " .. c.text, "DiagnosticInfo" } },
+    virt_text_pos = "eol",
+  })
+end
+
+-- Signs include end_row even at column zero. Draw them separately from the
+-- exclusive tracking range, using the same conversion as send/list/delete.
+vim.api.nvim_set_decoration_provider(sign_ns, {
+  on_win = function(_, _, buf, top, bottom)
+    for _, c in ipairs(comments) do
+      if c.buf == buf then
+        local mark = vim.api.nvim_buf_get_extmark_by_id(buf, ns, c.mark, { details = true })
+        if mark[1] and not mark[3].invalid then
+          local first, last = range_of(mark)
+          for row = math.max(first - 1, top), math.min(last - 1, bottom - 1) do
+            vim.api.nvim_buf_set_extmark(buf, sign_ns, row, 0, {
+              ephemeral = true,
+              sign_text = "💬",
+              sign_hl_group = "DiagnosticInfo",
+            })
+          end
+        end
+      end
+    end
+  end,
+})
+
+local attached = {}
+
+-- Buffer changes do not identify the command that caused them. Observe normal
+-- puts without remapping them; matching text inserted by an API or while typing
+-- must never resurrect a deleted comment.
+local pending_put, pending_cut
+vim.on_key(function(key)
+  pending_put = nil
+  if (key == "p" or key == "P") and vim.fn.mode(1) == "n" then
+    if vim.fn.getregtype(vim.v.register) == "V" then
+      pending_put = {
+        buf = vim.api.nvim_get_current_buf(),
+        lines = vim.fn.getreg(vim.v.register, 1, true),
+      }
+    end
+  end
+end, ns)
+
+local tracking_group = vim.api.nvim_create_augroup("herdr_agent_review_tracking", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = tracking_group,
+  callback = function(args)
+    local event = vim.v.event
+    for _, c in ipairs(comments) do
+      c.cut = nil
+    end
+    -- This event runs before the delete changes the buffer. Only its very next
+    -- change may establish cut provenance; API deletions never emit this event.
+    pending_cut = nil
+    if event.operator == "d" and event.regtype == "V" then
+      pending_cut = {
+        buf = args.buf,
+        tick = vim.api.nvim_buf_get_changedtick(args.buf),
+        lines = vim.deepcopy(event.regcontents),
+      }
+    end
+  end,
+})
+
+-- Extmark invalidation treats replacement like deletion. Keep a pre-edit range
+-- snapshot so a replacement can restore the comment. A delete/put move can also
+-- restore it on a normal-mode put of the cut register, before another edit.
+local function track_buffer(buf)
+  if attached[buf] then
+    return
+  end
+  local deleting_lines = false
+  attached[buf] = vim.api.nvim_buf_attach(buf, false, {
+    on_bytes = function(_, _, _, _, _, _, old_rows, _, _, new_rows, new_col)
+      -- Unlike on_lines, this excludes the untouched suffix of set_text().
+      deleting_lines = old_rows > 0 and new_rows == 0 and new_col == 0
+    end,
+    on_lines = function(_, _, tick, first, old_last, new_last)
+      local put = pending_put
+      pending_put = nil
+      local cut = pending_cut
+      pending_cut = nil
+      for _, c in ipairs(comments) do
+        if c.buf == buf then
+          local mark = vim.api.nvim_buf_get_extmark_by_id(buf, ns, c.mark, { details = true })
+          if mark[1] and mark[3].invalid then
+            if not c.deleted and first <= c.first - 1 and old_last >= c.last then
+              if new_last > first and not deleting_lines then
+                -- set_text() also reports the untouched suffix of its last
+                -- line; do not accidentally include that line in the comment.
+                local start = math.min(c.first, new_last)
+                place_comment(c, start, math.max(start, math.min(new_last, c.last + new_last - old_last)))
+              else
+                c.deleted = c.lines
+                if cut and cut.buf == buf and tick == cut.tick + 1 then
+                  c.cut = cut.lines
+                end
+              end
+            elseif c.deleted then
+              if c.cut and put and put.buf == buf and first == old_last and new_last > first
+                and vim.deep_equal(put.lines, c.cut) then
+                local inserted = vim.api.nvim_buf_get_lines(buf, first, new_last, false)
+                for offset = 1, #inserted - #c.deleted + 1 do
+                  if vim.deep_equal(vim.list_slice(inserted, offset, offset + #c.deleted - 1), c.deleted) then
+                    place_comment(c, first + offset, first + offset + #c.deleted - 1)
+                    c.deleted = nil
+                    break
+                  end
+                end
+              end
+              c.cut = nil
+            end
+            mark = vim.api.nvim_buf_get_extmark_by_id(buf, ns, c.mark, { details = true })
+          end
+          if mark[1] and not mark[3].invalid then
+            c.first, c.last = range_of(mark)
+            c.lines = vim.api.nvim_buf_get_lines(buf, c.first - 1, c.last, false)
+          end
+        end
+      end
+    end,
+    on_detach = function()
+      attached[buf] = nil
+    end,
+  })
+end
+
 --- Comments whose buffer and extmark still exist, with their current range.
 local function live_comments()
   local live = {}
@@ -257,9 +407,7 @@ local function live_comments()
     if vim.api.nvim_buf_is_valid(c.buf) then
       local pos = vim.api.nvim_buf_get_extmark_by_id(c.buf, ns, c.mark, { details = true })
       if pos[1] and not pos[3].invalid then
-        local first = pos[1] + 1
-        -- end_row is the 0-indexed row after the range, which equals the 1-indexed last line
-        local last = math.max(first, pos[3].end_row or first)
+        local first, last = range_of(pos)
         live[#live + 1] = { comment = c, first = first, last = last }
       elseif pos[1] then
         -- every commented line was deleted: remove the mark for good
@@ -285,18 +433,11 @@ function M.add()
       return
     end
     comment = vim.trim(comment)
-    local mark = vim.api.nvim_buf_set_extmark(buf, ns, first - 1, 0, {
-      -- The range covers the whole commented lines, so it is invalidated only when all are deleted.
-      end_row = last,
-      end_col = 0,
-      strict = false,
-      invalidate = true,
-      sign_text = "💬",
-      sign_hl_group = "DiagnosticInfo",
-      virt_text = { { "  💬 " .. comment, "DiagnosticInfo" } },
-      virt_text_pos = "eol",
-    })
-    comments[#comments + 1] = { buf = buf, mark = mark, text = comment }
+    local c = { buf = buf, text = comment, first = first, last = last }
+    c.lines = vim.api.nvim_buf_get_lines(buf, first - 1, last, false)
+    place_comment(c, first, last)
+    comments[#comments + 1] = c
+    track_buffer(buf)
     notify(("Review comment added (%d pending)"):format(#comments))
   end)
 end
