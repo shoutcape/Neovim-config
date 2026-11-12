@@ -152,8 +152,20 @@ map("n", "<PageUp>", "<C-u>")
 map("n", "<PageDown>", "<C-d>")
 
 -- Selection
-map("n", "vie", "maggVG")    -- Select entire file
-map("n", "yie", "maggVGy`a") -- Yank entire file
+-- `ie` text object: the entire buffer (vie, yie, die, ...). `yie` keeps the cursor in place.
+map({ "o", "x" }, "ie", function()
+  local view = vim.fn.winsaveview()
+  local yank = vim.v.operator == "y" and vim.fn.mode(1):sub(1, 2) == "no"
+  if vim.fn.mode():match("^[vV\22]") then
+    vim.cmd("normal! \27")
+  end
+  vim.cmd("normal! ggVG")
+  if yank then
+    vim.schedule(function()
+      vim.fn.winrestview(view)
+    end)
+  end
+end, { desc = "Entire buffer" })
 map("n", "ö", "<C-v>")       -- Visual block mode
 
 -- Editing
