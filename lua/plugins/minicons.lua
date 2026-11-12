@@ -1,3 +1,5 @@
 return {
-  "echasnovski/mini.nvim"
+  "nvim-mini/mini.icons",
+  version = false,
+  lazy = true,
 }
