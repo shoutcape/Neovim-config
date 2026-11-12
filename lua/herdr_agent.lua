@@ -3,9 +3,7 @@
 -- Ask now:     mark a line or selection, type a comment, it is sent at once.
 -- Review mode: leave comments across files, then send them all as one prompt.
 --
--- Everything goes through the `herdr` CLI, so it works with any agent Herdr
--- recognises (Claude, Codex, opencode, ...). Requires Neovim to be running
--- inside a Herdr pane.
+-- Supports both Herdr CLI panes and Herdr app's hc terminals.
 
 local M = {}
 
@@ -48,7 +46,7 @@ local function notify(msg, level)
 end
 
 local function in_herdr()
-  if vim.env.HERDR_ENV == "1" then
+  if (vim.env.HC_TERMINAL_ID and vim.env.HC_TERMINAL_ID ~= "") or vim.env.HERDR_ENV == "1" then
     return true
   end
   notify("Neovim is not running inside a Herdr pane", vim.log.levels.ERROR)
@@ -59,15 +57,15 @@ end
 local function error_message(res)
   local ok, decoded = pcall(vim.json.decode, res.stderr or "")
   if ok and type(decoded) == "table" and type(decoded.error) == "table" then
-    return decoded.error.code, decoded.error.message
+    return decoded.error.code or decoded.error.kind, decoded.error.message
   end
   local raw = vim.trim((res.stderr or "") .. (res.stdout or ""))
   return nil, raw ~= "" and raw or ("herdr exited with code " .. res.code)
 end
 
---- Run `herdr <args>` and call back with (result_table, nil) or (nil, code, message).
-local function herdr(args, cb)
-  local cmd = vim.list_extend({ "herdr" }, args)
+--- Run a CLI command, normalizing its JSON envelope and errors.
+local function run(binary, args, cb)
+  local cmd = vim.list_extend({ binary }, args)
   local ok, err = pcall(vim.system, cmd, { text = true }, function(res)
     vim.schedule(function()
       if res.code ~= 0 then
@@ -75,12 +73,78 @@ local function herdr(args, cb)
         return
       end
       local decoded_ok, decoded = pcall(vim.json.decode, res.stdout or "")
-      cb(decoded_ok and type(decoded) == "table" and decoded.result or {})
+      if not decoded_ok or type(decoded) ~= "table" then
+        cb(nil, nil, "invalid JSON from " .. binary)
+        return
+      end
+      cb(binary == "herdr" and (decoded.result or {}) or decoded)
     end)
   end)
   if not ok then
-    cb(nil, nil, "could not run herdr: " .. tostring(err))
+    cb(nil, nil, "could not run " .. binary .. ": " .. tostring(err))
   end
+end
+
+local function uses_hc()
+  return vim.env.HC_TERMINAL_ID ~= nil and vim.env.HC_TERMINAL_ID ~= ""
+end
+
+-- Normalize both APIs at the boundary; range tracking and prompt formatting
+-- do not depend on which generation of Herdr owns the terminal.
+local function list_agents(cb)
+  if not uses_hc() then
+    run("herdr", { "agent", "list" }, function(result, code, err)
+      cb(result and result.agents or nil, {
+        { "tab_id", vim.env.HERDR_TAB_ID },
+        { "workspace_id", vim.env.HERDR_WORKSPACE_ID },
+      }, code, err)
+    end)
+    return
+  end
+  run("hc", { "ls", "--json" }, function(result, code, err)
+    if not result then
+      cb(nil, nil, code, err)
+      return
+    end
+    run("hc", { "get", vim.env.HC_TERMINAL_ID, "--json" }, function(current, current_code, current_err)
+      if not current then
+        cb(nil, nil, current_code, current_err)
+        return
+      end
+      local labels = current.labels or {}
+      local scopes = { { "tab_id", labels["herdr.tab"] }, { "workspace_id", labels["herdr.space"] } }
+      local candidates = vim.tbl_filter(function(t)
+        return t.address ~= vim.env.HC_TERMINAL_ID and t.state == "live" and type(t.status) == "string"
+      end, result.terminals or {})
+      local agents, remaining = {}, #candidates
+      if remaining == 0 then
+        cb(agents, scopes)
+        return
+      end
+      for _, t in ipairs(candidates) do
+        run("hc", { "get", t.address, "--json" }, function(detail)
+          -- A terminal may disappear between ls and get.
+          if detail and detail.state == "live" and type(detail.status) == "table" then
+            local tags = detail.labels or {}
+            agents[#agents + 1] = {
+              pane_id = detail.address,
+              backend = "hc",
+              name = detail.name,
+              agent = detail.status.app,
+              agent_status = detail.status.state,
+              cwd = type(detail.foreground) == "table" and detail.foreground.cwd or detail.cwd,
+              tab_id = tags["herdr.tab"],
+              workspace_id = tags["herdr.space"],
+            }
+          end
+          remaining = remaining - 1
+          if remaining == 0 then
+            cb(agents, scopes)
+          end
+        end)
+      end
+    end)
+  end)
 end
 
 local function agent_label(agent)
@@ -97,14 +161,14 @@ end
 --- only agent in this workspace, else ask.
 ---@param force_pick boolean always show the picker
 local function resolve_target(force_pick, cb)
-  herdr({ "agent", "list" }, function(result, _, err)
+  list_agents(function(result, scopes, _, err)
     if not result then
       notify("Could not list agents: " .. err, vim.log.levels.ERROR)
       return
     end
     local agents = vim.tbl_filter(function(a)
       return a.pane_id ~= vim.env.HERDR_PANE_ID
-    end, result.agents or {})
+    end, result)
     if #agents == 0 then
       notify("No agents are running in Herdr", vim.log.levels.WARN)
       return
@@ -117,7 +181,7 @@ local function resolve_target(force_pick, cb)
           return
         end
       end
-      for _, scope in ipairs({ { "tab_id", vim.env.HERDR_TAB_ID }, { "workspace_id", vim.env.HERDR_WORKSPACE_ID } }) do
+      for _, scope in ipairs(scopes) do
         local nearby = vim.tbl_filter(function(a)
           return scope[2] ~= nil and a[scope[1]] == scope[2]
         end, agents)
@@ -218,9 +282,12 @@ local function save(buf)
 end
 
 local function send(agent, text, on_sent)
-  herdr({ "agent", "prompt", agent.pane_id, text }, function(result, code, err)
+  local binary = agent.backend == "hc" and "hc" or "herdr"
+  local args = agent.backend == "hc" and { "send", agent.pane_id, text, "--json" }
+    or { "agent", "prompt", agent.pane_id, text }
+  run(binary, args, function(result, code, err)
     if not result then
-      if code == "agent_blocked" then
+      if code == "agent_blocked" or code == "blocked" then
         err = "the agent is waiting on an approval or question; answer that first"
       end
       notify("Not sent: " .. err, vim.log.levels.ERROR)
