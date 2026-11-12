@@ -89,13 +89,9 @@ return {
           Lua = {
             runtime = {
               version = "LuaJIT",
-              path = vim.split(package.path, ";"),
             },
             completion = {
               callSnippet = "Replace",
-            },
-            diagnostics = {
-              globals = { "vim" },
             },
             workspace = {
               checkThirdParty = false,
