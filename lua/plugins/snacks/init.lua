@@ -62,7 +62,7 @@ return {
       { "<leader>sj", function() snacks.picker.jumps() end, desc = "Jumps" },
       { "<leader>sk", function() snacks.picker.keymaps() end, desc = "Keymaps" },
       { "<leader>su", function() snacks.picker.undo() end, desc = "Undo History" },
-      { "<leader>uC", function() snacks.picker.colorschemes() end, desc = "Colorschemes" },
+      { "<leader>st", function() snacks.picker.colorschemes() end, desc = "Colorschemes" },
 
       -- LSP
       { "gd", function() snacks.picker.lsp_definitions() end, desc = "Goto Definition" },
