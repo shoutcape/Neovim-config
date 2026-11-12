@@ -76,7 +76,7 @@ return {
             { "╰", "FloatBorder" },
             { "│", "FloatBorder" },
           },
-          source = "always",
+          source = true,
           prefix = function(_, i, total)
             return string.format(" [%d/%d]", i, total)
           end,
