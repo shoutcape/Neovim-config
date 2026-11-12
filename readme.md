@@ -52,7 +52,7 @@ parsers) and `yarn` (to build markdown-preview). A Nerd Font is needed for the i
 - **Navigation**: leap, yazi.nvim, grug-far, nvim-bqf
 - **Git**: gitsigns, vim-fugitive, diffview, lazygit (through snacks)
 - **Editing**: nvim-autopairs, vim-surround, vim-visual-multi, sort.nvim, auto-save, neoscroll
-- **Other**: toggleterm, mini.sessions, obsidian.nvim, markdown-preview, opencode.nvim
+- **Other**: toggleterm, mini.sessions, obsidian.nvim, markdown-preview
 
 Language servers: `lua_ls`, `tsc` (TypeScript 7; set `vim.g.use_tsc = false` in `init.lua` for
 `ts_ls`), `eslint`, `cssls`, `cssmodules_ls`, `css_variables`, `html`, `jsonls`, `kotlin_lsp`,

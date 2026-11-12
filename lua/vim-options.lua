@@ -230,6 +230,10 @@ map("n", "<leader>cc", ":let @+ = expand('%:h')<CR>")
 -- Run Python in terminal
 map("n", "<A-a>", ':TermExec cmd="python %:p" dir=%:h size=10 direction=horizontal<CR>')
 
+vim.api.nvim_create_user_command("Format", function()
+  require("conform").format({ lsp_format = "fallback" })
+end, { desc = "Format current buffer" })
+
 --function for adding missing imports in ts
 local function ts_add_missing_imports_and_format(opts)
   opts = opts or {}
