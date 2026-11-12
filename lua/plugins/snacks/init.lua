@@ -19,7 +19,7 @@ return {
     },
     scope = { enabled = true },
     statuscolumn = { enabled = true },
-    notifier = {enabled = true }
+    notifier = { enabled = false },
   },
   keys = function()
     local snacks = require("snacks")
@@ -80,7 +80,17 @@ return {
       { "<leader>S",  function() snacks.scratch.select() end, desc = "Select Scratch Buffer" },
       { "<leader>cR", function() snacks.rename.rename_file() end, desc = "Rename File" },
       { "<leader>lg", function() snacks.lazygit() end, desc = "Lazygit" },
-      { "<Esc>", function() vim.cmd("nohlsearch") snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
+      {
+        "<Esc>",
+        function()
+          vim.cmd("nohlsearch")
+          local ok, notify = pcall(require, "notify")
+          if ok then
+            notify.dismiss({ silent = true, pending = true })
+          end
+        end,
+        desc = "Clear search and dismiss notifications",
+      },
     }
   end,
 }
