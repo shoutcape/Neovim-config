@@ -35,6 +35,7 @@ vim.opt.synmaxcol = 300                            -- Syntax highlighting limit
 vim.opt.backup = false                             -- Don't create backup files
 vim.opt.writebackup = false                        -- Don't create backup before writing
 vim.opt.swapfile = false                           -- Don't create swap files
+vim.opt.undofile = true                            -- Persistent undo (safety net for auto-save)
 vim.opt.updatetime = 300                           -- Faster completion
 vim.opt.timeoutlen = 500                           -- Key timeout duration
 vim.opt.ttimeoutlen = 0                            -- Key code timeout
@@ -50,7 +51,7 @@ local highlight_group = vim.api.nvim_create_augroup("HighlightYank", { clear = t
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = highlight_group,
   callback = function()
-    vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
+    vim.hl.on_yank({ higroup = "Visual", timeout = 200 })
   end,
 })
 
@@ -81,17 +82,9 @@ end
 ------------------------------------------------------------------------------
 
 -- Disabled default keymaps
-map("n", "<C-L>", "<Nop>")
-map("n", "<C-a>", "<Nop>")
-map("n", "<C-e>", "<Nop>")
-map("v", "<C-a>", "<Nop>")
-map("v", "<C-e>", "<Nop>")
-map("n", "<C-.>", "<Nop>")
 map("n", "L", "<Nop>")
 map("n", "<C-,>", "<Nop>")
-map("n", "S", "<Nop>")
 map("n", "<C-v>", "<Nop>")
-map("n", "<C-G>", "<Nop>")
 map("n", "<C-Tab>", ":tabnext<CR>", { desc = "next tab" })
 
 
@@ -248,10 +241,21 @@ local function ts_add_missing_imports_and_format(opts)
     context = { only = { "source.addMissingImports.ts" }, diagnostics = {} }
   }
 
-  params.context = { only = { "source.addMissingImports.ts" }, diagnostics = {} }
+  local bufnr = vim.api.nvim_get_current_buf()
 
-  vim.lsp.buf_request(0, "textDocument/codeAction", params, function(err, result)
-    if err or not result or vim.tbl_isempty(result) then
+  -- One combined reply for all attached servers, so servers that don't offer
+  -- the action (e.g. eslint) can't trigger a false "nothing to add".
+  vim.lsp.buf_request_all(bufnr, "textDocument/codeAction", params, function(results)
+    local client, action
+    for client_id, response in pairs(results) do
+      if response.result and not vim.tbl_isempty(response.result) then
+        client = vim.lsp.get_client_by_id(client_id)
+        action = response.result[1]
+        break
+      end
+    end
+
+    if not client or not action then
       -- Silence when called with a bang (e.g., :cdo AddImports!)
       if not opts.bang then
         -- Also dedupe in case you trigger it repeatedly in one session
@@ -260,16 +264,16 @@ local function ts_add_missing_imports_and_format(opts)
       return
     end
 
-    local action = result[1]
-    if action.edit or type(action.command) == "table" then
-      if action.edit then
-        vim.lsp.util.apply_workspace_edit(action.edit, "utf-8")
-      end
-      if type(action.command) == "table" then
-        vim.lsp.buf_request_sync(0, "workspace/executeCommand", action.command, 1000)
-      end
-    else
-      vim.lsp.buf_request_sync(0, "workspace/executeCommand", action, 1000)
+    if action.edit then
+      vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
+    end
+
+    -- A CodeAction carries its command as a table; a bare Command is the action itself.
+    local command = type(action.command) == "table" and action.command
+      or (type(action.command) == "string" and action)
+      or nil
+    if command then
+      client:request_sync("workspace/executeCommand", command, 1000, bufnr)
     end
 
     vim.defer_fn(function()

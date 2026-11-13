@@ -1,104 +1,85 @@
 # Neovim Configuration
 
-Welcome to my first Neovim configuration repository!
+My personal Neovim setup. This is the `MacOs` branch; the `Linux` branch carries the Linux variant.
 
-## Table of Contents
-
-- [Features](#features)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Plugins](#plugins)
-- [Screenshots](#screenshots)
-
-## Features
-
-- **Fast and lightweight**: Nvim = SPEED
-- **Extensible**: Easily add or remove plugins to suit your needs.
-- **LSP Support**: Built-in support for Language Server Protocol.
-- **Autocomplete**: Powered by completion plugins for a smooth coding experience.
-- **Syntax Highlighting**: Improved syntax highlighting for various languages.
-- **File Explorer**: Navigate your project easily with a tree view and Telescope.
+Requires Neovim 0.12 or newer.
 
 ## Installation
 
-### Steps
+1. **Install Neovim**: https://github.com/neovim/neovim/blob/master/INSTALL.md
 
+2. **Clone this branch**:
 
-1. **Install Neovim**:
-
-    https://github.com/neovim/neovim/blob/master/INSTALL.md
-
-2. **Clone this Repository**:
-
-    Linux
-
-        git clone -b Linux https://github.com/shoutcape/nvim-config ~/.config/nvim
-
-    Windows
-
-        git clone https://github.com/shoutcape/nvim-config $env:LOCALAPPDATA\nvim
+        git clone -b MacOs https://github.com/shoutcape/Neovim-config ~/.config/nvim
 
 3. **Start Neovim**:
 
-           nvim
+        nvim
 
-## Configuration
+   [lazy.nvim](https://github.com/folke/lazy.nvim) bootstraps itself and installs the plugins at the
+   commits pinned in `lazy-lock.json`. Mason then installs the language servers, formatters and linters.
 
-### Basic Settings
+### External tools
 
-Basic settings are configured in `lua\vim-options.lua`. This includes options like line numbers, tab width, and most keymaps.
+These are expected on `PATH`: `git`, `rg`, `fd`, `node`, `lazygit`, `yazi`, `tree-sitter` (to build
+parsers) and `yarn` (to build markdown-preview). A Nerd Font is needed for the icons.
 
-### Plugin Management
+## Layout
 
-Plugins are managed using [Lazy.vim](https://www.lazyvim.org/). Configurations for plugins can be found in `lua/plugins`.
+| Path | Contents |
+| --- | --- |
+| `init.lua` | Bootstraps lazy.nvim and loads the core modules |
+| `lua/vim-options.lua` | Options, autocommands and most keymaps |
+| `lua/neovide.lua` | Neovide-only settings |
+| `lua/colors.lua` | Palette shared by lualine and bufferline |
+| `lua/plugins/` | One lazy.nvim spec per file |
+| `lua/plugins/snacks/` | snacks.nvim, split by feature |
+| `lua/plugins/treeman.lua` | Config-local git worktree commands |
+| `after/ftplugin/` | Per-filetype settings |
+
+`nvim-eslint/` is gitignored and holds machine-local ESLint override configs.
 
 ## Plugins
 
-Here are most of the plugins included in this configuration:
+- **Plugin manager**: lazy.nvim
+- **UI**: catppuccin, lualine, bufferline, noice + nvim-notify, which-key, snacks.nvim (dashboard,
+  picker, explorer, indent, statuscolumn, words, zen, scratch)
+- **LSP and tooling**: nvim-lspconfig on the built-in `vim.lsp.config` API, mason,
+  mason-lspconfig, mason-tool-installer, lazydev, conform (formatting), nvim-lint (ktlint),
+  trouble, tsc.nvim
+- **Completion**: nvim-cmp with LuaSnip and friendly-snippets
+- **Syntax**: nvim-treesitter (`main` branch), nvim-ts-autotag, mdx.nvim, nvim-colorizer
+- **Navigation**: leap, yazi.nvim, grug-far, nvim-bqf
+- **Git**: gitsigns, vim-fugitive, diffview, lazygit (through snacks)
+- **Editing**: nvim-autopairs, vim-surround, vim-visual-multi, sort.nvim, auto-save, neoscroll
+- **Other**: toggleterm, mini.sessions, obsidian.nvim, markdown-preview, opencode.nvim
 
-- [alpha-nvim](https://github.com/goolord/alpha-nvim): Provides a customizable startup screen for Neovim.
-- [catppuccin](https://github.com/Pocco81/Catppuccino.nvim): A color scheme for Neovim.
-- [cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp): A completion plugin for Neovim's built-in LSP.
-- [cmp_luasnip](https://github.com/saadparwaiz1/cmp_luasnip): Integration between cmp-nvim and LuaSnip for snippet completion.
-- [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim): Git signs in the sign column.
-- [harpoon](https://github.com/ThePrimeagen/harpoon): A bookmarking plugin for Neovim.
-- [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim): Displays indent guides in Neovim.
-- [lazy.nvim](https://github.com/tjdevries/lazy.nvim): Asynchronous plugin loading for Neovim.
-- [leap.nvim](https://github.com/ggandor/leap.nvim): A better movement plugin for Neovim.
-- [lualine.nvim](https://github.com/hoob3rt/lualine.nvim): A statusline for Neovim written in Lua.
-- [LuaSnip](https://github.com/L3MON4D3/LuaSnip): A snippet engine for Neovim written in Lua.
-- [mason.nvim](https://github.com/williamboman/mason.nvim): Markdown preview for Neovim.
-- [neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim): A file explorer for Neovim.
-- [neoscroll.nvim](https://github.com/karb94/neoscroll.nvim): Smooth scrolling for Neovim.
-- [none-ls.nvim](https://github.com/neovim/nvim-lspconfig): A lightweight LSP client for Neovim.
-- [nvim-autopairs](https://github.com/windwp/nvim-autopairs): Automatic insertion of pairs in Neovim.
-- [nvim-cmp](https://github.com/hrsh7th/nvim-cmp): A completion plugin for Neovim.
-- [nvim-dap](https://github.com/mfussenegger/nvim-dap): Debug Adapter Protocol support for Neovim.
-- [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui): User interface for debugging in Neovim.
-- [nvim-dap-vscode-js](https://github.com/mfussenegger/nvim-dap-vscode-js): Debugging support for JavaScript in Neovim.
-- [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig): Quickstart configurations for the LSP client in Neovim.
-- [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter): Syntax trees for Neovim.
-- [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons): Icons for Neovim plugins.
-- [plenary.nvim](https://github.com/nvim-lua/plenary.nvim): Utility functions for Neovim plugin development.
-- [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim): Terminal management for Neovim.
-- [vim-css-color](https://github.com/ap/vim-css-color): CSS color preview for Neovim.
-- [vim-fugitive](https://github.com/tpope/vim-fugitive): Git integration for Neovim.
-- [vim-repeat](https://github.com/tpope/vim-repeat): Repeats plugin mappings with "." in Neovim.
-- [vim-surround](https://github.com/tpope/vim-surround): Surround text objects in Neovim.
-- [vim-wakatime](https://github.com/wakatime/vim-wakatime): WakaTime integration for Neovim.
-- [which-key.nvim](https://github.com/folke/which-key.nvim): Key binding visualization for Neovim.
+Language servers: `lua_ls`, `tsc` (TypeScript 7; set `vim.g.use_tsc = false` in `init.lua` for
+`ts_ls`), `eslint`, `cssls`, `cssmodules_ls`, `css_variables`, `html`, `jsonls`, `kotlin_lsp`,
+`mdx_analyzer`.
 
+## Keymaps
 
-### Telescope and Neotree binds
+The leader key is `Space`. A few starting points:
 
-- **Space** + **ff**: Open file finder.
-- **Space** + **n**: Toggle file explorer.
+| Key | Action |
+| --- | --- |
+| `<leader><leader>` | Smart file finder |
+| `<leader>ff` / `<leader>fg` | Find files / live grep |
+| `<leader>n` | File explorer |
+| `<leader>-` | Yazi at the current file |
+| `<leader>gf` | Format buffer or selection |
+| `<leader>lg` | Lazygit |
+| `<leader>wtc` / `wts` / `wtd` | Create / switch / delete a worktree |
+| `<leader>sk` | Search all keymaps |
+| `<leader>?` | Buffer-local keymaps (which-key) |
+
+The layout assumes a Finnish keyboard: `ö`, `ä`, `Ö`, `Ä` and `Å` are bound to visual block, the
+terminal toggle and buffer navigation.
 
 ## Screenshots
 
-Here are some screenshots of the setup in action:
+From an earlier version of this config (2024):
 
 ![Näyttökuva 2024-05-30 002117](https://github.com/shoutcape/nvim-config/assets/74509593/1e653bbd-5fe5-470f-b056-50194f523923)
 ![Näyttökuva 2024-05-30 002011](https://github.com/shoutcape/nvim-config/assets/74509593/c5739752-c17f-455b-acf2-72ebe39e3028)
-
-

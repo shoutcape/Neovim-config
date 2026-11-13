@@ -24,7 +24,15 @@ return {
 		{ "<leader>oH", "<cmd>Obsidian helpgrep<cr>", desc = "Grep help wiki"},
 		
 		-- Note commands
-		{ "gf", "<cmd>Obsidian follow_link<cr>", desc = "Follow link"},
+		{
+			"gf",
+			function()
+				return vim.b.obsidian_buffer and "<cmd>Obsidian follow_link<cr>" or "gf"
+			end,
+			expr = true,
+			ft = "markdown",
+			desc = "Follow link",
+		},
 		{ "<leader>ol", "<cmd>Obsidian links<cr>", desc = "List links"},
 		{ "<leader>ob", "<cmd>Obsidian backlinks<cr>", desc = "Show backlinks"},
 		{ "<leader>or", "<cmd>Obsidian rename<cr>", desc = "Rename note"},

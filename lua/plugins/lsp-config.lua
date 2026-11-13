@@ -1,6 +1,6 @@
 return {
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = {
       ui = { border = "rounded" },
     },
@@ -8,9 +8,9 @@ return {
 
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    dependencies = { "williamboman/mason.nvim" },
+    dependencies = { "mason-org/mason.nvim" },
     opts = {
-      ensure_installed = { "ktlint" },
+      ensure_installed = { "ktlint", "stylua", "prettierd" },
       run_on_start = true,
       start_delay = 1000,
       debounce_hours = 24,
@@ -18,7 +18,7 @@ return {
   },
 
   {
-    "williamboman/mason-lspconfig.nvim",
+    "mason-org/mason-lspconfig.nvim",
     opts = {
       automatic_enable = false,
       ensure_installed = {
@@ -28,6 +28,8 @@ return {
         "jsonls",
         "eslint",
         "ts_ls",
+        "tsc",
+        "mdx_analyzer",
         "cssmodules_ls",
         "css_variables",
         "kotlin_lsp",
@@ -39,7 +41,7 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       "folke/lazydev.nvim",
-      "williamboman/mason-lspconfig.nvim",
+      "mason-org/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
@@ -200,19 +202,36 @@ vim.diagnostic.config({
         before_init = function(params, config)
           eslint_before_init(params, config)
 
-          local repo_root = '/Users/ville.kautiainen/work/customer-owner-ui'
-          local frontend_root = repo_root .. '/apps/frontend'
-          local worktree_prefix = repo_root .. '/.worktrees/'
-          local root_dir = config.root_dir
-          local is_worktree_frontend = root_dir:sub(1, #worktree_prefix) == worktree_prefix
-            and root_dir:sub(-#'/apps/frontend') == '/apps/frontend'
+          local repo_root = vim.fs.normalize('~/work/customer-owner-ui')
+          local frontend_suffix = '/apps/frontend'
+          local root_dir = config.root_dir or ''
 
-          if root_dir ~= frontend_root and not is_worktree_frontend then
+          -- The main checkout, plus every worktree layout in use:
+          --   <repo>/.worktrees/<name>   (in-repo)
+          --   <repo>-worktrees/<name>    (TreeMan CLI)
+          --   <repo>.<branch-slug>       (lua/plugins/treeman.lua)
+          local function is_frontend_root()
+            if root_dir:sub(-#frontend_suffix) ~= frontend_suffix then
+              return false
+            end
+            local checkout = root_dir:sub(1, -#frontend_suffix - 1)
+            if checkout == repo_root then
+              return true
+            end
+            for _, prefix in ipairs({ repo_root .. '/.worktrees/', repo_root .. '-worktrees/', repo_root .. '.' }) do
+              if checkout:sub(1, #prefix) == prefix and #checkout > #prefix then
+                return true
+              end
+            end
+            return false
+          end
+
+          if not is_frontend_root() then
             return
           end
 
           config.settings.options = {
-            overrideConfigFile = vim.fn.expand('~/.config/nvim/nvim-eslint/customer-owner-ui.config.mjs'),
+            overrideConfigFile = vim.fn.stdpath('config') .. '/nvim-eslint/customer-owner-ui.config.mjs',
           }
         end,
       })

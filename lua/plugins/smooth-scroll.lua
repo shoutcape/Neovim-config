@@ -3,7 +3,7 @@ return {
 	event = "VeryLazy",
 
 	config = function()
-		neoscroll = require("neoscroll")
+		local neoscroll = require("neoscroll")
 		local keymap = {
 			["<PageUp>"] = function()
 				neoscroll.ctrl_u({ duration = 25 })

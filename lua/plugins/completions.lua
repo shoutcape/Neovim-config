@@ -69,7 +69,6 @@ return {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
-      "Saecki/crates.nvim",
     },
     version = false,
     event = "InsertEnter",
@@ -77,7 +76,7 @@ return {
       local cmp = require("cmp")
       local luasnip = require("luasnip")
 
-      vim.keymap.set("i", "<S-Tab>", '<cmd>lua require("luasnip").jump(1)<CR>', { silent = true })
+      vim.keymap.set({ "i", "s" }, "<S-Tab>", '<cmd>lua require("luasnip").jump(1)<CR>', { silent = true })
 
       cmp.setup({
         preselect = cmp.PreselectMode.None,
@@ -109,10 +108,11 @@ return {
           ["<C-n>"] = cmp.mapping.complete(),
         }),
         sources = {
+          -- group_index 0 lets lazydev skip LuaLS completions for require() paths
+          { name = "lazydev", group_index = 0 },
           { name = "nvim_lsp" },
           { name = "luasnip" },
           { name = "buffer" },
-          { name = "crates" },
         },
       })
 
