@@ -370,8 +370,11 @@ end
 -- ---------------------------------------------------------------------------
 
 return {
-  dir = ".",
+  -- Config-local code: lazy needs a dir, but `virtual` keeps it off the runtimepath
+  -- (a relative dir like "." would source ./plugin from whatever project is open).
+  dir = vim.fn.stdpath("config"),
   name = "treeman",
+  virtual = true,
   keys = {
     {
       "<leader>wtc",

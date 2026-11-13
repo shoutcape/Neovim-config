@@ -14,6 +14,11 @@ local parsers = {
 	"kotlin",
 	"markdown",
 	"markdown_inline",
+	"css",
+	"scss",
+	"yaml",
+	"regex", -- noice cmdline highlighting
+	"bash", -- noice cmdline highlighting
 }
 
 local filetypes = {
@@ -32,6 +37,11 @@ local filetypes = {
 	"json",
 	"kotlin",
 	"markdown",
+	"css",
+	"scss",
+	"yaml",
+	"sh",
+	"bash",
 }
 
 return {

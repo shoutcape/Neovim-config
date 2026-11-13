@@ -55,7 +55,6 @@ return {
     {
       "<leader>gf",
       function()
-        vim.lsp.buf.format()
         require("conform").format({ async = true })
       end,
       mode = { "n", "v" },
