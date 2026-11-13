@@ -51,7 +51,7 @@ local highlight_group = vim.api.nvim_create_augroup("HighlightYank", { clear = t
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = highlight_group,
   callback = function()
-    vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
+    vim.hl.on_yank({ higroup = "Visual", timeout = 200 })
   end,
 })
 
@@ -82,17 +82,9 @@ end
 ------------------------------------------------------------------------------
 
 -- Disabled default keymaps
-map("n", "<C-L>", "<Nop>")
-map("n", "<C-a>", "<Nop>")
-map("n", "<C-e>", "<Nop>")
-map("v", "<C-a>", "<Nop>")
-map("v", "<C-e>", "<Nop>")
-map("n", "<C-.>", "<Nop>")
 map("n", "L", "<Nop>")
 map("n", "<C-,>", "<Nop>")
-map("n", "S", "<Nop>")
 map("n", "<C-v>", "<Nop>")
-map("n", "<C-G>", "<Nop>")
 map("n", "<C-Tab>", ":tabnext<CR>", { desc = "next tab" })
 
 

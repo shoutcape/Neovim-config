@@ -1,6 +1,6 @@
 return {
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = {
       ui = { border = "rounded" },
     },
@@ -8,7 +8,7 @@ return {
 
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    dependencies = { "williamboman/mason.nvim" },
+    dependencies = { "mason-org/mason.nvim" },
     opts = {
       ensure_installed = { "ktlint", "stylua", "prettierd" },
       run_on_start = true,
@@ -18,7 +18,7 @@ return {
   },
 
   {
-    "williamboman/mason-lspconfig.nvim",
+    "mason-org/mason-lspconfig.nvim",
     opts = {
       automatic_enable = false,
       ensure_installed = {
@@ -41,7 +41,7 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       "folke/lazydev.nvim",
-      "williamboman/mason-lspconfig.nvim",
+      "mason-org/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
