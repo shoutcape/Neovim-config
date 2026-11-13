@@ -49,7 +49,7 @@ parsers) and `yarn` (to build markdown-preview). A Nerd Font is needed for the i
   trouble, tsc.nvim
 - **Completion**: nvim-cmp with LuaSnip and friendly-snippets
 - **Syntax**: nvim-treesitter (`main` branch), nvim-ts-autotag, mdx.nvim, nvim-colorizer
-- **Navigation**: harpoon, leap, yazi.nvim, grug-far, nvim-bqf
+- **Navigation**: leap, yazi.nvim, grug-far, nvim-bqf
 - **Git**: gitsigns, vim-fugitive, diffview, lazygit (through snacks)
 - **Editing**: nvim-autopairs, vim-surround, vim-visual-multi, sort.nvim, auto-save, neoscroll
 - **Other**: toggleterm, mini.sessions, obsidian.nvim, markdown-preview, opencode.nvim
@@ -70,7 +70,6 @@ The leader key is `Space`. A few starting points:
 | `<leader>-` | Yazi at the current file |
 | `<leader>gf` | Format buffer or selection |
 | `<leader>lg` | Lazygit |
-| `<leader>a` / `<C-s>` | Harpoon add / menu |
 | `<leader>wtc` / `wts` / `wtd` | Create / switch / delete a worktree |
 | `<leader>sk` | Search all keymaps |
 | `<leader>?` | Buffer-local keymaps (which-key) |
